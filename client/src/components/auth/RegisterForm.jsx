@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
 const RegisterForm = () => {
-  const [email, setEmail] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [gender, setGender] = useState("");
-  const [password, setPassword] = useState("");
-  const [phone, setPhone] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    firstname: "",
+    lastname: "",
+    phone: "",
+    gender: "",
+    password: "",
+  });
 
-  const [emailError, setEmailError] = useState(null);
-  const [firstnameError, setFirstnameError] = useState([]);
-  const [lastnameError, setLastnameError] = useState([]);
-  const [phoneError, setPhoneError] = useState(null);
-  const [genderError, setGenderError] = useState(null);
-  const [passwordError, setPasswordError] = useState(null);
+  const [errors, setErrors] = useState({
+    email: null,
+    firstname: [],
+    lastname: [],
+    phone: null,
+    gender: null,
+    password: null,
+  });
 
   const [touchedFields, setTouchedFields] = useState({
     email: false,
@@ -26,137 +30,105 @@ const RegisterForm = () => {
   });
 
   useEffect(() => {
-    if (touchedFields.email) {
-      validateEmail();
-    }
-  }, [email, touchedFields.email]);
+    if (touchedFields.email) validateEmail();
+  }, [formData.email, touchedFields.email]);
 
   useEffect(() => {
-    if (touchedFields.firstname) {
-      validateFirstname();
-    }
-  }, [firstname, touchedFields.firstname]);
+    if (touchedFields.firstname) validateFirstname();
+  }, [formData.firstname, touchedFields.firstname]);
 
   useEffect(() => {
-    if (touchedFields.lastname) {
-      validateLastname();
-    }
-  }, [lastname, touchedFields.lastname]);
+    if (touchedFields.lastname) validateLastname();
+  }, [formData.lastname, touchedFields.lastname]);
 
   useEffect(() => {
-    if (touchedFields.phone) {
-      validatePhone();
-    }
-  }, [phone, touchedFields.phone]);
+    if (touchedFields.phone) validatePhone();
+  }, [formData.phone, touchedFields.phone]);
 
   useEffect(() => {
-    if (touchedFields.gender) {
-      validateGender();
-    }
-  }, [gender, touchedFields.gender]);
+    if (touchedFields.gender) validateGender();
+  }, [formData.gender, touchedFields.gender]);
 
   useEffect(() => {
-    if (touchedFields.password) {
-      validatePassword();
-    }
-  }, [password, touchedFields.password]);
+    if (touchedFields.password) validatePassword();
+  }, [formData.password, touchedFields.password]);
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-    setTouchedFields({ ...touchedFields, email: true });
-  };
-
-  const handleFirstnameChange = (event) => {
-    setFirstname(event.target.value);
-    setTouchedFields({ ...touchedFields, firstname: true });
-  };
-
-  const handleLastnameChange = (event) => {
-    setLastname(event.target.value);
-    setTouchedFields({ ...touchedFields, lastname: true });
-  };
-
-  const handlePhoneChange = (event) => {
-    setPhone(event.target.value);
-    setTouchedFields({ ...touchedFields, phone: true });
-  };
-
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
-    setTouchedFields({ ...touchedFields, gender: true });
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-    setTouchedFields({ ...touchedFields, password: true });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+    setTouchedFields({ ...touchedFields, [name]: true });
   };
 
   const validateEmail = () => {
-    setEmailError(
-      /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)
+    setErrors((prev) => ({
+      ...prev,
+      email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(
+        formData.email
+      )
         ? null
-        : "Invalid email format"
-    );
+        : "Invalid email format",
+    }));
   };
 
   const validateFirstname = () => {
     let errors = [];
-    if (firstname.length < 2) errors.push("au moins 2 chars");
-    if (firstname.length > 50) errors.push("max 50 chars");
-    if (!/^[a-zA-Z]+$/.test(firstname)) errors.push("charsters alphabetic");
-    setFirstnameError(errors);
+    if (formData.firstname.length < 2)
+      errors.push("At least 2 characters required");
+    if (formData.firstname.length > 50)
+      errors.push("Max 50 characters allowed");
+    if (!/^[a-zA-Z]+$/.test(formData.firstname))
+      errors.push("Only alphabetic characters allowed");
+    setErrors((prev) => ({ ...prev, firstname: errors }));
   };
 
   const validateLastname = () => {
     let errors = [];
-    if (lastname.length < 2) errors.push("au moins 2 chars");
-    if (lastname.length > 50) errors.push("max 50 chars");
-    if (!/^[a-zA-Z]+$/.test(lastname)) errors.push("charsters alphabetic");
-    setLastnameError(errors);
+    if (formData.lastname.length < 2)
+      errors.push("At least 2 characters required");
+    if (formData.lastname.length > 50) errors.push("Max 50 characters allowed");
+    if (!/^[a-zA-Z]+$/.test(formData.lastname))
+      errors.push("Only alphabetic characters allowed");
+    setErrors((prev) => ({ ...prev, lastname: errors }));
   };
 
   const validatePhone = () => {
-    setPhoneError(
-      /^(0|\+33)[1-9]\d{8}$/.test(phone) ? null : "Phone is required"
-    );
+    setErrors((prev) => ({
+      ...prev,
+      phone: /^(0|\+33)[1-9]\d{8}$/.test(formData.phone)
+        ? null
+        : "Invalid phone format",
+    }));
   };
 
   const validateGender = () => {
-    setGenderError(gender.length > 0 ? null : "Gender is required");
+    setErrors((prev) => ({
+      ...prev,
+      gender: formData.gender.length > 0 ? null : "Gender is required",
+    }));
   };
 
   const validatePassword = () => {
-    setPasswordError(password.length > 0 ? null : "Password is required");
+    setErrors((prev) => ({
+      ...prev,
+      password: formData.password.length > 0 ? null : "Password is required",
+    }));
   };
 
   const isFormValid = () => {
-    console.log(!emailError);
-    console.log(firstnameError.length === 0);
-    console.log(lastnameError.length === 0);
-    console.log(!phoneError);
-    console.log(!genderError);
-    console.log(!passwordError);
     return (
-      !emailError &&
-      firstnameError.length === 0 &&
-      lastnameError.length === 0 &&
-      !phoneError &&
-      !genderError &&
-      !passwordError
+      !errors.email &&
+      errors.firstname.length === 0 &&
+      errors.lastname.length === 0 &&
+      !errors.phone &&
+      !errors.gender &&
+      !errors.password
     );
   };
 
   const handleRegister = () => {
     if (isFormValid()) {
       axios
-        .post("http://localhost:3000/api/auth/signup", {
-          email: email,
-          firstname: firstname,
-          lastname: lastname,
-          phone: phone,
-          gender: gender,
-          password: password,
-        })
+        .post("http://localhost:3000/api/auth/signup", formData)
         .then((result) => console.log(result))
         .catch((err) => console.log(err));
     } else {
@@ -165,189 +137,185 @@ const RegisterForm = () => {
   };
 
   return (
-    // <>
-    //     <div className="form-group">
-    //         <label htmlFor="email">Email</label>
-    //         <input
-    //             name="email"
-    //             className={`form-control ${emailError ? 'is-invalid' : ''}`}
-    //             id="email"
-    //             placeholder="Enter email"
-    //             value={email}
-    //             onChange={handleEmailChange}
-    //             onBlur={validateEmail}
-    //         />
-    //         <div className="invalid-feedback">{emailError}</div>
-    //     </div>
-    //     <div className="form-group">
-    //         <label htmlFor="firstname">First Name</label>
-    //         <input
-    //             name="firstname"
-    //             className={`form-control ${firstnameError ? 'is-invalid' : ''}`}
-    //             id="firstname"
-    //             placeholder="Enter first name"
-    //             value={firstname}
-    //             onChange={handleFirstnameChange}
-    //             onBlur={validateFirstname}
-    //         />
-    //         <div className="invalid-feedback">
-    //             {firstnameError.map((err, index) => (
-    //                 <React.Fragment key={index}>
-    //                     <p>{err}</p>
-    //                     <br />
-    //                 </React.Fragment>
-    //             ))}
-    //         </div>
-    //     </div>
-    //     <div className="form-group">
-    //         <label htmlFor="lastname">Last Name</label>
-    //         <input
-    //             name="lastname"
-    //             className={`form-control ${lastnameError ? 'is-invalid' : ''}`}
-    //             id="lastname"
-    //             placeholder="Enter last name"
-    //             value={lastname}
-    //             onChange={handleLastnameChange}
-    //             onBlur={validateLastname}
-    //         />
-    //         <div className="invalid-feedback">{lastnameError}</div>
-    //     </div>
-    //     <div className="form-group">
-    //         <label htmlFor="phone">Phone</label>
-    //         <input
-    //             name="phone"
-    //             className={`form-control ${phoneError ? 'is-invalid' : ''}`}
-    //             id="phone"
-    //             placeholder="Enter phone"
-    //             value={phone}
-    //             onChange={handlePhoneChange}
-    //             onBlur={validatePhone}
-    //         />
-    //         <div className="invalid-feedback">{phoneError}</div>
-    //     </div>
-    //     <div className="form-group">
-    //         <label htmlFor="gender">Gender</label>
-    //         <input
-    //             name="gender"
-    //             className={`form-control ${genderError ? 'is-invalid' : ''}`}
-    //             id="gender"
-    //             placeholder="Enter gender"
-    //             value={gender}
-    //             onChange={handleGenderChange}
-    //             onBlur={validateGender}
-    //         />
-    //         <div className="invalid-feedback">{genderError}</div>
-    //     </div>
-    //     <div className="form-group">
-    //         <label htmlFor="password">Password</label>
-    //         <input
-    //             type="password"
-    //             name="password"
-    //             className={`form-control ${passwordError ? 'is-invalid' : ''}`}
-    //             id="password"
-    //             placeholder="Enter password"
-    //             value={password}
-    //             onChange={handlePasswordChange}
-    //             onBlur={validatePassword}
-    //         />
-    //         <div className="invalid-feedback">{passwordError}</div>
-    //     </div>
-    //     <button type="button" onClick={handleRegister} disabled={!isFormValid()}>Créer mon compte</button>
-    // </>
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-md">
-      <h2 className="text-center text-lg mb-4">
-        Souhaitez vous créer recevoir vos résultats par mail ? N'attendez pas
-        plus, créez votre compte en une minute !
-      </h2>
-      <form onSubmit={handleRegister}>
-        <div className="flex justify-center mb-4">
-          <button
-            type="button"
-            className={`px-4 py-2 mx-1 border ${
-              gender === "Monsieur" ? "bg-blue-500 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setGender("Monsieur")}
-          >
-            Monsieur
-          </button>
-          <button
-            type="button"
-            className={`px-4 py-2 mx-1 border ${
-              gender === "Madame" ? "bg-blue-500 text-white" : "bg-gray-200"
-            }`}
-            onClick={() => setGender("Madame")}
-          >
-            Madame
-          </button>
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Prénom</label>
-          <input
-            type="text"
-            value={firstname}
-            onChange={(e) => setFirstname(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Nom</label>
-          <input
-            type="text"
-            value={lastname}
-            onChange={(e) => setLastname(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Numéro de téléphone</label>
-          <input
-            type="tel"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Mot de passe</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-          <div className="mt-2 text-sm">
-            <p>✓ Un caractère en minuscule</p>
-            <p>✓ Un caractère en majuscule</p>
-            <p>✓ Un chiffre</p>
-            <p>✓ 10 caractères minimum</p>
+    <div className="py-10 min-h-screen flex items-center justify-center bg-blue-500">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        <form>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                errors.email ? "border-red-500" : ""
+              }`}
+              id="email"
+              type="email"
+              name="email"
+              placeholder="Enter email"
+              value={formData.email}
+              onChange={handleChange}
+              onBlur={validateEmail}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-xs italic">{errors.email}</p>
+            )}
           </div>
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Créer mon compte
-        </button>
-        <div className="text-center mt-4">
-          <button className="text-blue-500 hover:underline">
-            Je possède déjà un compte
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="firstname"
+            >
+              First Name
+            </label>
+            <input
+              className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                errors.firstname.length ? "border-red-500" : ""
+              }`}
+              id="firstname"
+              type="text"
+              name="firstname"
+              placeholder="Enter first name"
+              value={formData.firstname}
+              onChange={handleChange}
+              onBlur={validateFirstname}
+            />
+            {errors.firstname.length > 0 && (
+              <p className="text-red-500 text-xs italic">
+                {errors.firstname.map((error, index) => (
+                  <React.Fragment key={index}>
+                    {error}
+                    <br />
+                  </React.Fragment>
+                ))}
+              </p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="lastname"
+            >
+              Last Name
+            </label>
+            <input
+              className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                errors.lastname.length ? "border-red-500" : ""
+              }`}
+              id="lastname"
+              type="text"
+              name="lastname"
+              placeholder="Enter last name"
+              value={formData.lastname}
+              onChange={handleChange}
+              onBlur={validateLastname}
+            />
+            {errors.lastname.length > 0 && (
+              <p className="text-red-500 text-xs italic">
+                {errors.lastname.map((error, index) => (
+                  <React.Fragment key={index}>
+                    {error}
+                    <br />
+                  </React.Fragment>
+                ))}
+              </p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              className="block  text-gray-700 text-sm font-bold mb-2"
+              htmlFor="phone"
+            >
+              Phone
+            </label>
+            <input
+              className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                errors.phone ? "border-red-500" : ""
+              }`}
+              id="phone"
+              type="text"
+              name="phone"
+              placeholder="Enter phone number"
+              value={formData.phone}
+              onChange={handleChange}
+              onBlur={validatePhone}
+            />
+            {errors.phone && (
+              <p className="text-red-500 text-xs italic">{errors.phone}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="gender"
+            >
+              Gender
+            </label>
+            <input
+              className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                errors.gender ? "border-red-500" : ""
+              }`}
+              id="gender"
+              type="text"
+              name="gender"
+              placeholder="Enter gender"
+              value={formData.gender}
+              onChange={handleChange}
+              onBlur={validateGender}
+            />
+            {errors.gender && (
+              <p className="text-red-500 text-xs italic">{errors.gender}</p>
+            )}
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <input
+              className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${
+                errors.password ? "border-red-500" : ""
+              }`}
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              value={formData.password}
+              onChange={handleChange}
+              onBlur={validatePassword}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-xs italic">{errors.password}</p>
+            )}
+          </div>
+          <div className="flex items-center justify-between">
+            <button
+              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="button"
+              onClick={handleRegister}
+              disabled={!isFormValid()}
+            >
+              Register
+            </button>
+          </div>
+          <div className=" my-4 grid grid-cols-3 items-center text-black">
+            <hr className="border-black" />
+            <p className="text-center text-sm">OR</p>
+            <hr className="border-black" />
+          </div>{" "}
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+            type="button"
+          >
+            <Link to="/login">Login Here</Link>
           </button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 };
