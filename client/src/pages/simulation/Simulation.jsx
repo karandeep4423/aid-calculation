@@ -8,7 +8,7 @@ const Simulation = () => {
           Réalisons ensemble votre devis assurance habitation sur mesure en
           quelques minutes. C’est parti !
         </h1>
-        <div className="my-10 p-5 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-5 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold"> Quel est votre besoin?</h2>
           <p>
             Si le besoin est multiple alors il faudra réaliser 2 simulations.
@@ -35,7 +35,7 @@ const Simulation = () => {
                   Réduire ma facture d'énergie ou améliorer le confort de mon
                   logement - Rénovation énergétique.
                 </p>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Rénovation-énergétique.png" />
               </label>
             </div>
             <div className="p-5 m-5 shadow-[inset_-12px_-8px_40px_#46464620]">
@@ -55,7 +55,7 @@ const Simulation = () => {
                   Mettre mon logement aux normes de sécurité et de salubrité -
                   Sécurité, salubrité.
                 </p>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Sécurité.png" />
               </label>
             </div>
             <div className="p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -75,12 +75,12 @@ const Simulation = () => {
                   Adapter mon logement au vieillissement ou à une situation de
                   handicap - Autonomie.
                 </p>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Autonomie-de-a-personne.png" />
               </label>
             </div>
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">Vous etes?</h2>
           <div className="grid grid-cols-2">
             <div className="p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -96,7 +96,7 @@ const Simulation = () => {
                     Propriétaire occupant
                   </h3>
                 </div>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Propriétaire-occupant.png" />
               </label>
             </div>
             <div className="p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -112,7 +112,7 @@ const Simulation = () => {
                     Propriétaire bailleur
                   </h3>
                 </div>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Propriétaire-bailleur.png" />
               </label>
             </div>
             <div className="p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -128,12 +128,12 @@ const Simulation = () => {
                     Syndicat de copropriétaires
                   </h3>
                 </div>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Syndicat-de-copropriétaires.png" />
               </label>
             </div>
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">Avez-vous une maison ou un appartement?</h2>
           <div className="grid grid-cols-2">
             <div className=" p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -149,7 +149,7 @@ const Simulation = () => {
                     Maison
                   </h3>
                 </div>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/maison.png" />
               </label>
             </div>
             <div className=" p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -165,12 +165,12 @@ const Simulation = () => {
                     Appartement
                   </h3>
                 </div>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/appartement.png" />
               </label>
             </div>
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">
             Occupez vous votre logement à titre de résidence principale ou
             secondaire ?
@@ -189,7 +189,7 @@ const Simulation = () => {
                     Résidence principale
                   </h3>
                 </div>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Résidence-principale.png" />
               </label>
             </div>
             <div className=" p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -205,12 +205,12 @@ const Simulation = () => {
                     Résidence secondaire
                   </h3>
                 </div>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Résidence-secondaire.png" />
               </label>
             </div>
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">Votre logement a été construit il y a:</h2>
           <div className="grid grid-cols-2">
             <div className=" p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -226,7 +226,7 @@ const Simulation = () => {
                     Maison de 2 ans
                   </h3>
                 </div>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Maison-de-2-ans.png" />
               </label>
             </div>
             <div className=" p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -242,7 +242,7 @@ const Simulation = () => {
                     Entre 2 et 15 ans
                   </h3>
                 </div>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Entre-2-et-15-ans.png" />
               </label>
             </div>
             <div className=" p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -258,7 +258,7 @@ const Simulation = () => {
                     Plus de 15 ans
                   </h3>
                 </div>
-                <img className="w-24 h-24" src="/maison.png" />
+                <img className="w-24 h-24" src="/assets/Plus-de-15-ans.png" />
               </label>
             </div>
           </div>
@@ -283,7 +283,7 @@ const Simulation = () => {
             />
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">
             Quelle est la note DPE de votre logement?
           </h2>
@@ -390,7 +390,7 @@ const Simulation = () => {
             </label>
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">Quelle est votre situation financiére?</h2>
           <p>
             Ces information vous sont demandées pour définir votre éligibilité
@@ -421,7 +421,7 @@ const Simulation = () => {
             </div>
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <div className="grid grid-cols-1">
             <div className=" gap-5 flex flex-col m-10 p-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
               <label>
@@ -486,7 +486,7 @@ const Simulation = () => {
             </div>
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">Vous etes?</h2>
           <div className="grid grid-cols-1 gap-2">
             <div className="flex items-center">
@@ -511,7 +511,7 @@ const Simulation = () => {
             </div>
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">
             L'un des membres de votre foyer correspond-il aux critères suivantes
             ?*
@@ -542,7 +542,7 @@ const Simulation = () => {
             </div>
           </div>
         </div>
-        <div className="my-10 p-5 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-5 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">Isolation?</h2>
           <div className="grid grid-cols-3">
             <div className="relative flex flex-col m-5 p-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -553,7 +553,7 @@ const Simulation = () => {
                 id="isolation des combles"
               />
               <label htmlFor="isolation des combles">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/isolation-des-combles.png" />
                 <p className="">isolation des combles</p>
               </label>
             </div>
@@ -565,7 +565,7 @@ const Simulation = () => {
                 id="isolation des murs"
               />
               <label htmlFor="isolation des murs">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/isolation-des-murs.png" />
                 <p className="">isolation des murs</p>
               </label>
             </div>
@@ -577,7 +577,7 @@ const Simulation = () => {
                 id="Isolation des sol"
               />
               <label htmlFor="Isolation des sol">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Isolation-des-sol.jpg" />
                 <p className="">Isolation des sol</p>
               </label>
             </div>
@@ -589,7 +589,7 @@ const Simulation = () => {
                 id="Fenêtres/Porte-fenêtres"
               />
               <label htmlFor="Fenêtres/Porte-fenêtres">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Fenêtres.jpg" />
                 <p className="">Fenêtres/Porte-fenêtres</p>
               </label>
             </div>
@@ -601,7 +601,7 @@ const Simulation = () => {
                 id="Isolation d'une Toiture-Terrasse"
               />
               <label htmlFor="Isolation d'une Toiture-Terrasse">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Isolation-Terrasse.png" />
                 <p className="">Isolation d'une Toiture-Terrasse</p>
               </label>
             </div>
@@ -616,7 +616,7 @@ const Simulation = () => {
                 id="Pompe à chaleur Air/eau"
               />
               <label htmlFor="Pompe à chaleur Air/eau">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Pompe-à-chaleur-air.png" />
                 <p className="">Pompe à chaleur Air/eau</p>
               </label>
             </div>
@@ -628,7 +628,7 @@ const Simulation = () => {
                 id="Pompe à chaleur Air/eau"
               />
               <label htmlFor="Pompe à chaleur Air/eau">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Pompe-à-chaleur-eau.png" />
                 <p className="">Pompe à chaleur Air/eau</p>
               </label>
             </div>
@@ -640,7 +640,7 @@ const Simulation = () => {
                 id="Pompe à chaleur géothermique"
               />
               <label htmlFor="Pompe à chaleur géothermique">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Pompe-à-chaleur-géothermique.png" />
                 <p className="">Pompe à chaleur géothermique</p>
               </label>
             </div>
@@ -667,7 +667,7 @@ const Simulation = () => {
                 id="Chaudière fioul à condensation"
               />
               <label htmlFor="Chaudière fioul à condensation">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Chaudière-fioul-à-condensation.png" />
                 <p>Chaudière fioul à condensation</p>
               </label>
             </div>
@@ -679,7 +679,7 @@ const Simulation = () => {
                 id="Chaudière gaz à condensation"
               />
               <label htmlFor="Chaudière gaz à condensation">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Chaudière-gaz-à-condensation.png" />
                 <p>Chaudière gaz à condensation</p>
               </label>
             </div>
@@ -691,7 +691,7 @@ const Simulation = () => {
                 id="Chaudière au charbon à condensation"
               />
               <label htmlFor="Chaudière au charbon à condensation">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Chaudière-au-charbon-à-condensation.png" />
                 <p>Chaudière au charbon à condensation</p>
               </label>
             </div>
@@ -706,7 +706,7 @@ const Simulation = () => {
                 id="Chaudière bois à bûches"
               />
               <label htmlFor="Chaudière bois à bûches">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Chaudière-bois-à-bûches.png" />
                 <p>Chaudière bois à bûches</p>
               </label>
             </div>
@@ -718,7 +718,7 @@ const Simulation = () => {
                 id="Chaudière bois à granulés/plaquettes"
               />
               <label htmlFor="Chaudière bois à granulés/plaquettes">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Chaudière-bois-à-plaquettes.png" />
                 <p>Chaudière bois à granulés/plaquettes</p>
               </label>
             </div>
@@ -730,7 +730,7 @@ const Simulation = () => {
                 id="Insert à bûches ou granulés"
               />
               <label htmlFor="Insert à bûches ou granulés">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Insert-à-bûches-ou-granulés.png" />
                 <p>Insert à bûches ou granulés</p>
               </label>
             </div>
@@ -742,7 +742,7 @@ const Simulation = () => {
                 id="Poêle à bûches ou granulés"
               />
               <label htmlFor="Poêle à bûches ou granulés">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Poêle-à-bûches-ou-granulés.png" />
                 <p>Poêle à bûches ou granulés</p>
               </label>
             </div>
@@ -757,7 +757,7 @@ const Simulation = () => {
                 id="Panneaux solaires photovoltaïques"
               />
               <label htmlFor="Panneaux solaires photovoltaïques">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Panneaux-solaires-photovoltaïques.jpg" />
                 <p>Panneaux solaires photovoltaïques</p>
               </label>
             </div>
@@ -769,7 +769,7 @@ const Simulation = () => {
                 id="Système solaire combiné"
               />
               <label htmlFor="Système solaire combiné">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Système-solaire-combiné.png" />
                 <p>Système solaire combiné</p>
               </label>
             </div>
@@ -781,7 +781,7 @@ const Simulation = () => {
                 id="Chauffe-eau thermodynamique"
               />
               <label htmlFor="Chauffe-eau thermodynamique">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Chauffe-eau-thermodynamique.png" />
                 <p>Chauffe-eau thermodynamique</p>
               </label>
             </div>
@@ -793,28 +793,28 @@ const Simulation = () => {
                 id="Chauffe-eau solaire individuel"
               />
               <label htmlFor="Chauffe-eau solaire individuel">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Chauffe-eau-solaire-individuel.jpg" />
                 <p>Chauffe-eau solaire individuel</p>
               </label>
             </div>
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <div className="grid grid-cols-1 gap-2">
-            <div>
+            <div className="flex flex-row gap-2">
               <input type="radio" />
               <label>
                 Je souhaite remplacer une chaudière individuelle au charbon, au
                 fioul ou au gaz.
               </label>
             </div>
-            <div>
+            <div className="flex flex-row gap-2">
               <input type="radio" />
               <label>Non, je ne souhaite effectuer aucun remplacement.</label>
             </div>
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">Isolation des murs ?</h2>
           <div className="grid grid-cols-3">
             <div className="relative flex flex-col m-5 p-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
@@ -825,7 +825,7 @@ const Simulation = () => {
                 id="Isolation intérieure"
               />
               <label htmlFor="Isolation intérieure">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Isolation-intérieure.png" />
                 <p>Isolation intérieure</p>
               </label>
             </div>
@@ -837,7 +837,7 @@ const Simulation = () => {
                 id="Isolation extérieure"
               />
               <label htmlFor="Isolation extérieure">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/Isolation-extérieure.png" />
                 <p>Isolation extérieure</p>
               </label>
             </div>
@@ -849,7 +849,7 @@ const Simulation = () => {
                 id="Je ne sais pas"
               />
               <label htmlFor="Je ne sais pas">
-                <img className="w-32 h-32" src="/maison.png" />
+                <img className="w-32 h-32" src="/assets/question.png" />
                 <p>Je ne sais pas</p>
               </label>
             </div>
@@ -894,17 +894,17 @@ const Simulation = () => {
             />{" "}
           </div>
         </div>
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]">
+        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <div className="grid grid-cols-1 gap-2">
             <div>
               <p>
                 Avez-vous une estimation du montant des travaux à réaliser ?
               </p>
-              <div>
+              <div className="flex gap-3">
                 <input value="oui" type="radio" />
                 <label>Oui</label>
               </div>
-              <div>
+              <div className="flex gap-3">
                 <input value="Non" type="radio" />
                 <label>Non</label>
               </div>
@@ -920,7 +920,7 @@ const Simulation = () => {
           </div>
         </div>
         <div>
-          <h3>
+          <h3 className="font-bold text-xl my-2">
             Souhaitez-vous créer ou recevoir vos résultats par mail ?N'attendez
             pas plus, créez votre compte en une minute !
           </h3>

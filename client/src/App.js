@@ -6,10 +6,12 @@ import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import AuthProvider from './provider/authProvider';
 import Simulation from './pages/simulation/Simulation';
+import Navbar from './components/Navbar';
 function App() {
   return (
     <AuthProvider>
     <Router>
+      <Navbar/>
       <Routes>
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/register' element={<Register />} />
