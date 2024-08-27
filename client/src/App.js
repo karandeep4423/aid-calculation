@@ -7,6 +7,8 @@ import Home from './pages/Home';
 import AuthProvider from './provider/authProvider';
 import Simulation from './pages/simulation/Simulation';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Contact from './pages/Contact';
 function App() {
   return (
     <AuthProvider>
@@ -18,7 +20,9 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/' element={< Home />} />
         <Route path='/simulation' element={<Simulation/>}/>
+        <Route path='/contact-us' element={<Contact/>}></Route>
       </Routes>
+      <Footer/>
     </Router>
     </AuthProvider>
   );

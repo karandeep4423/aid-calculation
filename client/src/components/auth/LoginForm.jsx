@@ -53,13 +53,13 @@ const LoginForm = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="password"
           >
-            Password
+          Mot de passe
           </label>
           <input
             className="shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
             type="password"
-            placeholder="Password"
+            placeholder="Mot de passe"
           />
         </div>
         <div className="flex items-center justify-between mb-6">
@@ -67,14 +67,14 @@ const LoginForm = () => {
             className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
             href="#"
           >
-            Forgot Password?
+            Mot de passe oublié ?
           </a>
         </div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
           type="button"
         >
-          Sign in
+          Me Connecter
         </button>
         <div className=" my-4 grid grid-cols-3 items-center text-black">
           <hr className="border-black" />

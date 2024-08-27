@@ -139,7 +139,7 @@ const RegisterForm = () => {
   return (
     <div className="py-10 min-h-screen flex items-center justify-center bg-blue-500">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Registre</h2>
         <form>
           <div className="mb-4">
             <label
@@ -169,7 +169,7 @@ const RegisterForm = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="firstname"
             >
-              First Name
+            Prénom
             </label>
             <input
               className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
@@ -199,7 +199,7 @@ const RegisterForm = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="lastname"
             >
-              Last Name
+              Nom
             </label>
             <input
               className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
@@ -275,7 +275,7 @@ const RegisterForm = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="password"
             >
-              Password
+              Mot de passe
             </label>
             <input
               className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline ${
