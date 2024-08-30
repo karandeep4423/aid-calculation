@@ -9,6 +9,8 @@ import Simulation from './pages/simulation/Simulation';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Contact from './pages/Contact';
+import About  from './pages/About';
+import ForgotPassword from './pages/auth/ForgotPassword';
 function App() {
   return (
     <AuthProvider>
@@ -20,7 +22,9 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/' element={< Home />} />
         <Route path='/simulation' element={<Simulation/>}/>
-        <Route path='/contact-us' element={<Contact/>}></Route>
+        <Route path='/contact-us' element={<Contact/>}/>
+        <Route path='about-us' element={<About/>} />
+        <Route path="forgot-password" element={<ForgotPassword/>}/>
       </Routes>
       <Footer/>
     </Router>

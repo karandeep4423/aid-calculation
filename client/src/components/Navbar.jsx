@@ -20,7 +20,7 @@ const Navbar = () => {
         </div>
         <div
           className={`lg:space-x-6 gap-y-4 text-lg  absolute  justify-between flex flex-col items-center lg:flex-row  z-50  lg:static  lg:w-auto lg:py-0 pb-6  w-full left-0 ${
-            open ? "hidden lg:flex " : "top-[64px] bg-indigo-100 pt-6"
+            open ? "hidden lg:flex " : "top-[64px] bg-indigo-100 md:bg-white pt-6"
           }`}
         >
           <Link onClick={handleShow} to="/">Home</Link>

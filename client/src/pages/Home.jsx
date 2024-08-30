@@ -2,10 +2,10 @@ import React from "react";
 
 const Home = () => {
   return (
-    <div ba>
+    <div>
       <section
         className="relative h-screen bg-cover bg-center flex justify-center items-center"
-        style={{ backgroundImage: `url('/bg-img.jpg')` }} // Image from the public folder
+        style={{ backgroundImage: `url('/bg-earth.jpg')` }} // Image from the public folder
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-white">

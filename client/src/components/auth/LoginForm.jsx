@@ -63,12 +63,12 @@ const LoginForm = () => {
           />
         </div>
         <div className="flex items-center justify-between mb-6">
-          <a
+          <Link
             className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            href="#"
+            to="/forgot-password"
           >
             Mot de passe oublié ?
-          </a>
+          </Link>
         </div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
