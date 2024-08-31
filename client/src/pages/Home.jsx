@@ -67,6 +67,7 @@ const Home = () => {
           </Link>
         </div>
       </div>
+      {/* Third Section */}
       <div className="bg-gray-300 rounded-3xl m-auto w-fit h-fit p-5 mt-10 ">
         <p className="text-xl text-center font-semibold text-slate-600">
           Ils nous font confiance :
@@ -78,7 +79,7 @@ const Home = () => {
           <img className="w-40 h-40" src="manomano.svg"></img>
         </div>
       </div>
-      {/* Third section */}
+      {/* Fourth section */}
       <div className="flex flex-col justify-center items-center mx-4 py-10">
         <h2 className="font-bold text-4xl text-center">
           Une démarche en 5 étapes !
