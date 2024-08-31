@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <div>
@@ -9,7 +9,7 @@ const Home = () => {
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-white">
-          <h1 className="text-5xl text-center font-bold mb-4">
+          <h1 className="text-5xl px-2 text-center font-bold mb-4">
             Redécouvrons l'énergie au meilleur prix
           </h1>
           <p className="text-lg">Néogies votre courtier en énergie.</p>
@@ -18,6 +18,67 @@ const Home = () => {
           </button>
         </div>
       </section>
+      {/* Second section */}
+      <div className="flex flex-col justify-center items-center mx-4 pt-10">
+        <h2 className="font-bold text-4xl text-center">
+          Qu'est-ce que vous voulez faire?
+        </h2>
+        <p className="text-xl text-center">Complètement dématérialisée.</p>
+        <div className="w-full grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <Link
+            className="rounded-3xl p-5 m-5 flex flex-col items-center shadow-[5px_5px_0px_4px_rgba(2,139,199,0.5),_-5px_-5px_0px_rgba(255,255,255,1)]"
+            to="/simulation"
+          >
+            <img className="w-16 h-16" src="/assets/maison.png"></img>
+            <h3 className="text-2xl text-center font-bold">Isoler ma maison</h3>
+          </Link>
+          <Link
+            className="rounded-3xl p-5 m-5 flex flex-col items-center shadow-[5px_5px_0px_4px_rgba(2,139,199,0.5),_-5px_-5px_0px_rgba(255,255,255,1)]"
+            to="/simulation"
+          >
+            <img
+              className="w-16 h-16"
+              src="/assets/Système-solaire-combiné.png"
+            ></img>
+            <h3 className="text-2xl text-center font-bold">
+              Passer au solaire
+            </h3>
+          </Link>
+          <Link
+            className="rounded-3xl p-5 m-5 justify-center flex flex-col items-center shadow-[5px_5px_0px_4px_rgba(2,139,199,0.5),_-5px_-5px_0px_rgba(255,255,255,1)]"
+            to="/simulation"
+          >
+            <img className="w-16 h-16" src="/assets/calculate-aid.png"></img>
+            <h3 className="text-2xl text-center font-bold">
+              Calculer prime & aides
+            </h3>
+          </Link>
+          <Link
+            className="rounded-3xl p-5 m-5 flex flex-col items-center shadow-[5px_5px_0px_4px_rgba(2,139,199,0.5),_-5px_-5px_0px_rgba(255,255,255,1)]"
+            to="/simulation"
+          >
+            <img
+              className="w-16 h-16"
+              src="/assets/Poêle-à-bûches-ou-granulés.png"
+            ></img>
+            <h3 className="text-2xl text-center font-bold">
+              Changer mon chauffage
+            </h3>
+          </Link>
+        </div>
+      </div>
+      <div className="bg-gray-300 rounded-3xl m-auto w-fit h-fit p-5 mt-10 ">
+        <p className="text-xl text-center font-semibold text-slate-600">
+          Ils nous font confiance :
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 items-center justify-center">
+          <img className="w-40 h-40" src="cetelem.svg"></img>
+          <img className="w-40 h-40" src="leclerc.svg"></img>
+          <img className="w-40 h-40" src="airbnb.svg"></img>
+          <img className="w-40 h-40" src="manomano.svg"></img>
+        </div>
+      </div>
+      {/* Third section */}
       <div className="flex flex-col justify-center items-center mx-4 py-10">
         <h2 className="font-bold text-4xl text-center">
           Une démarche en 5 étapes !

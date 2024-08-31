@@ -853,21 +853,33 @@ const Simulation = () => {
         {/* Step 10 */}
         <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">Vous etes?</h2>
-          <div className="grid grid-cols-1 gap-2">
-            <div className="flex items-center">
-              <input className="w-5 h-5" name="louer" type="radio" />
-              <label className="pl-5">
+          <div className="grid grid-col gap-2">
+            <div >
+              <input
+                checked={selectedStep10 === "louer"}
+                onChange={() => handleSelection(10, "louer")}
+                className="w-5 h-5 mt-2"
+                name="louer"
+                type="radio"
+              />
+              <label className="pl-5 ">
                 Je m'engage à louer votre logement à des locataires aux revenus
                 modestes (pas un membre de ma famille ou de mon foyer fiscal).
               </label>
             </div>
-            <div className="flex items-center">
-              <input className="w-5 h-5" name="louer" type="radio" />
+            <div className="">
+              <input
+                checked={selectedStep10 === "louer"}
+                onChange={() => handleSelection(10, "louer")}
+                className="w-5 h-5 mt-1"
+                name="louer"
+                type="radio"
+              />
               <label className="pl-5">
                 Je suis prêt à louer mon bien avec un niveau de loyer plafonné.
               </label>
             </div>
-            <div className="flex items-center">
+            <div className="">
               <input
                 checked={selectedStep10 === "louer"}
                 onChange={() => handleSelection(10, "louer")}
@@ -890,7 +902,7 @@ const Simulation = () => {
           </h2>
           <p className="py-2">Plusieurs réponses possibles</p>
           <div className="grid grid-cols-1 gap-2">
-            <div className="flex items-center">
+            <div >
               <input
                 checked={selectedStep11 === "critères suivantes"}
                 onChange={() => handleSelection(11, "critères suivantes")}
@@ -903,7 +915,7 @@ const Simulation = () => {
                 de 1 à 6)
               </label>
             </div>
-            <div className="flex items-center">
+            <div >
               <input
                 checked={selectedStep11 === "Ågé de 70 ans ou plus"}
                 onChange={() => handleSelection(11, "Ågé de 70 ans ou plus")}
@@ -913,7 +925,7 @@ const Simulation = () => {
               />
               <label className="pl-5">Ågé de 70 ans ou plus</label>
             </div>
-            <div className="flex items-center">
+            <div >
               <input
                 checked={selectedStep11 === "Compensation du Handicap"}
                 onChange={() => handleSelection(11, "Compensation du Handicap")}
@@ -926,7 +938,7 @@ const Simulation = () => {
                 la Prestation de Compensation du Handicap (PCH)
               </label>
             </div>
-            <div className="flex items-center">
+            <div >
               <input
                 checked={selectedStep11 === "Aucune de ces situations"}
                 onChange={() => handleSelection(11, "Aucune de ces situations")}
