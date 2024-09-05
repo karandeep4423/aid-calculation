@@ -5,146 +5,28 @@ const Simulation = () => {
   // State to keep track of the current step
   const [currentStep, setCurrentStep] = useState(0);
 
-  // State for each step
-  const [selectedStep1, setSelectedStep1] = useState("");
-  const [selectedStep2, setSelectedStep2] = useState("");
-  const [selectedStep3, setSelectedStep3] = useState("");
-  const [selectedStep4, setSelectedStep4] = useState("");
-  const [selectedStep5, setSelectedStep5] = useState("");
-  const [selectedStep6, setSelectedStep6] = useState("");
-  const [selectedStep7, setSelectedStep7] = useState("");
-  const [selectedStep8, setSelectedStep8] = useState("");
-  const [selectedStep9, setSelectedStep9] = useState("");
-  const [selectedStep10, setSelectedStep10] = useState("");
-  const [selectedStep11, setSelectedStep11] = useState("");
-  const [selectedStep12, setSelectedStep12] = useState("");
-  const [selectedStep13, setSelectedStep13] = useState("");
-  const [selectedStep14, setSelectedStep14] = useState("");
-  const [selectedStep15, setSelectedStep15] = useState("");
-  const [selectedStep16, setSelectedStep16] = useState("");
-  const [selectedStep17, setSelectedStep17] = useState("");
-  const [selectedStep18, setSelectedStep18] = useState("");
-  const [selectedStep19, setSelectedStep19] = useState("");
-  const [selectedStep20, setSelectedStep20] = useState("");
+  const [selections, setSelections] = useState(Array(20).fill("")); // Initialize array for 20 steps
 
   // Function to handle selection and move to the next step
   const handleSelection = (step, selection) => {
-    switch (step) {
-      case 1:
-        setSelectedStep1(selection);
-        setCurrentStep(2);
-        break;
-      case 2:
-        setSelectedStep2(selection);
-        setCurrentStep(3);
-        break;
-      case 3:
-        setSelectedStep3(selection);
-        setCurrentStep(4);
-        break;
-      case 4:
-        setSelectedStep4(selection);
-        setCurrentStep(5);
-        break;
-      case 5:
-        setSelectedStep5(selection);
-        setCurrentStep(6);
-        break;
-      case 6:
-        setSelectedStep6(selection);
-        setCurrentStep(7);
-        break;
-      case 7:
-        setSelectedStep7(selection);
-        setCurrentStep(8);
-        break;
-      case 8:
-        setSelectedStep8(selection);
-        setCurrentStep(9);
-        break;
-      case 9:
-        setSelectedStep9(selection);
-        setCurrentStep(10);
-        break;
-      case 10:
-        setSelectedStep10(selection);
-        setCurrentStep(11);
-        break;
-      case 11:
-        setSelectedStep11(selection);
-        setCurrentStep(12);
-        break;
-      case 12:
-        setSelectedStep12(selection);
-        setCurrentStep(13);
-        break;
-      case 13:
-        setSelectedStep13(selection);
-        setCurrentStep(14);
-        break;
-      case 14:
-        setSelectedStep14(selection);
-        setCurrentStep(15);
-        break;
-      case 15:
-        setSelectedStep15(selection);
-        setCurrentStep(16);
-        break;
-      case 16:
-        setSelectedStep16(selection);
-        setCurrentStep(17);
-        break;
-      case 17:
-        setSelectedStep17(selection);
-        setCurrentStep(18);
-        break;
-      case 18:
-        setSelectedStep18(selection);
-        setCurrentStep(19);
-        break;
-      case 19:
-        setSelectedStep19(selection);
-        setCurrentStep(20);
-        break;
-      case 20:
-        setSelectedStep20(selection);
-        setCurrentStep(21);
-        break;
-      default:
-        break;
-    }
+    const newSelections = [...selections];
+    newSelections[step - 1] = selection; // Store selection at the corresponding step index
+    setSelections(newSelections);
+    setCurrentStep(step + 1); // Move to the next step
   };
 
   // Get box style based on the selected option for each step
   const getBoxStyle = (step, value) => {
-    const selectedOption = {
-      1: selectedStep1,
-      2: selectedStep2,
-      3: selectedStep3,
-      4: selectedStep4,
-      5: selectedStep5,
-      7: selectedStep7,
-      12: selectedStep12,
-      13: selectedStep13,
-      14: selectedStep14,
-      15: selectedStep15,
-      16: selectedStep16,
-      17: selectedStep17,
-      18: selectedStep18,
-      19: selectedStep19,
-      20: selectedStep20,
-    }[step];
-
-    return selectedOption === value
+    return selections[step - 1] === value
       ? "border-2 bg-sky-200 border-slate-400 p-5 m-5"
       : "p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]";
   };
 
-  // Function to get progress bar width based on current step
-  const getProgressWidth = () => {
-    const progress = (currentStep / 21) * 100;
-    return `${progress}%`;
-  };
+ // Function to get progress bar width based on current step
+ const getProgressWidth = () => {
+  const progress = (currentStep / 20) * 100;
+  return `${progress}%`;
+};
 
   return (
     <div>
@@ -182,7 +64,7 @@ const Simulation = () => {
                     value="Rénovation énergétique"
                     name="Quel est votre besoin"
                     type="radio"
-                    checked={selectedStep1 === "Rénovation énergétique"}
+                    checked={selections[0] === "Rénovation énergétique"}
                     onChange={() =>
                       handleSelection(1, "Rénovation énergétique")
                     }
@@ -213,7 +95,7 @@ const Simulation = () => {
                     value="Sécurité / Salubrité"
                     name="Quel est votre besoin"
                     type="radio"
-                    checked={selectedStep1 === "Sécurité / Salubrité"}
+                    checked={selections[0] === "Sécurité / Salubrité"}
                     onChange={() => handleSelection(1, "Sécurité / Salubrité")}
                   />
                   <h3 className="text-center bg-gray-100 rounded-full p-3">
@@ -242,7 +124,7 @@ const Simulation = () => {
                     value="Autonomie de la personne"
                     name="Quel est votre besoin"
                     type="radio"
-                    checked={selectedStep1 === "Autonomie de la personne"}
+                    checked={selections[0] === "Autonomie de la personne"}
                     onChange={() =>
                       handleSelection(1, "Autonomie de la personne")
                     }
@@ -280,7 +162,7 @@ const Simulation = () => {
                     value="Propriétaire occupant"
                     name="Vous êtes"
                     type="radio"
-                    checked={selectedStep2 === "Propriétaire occupant"}
+                    checked={selections[1] === "Propriétaire occupant"}
                     onChange={() => handleSelection(2, "Propriétaire occupant")}
                   />
                   <h3 className="text-center bg-gray-100 rounded-full p-3">
@@ -305,7 +187,7 @@ const Simulation = () => {
                     value="Propriétaire bailleur"
                     name="Vous êtes"
                     type="radio"
-                    checked={selectedStep2 === "Propriétaire bailleur"}
+                    checked={selections[1] === "Propriétaire bailleur"}
                     onChange={() => handleSelection(2, "Propriétaire bailleur")}
                   />
                   <h3 className="text-center bg-gray-100 rounded-full p-3">
@@ -330,7 +212,7 @@ const Simulation = () => {
                     value="Syndicat de copropriétaires"
                     name="Vous êtes"
                     type="radio"
-                    checked={selectedStep2 === "Syndicat de copropriétaires"}
+                    checked={selections[1] === "Syndicat de copropriétaires"}
                     onChange={() =>
                       handleSelection(2, "Syndicat de copropriétaires")
                     }
@@ -364,7 +246,7 @@ const Simulation = () => {
                     value="Maison"
                     name="Avez-vous"
                     type="radio"
-                    checked={selectedStep3 === "Maison"}
+                    checked={selections[2] === "Maison"}
                     onChange={() => handleSelection(3, "Maison")}
                   />
                   <h3 className="text-center bg-gray-100 rounded-full p-3">
@@ -389,7 +271,7 @@ const Simulation = () => {
                     value="Appartement"
                     name="Avez-vous"
                     type="radio"
-                    checked={selectedStep3 === "Appartement"}
+                    checked={selections[2] === "Appartement"}
                     onChange={() => handleSelection(3, "Appartement")}
                   />
                   <h3 className="text-center bg-gray-100 rounded-full p-3">
@@ -424,7 +306,7 @@ const Simulation = () => {
                     value="Résidence principale"
                     name="Résidence"
                     type="radio"
-                    checked={selectedStep4 === "Résidence principale"}
+                    checked={selections[3] === "Résidence principale"}
                     onChange={() => handleSelection(4, "Résidence principale")}
                   />
                   <h3 className="text-center bg-gray-100 rounded-full p-3">
@@ -449,7 +331,7 @@ const Simulation = () => {
                     value="Résidence secondaire"
                     name="Résidence"
                     type="radio"
-                    checked={selectedStep4 === "Résidence secondaire"}
+                    checked={selections[3] === "Résidence secondaire"}
                     onChange={() => handleSelection(4, "Résidence secondaire")}
                   />
                   <h3 className="text-center bg-gray-100 rounded-full p-3">
@@ -481,7 +363,7 @@ const Simulation = () => {
                     value="Maison de 2 ans"
                     name="options"
                     type="radio"
-                    checked={selectedStep5 === "Maison de 2 ans"}
+                    checked={selections[4] === "Maison de 2 ans"}
                     onChange={() => handleSelection(5, "Maison de 2 ans")}
                   />
                   <h3 className="text-center bg-gray-100 rounded-full p-3">
@@ -506,7 +388,7 @@ const Simulation = () => {
                     value="Entre 2 et 15 ans"
                     name="options"
                     type="radio"
-                    checked={selectedStep5 === "Entre 2 et 15 ans"}
+                    checked={selections[4] === "Entre 2 et 15 ans"}
                     onChange={() => handleSelection(5, "Entre 2 et 15 ans")}
                   />
                   <h3 className="text-center bg-gray-100 rounded-full p-3">
@@ -531,7 +413,7 @@ const Simulation = () => {
                     value="Plus de 15 ans"
                     name="options"
                     type="radio"
-                    checked={selectedStep5 === "Plus de 15 ans"}
+                    checked={selections[4] === "Plus de 15 ans"}
                     onChange={() => handleSelection(5, "Plus de 15 ans")}
                   />
                   <h3 className="text-center bg-gray-100 rounded-full p-3">
@@ -565,7 +447,7 @@ const Simulation = () => {
             <input
               className="border-2 p-2 rounded-md border-gray-500"
               placeholder="Code postral"
-              checked={selectedStep6 === "Code postral"}
+              checked={selections[5] === "Code postral"}
               onChange={() => handleSelection(6, "Code postral")}
             />
           </div>
@@ -589,7 +471,7 @@ const Simulation = () => {
                 value="Etiquette A"
                 name="DPE"
                 type="radio"
-                checked={selectedStep7 === "Etiquette A"}
+                checked={selections[6] === "Etiquette A"}
                 onChange={() => handleSelection(7, "Etiquette A")}
               />
               <p className="font-bold text-white p-2 rounded-md text-center bg-green-600 text-4xl">
@@ -606,7 +488,7 @@ const Simulation = () => {
                 value="Etiquette B"
                 name="DPE"
                 type="radio"
-                checked={selectedStep7 === "Etiquette B"}
+                checked={selections[6] === "Etiquette B"}
                 onChange={() => handleSelection(7, "Etiquette B")}
               />
               <p className="font-bold text-white p-2 rounded-md text-center bg-green-400 text-4xl">
@@ -623,7 +505,7 @@ const Simulation = () => {
                 value="Etiquette C"
                 name="DPE"
                 type="radio"
-                checked={selectedStep7 === "Etiquette C"}
+                checked={selections[6] === "Etiquette C"}
                 onChange={() => handleSelection(7, "Etiquette C")}
               />
               <p className="font-bold text-white p-2 rounded-md text-center bg-green-300 text-4xl">
@@ -640,7 +522,7 @@ const Simulation = () => {
                 value="Etiquette D"
                 name="DPE"
                 type="radio"
-                checked={selectedStep7 === "Etiquette D"}
+                checked={selections[6] === "Etiquette D"}
                 onChange={() => handleSelection(7, "Etiquette D")}
               />
               <p className="font-bold text-white p-2 rounded-md text-center bg-yellow-300	 text-4xl">
@@ -657,7 +539,7 @@ const Simulation = () => {
                 value="Etiquette E"
                 name="DPE"
                 type="radio"
-                checked={selectedStep7 === "Etiquette E"}
+                checked={selections[6] === "Etiquette E"}
                 onChange={() => handleSelection(7, "Etiquette E")}
               />
               <p className="font-bold text-white p-2 rounded-md text-center bg-amber-300	 text-4xl">
@@ -674,7 +556,7 @@ const Simulation = () => {
                 value="Etiquette F"
                 name="DPE"
                 type="radio"
-                checked={selectedStep7 === "Etiquette F"}
+                checked={selections[6] === "Etiquette F"}
                 onChange={() => handleSelection(7, "Etiquette F")}
               />
               <p className="font-bold text-white p-2 rounded-md text-center bg-orange-400	 text-4xl">
@@ -691,7 +573,7 @@ const Simulation = () => {
                 value="Etiquette G"
                 name="DPE"
                 type="radio"
-                checked={selectedStep7 === "Etiquette G"}
+                checked={selections[6] === "Etiquette G"}
                 onChange={() => handleSelection(7, "Etiquette G")}
               />
               <p className="font-bold text-white p-2 rounded-md text-center bg-red-500 text-4xl">
@@ -708,7 +590,7 @@ const Simulation = () => {
                 value="Je ne sais pas"
                 name="DPE"
                 type="radio"
-                checked={selectedStep7 === "Je ne sais pas"}
+                checked={selections[6] === "Je ne sais pas"}
                 onChange={() => handleSelection(7, "Je ne sais pas")}
               />
               <p className="font-bold text-white p-2 rounded-md text-center bg-blue-500 text-4xl">
@@ -746,7 +628,7 @@ const Simulation = () => {
               <input
                 className="border-2 p-2 rounded-md border-gray-500"
                 placeholder="ville"
-                checked={selectedStep8 === "ville"}
+                checked={selections[7] === "ville"}
                 onChange={() => handleSelection(8, "ville")}
               />{" "}
             </div>
@@ -841,7 +723,7 @@ const Simulation = () => {
                     value="Non"
                     name="quartier NPNRU"
                     type="radio"
-                    checked={selectedStep9 === "quartier NPNRU"}
+                    checked={selections[8] === "quartier NPNRU"}
                     onChange={() => handleSelection(9, "quartier NPNRU")}
                   />
                   <label className="pl-3">Non</label>
@@ -854,9 +736,9 @@ const Simulation = () => {
         <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
           <h2 className="font-bold">Vous etes?</h2>
           <div className="grid grid-col gap-2">
-            <div >
+            <div>
               <input
-                checked={selectedStep10 === "louer"}
+                checked={selections[9] === "louer"}
                 onChange={() => handleSelection(10, "louer")}
                 className="w-5 h-5 mt-2"
                 name="louer"
@@ -869,7 +751,7 @@ const Simulation = () => {
             </div>
             <div className="">
               <input
-                checked={selectedStep10 === "louer"}
+                checked={selections[9] === "louer"}
                 onChange={() => handleSelection(10, "louer")}
                 className="w-5 h-5 mt-1"
                 name="louer"
@@ -881,7 +763,7 @@ const Simulation = () => {
             </div>
             <div className="">
               <input
-                checked={selectedStep10 === "louer"}
+                checked={selections[9] === "louer"}
                 onChange={() => handleSelection(10, "louer")}
                 className="w-5 h-5"
                 name="louer"
@@ -902,9 +784,9 @@ const Simulation = () => {
           </h2>
           <p className="py-2">Plusieurs réponses possibles</p>
           <div className="grid grid-cols-1 gap-2">
-            <div >
+            <div>
               <input
-                checked={selectedStep11 === "critères suivantes"}
+                checked={selections[10] === "critères suivantes"}
                 onChange={() => handleSelection(11, "critères suivantes")}
                 className="w-5 h-5"
                 name=""
@@ -915,9 +797,9 @@ const Simulation = () => {
                 de 1 à 6)
               </label>
             </div>
-            <div >
+            <div>
               <input
-                checked={selectedStep11 === "Ågé de 70 ans ou plus"}
+                checked={selections[10] === "Ågé de 70 ans ou plus"}
                 onChange={() => handleSelection(11, "Ågé de 70 ans ou plus")}
                 className="w-5 h-5"
                 name=""
@@ -925,9 +807,9 @@ const Simulation = () => {
               />
               <label className="pl-5">Ågé de 70 ans ou plus</label>
             </div>
-            <div >
+            <div>
               <input
-                checked={selectedStep11 === "Compensation du Handicap"}
+                checked={selections[10] === "Compensation du Handicap"}
                 onChange={() => handleSelection(11, "Compensation du Handicap")}
                 className="w-5 h-5"
                 name=""
@@ -938,9 +820,9 @@ const Simulation = () => {
                 la Prestation de Compensation du Handicap (PCH)
               </label>
             </div>
-            <div >
+            <div>
               <input
-                checked={selectedStep11 === "Aucune de ces situations"}
+                checked={selections[10] === "Aucune de ces situations"}
                 onChange={() => handleSelection(11, "Aucune de ces situations")}
                 className="w-5 h-5"
                 type="radio"
@@ -963,7 +845,7 @@ const Simulation = () => {
                   type="radio"
                   value="Isolation des combles"
                   name="isolation"
-                  checked={selectedStep12 === "Isolation des combles"}
+                  checked={selections[11] === "Isolation des combles"}
                   onChange={() => handleSelection(12, "Isolation des combles")}
                 />
                 <img
@@ -983,7 +865,7 @@ const Simulation = () => {
                   type="radio"
                   value="isolation des murs"
                   name="isolation"
-                  checked={selectedStep12 === "isolation des murs"}
+                  checked={selections[11] === "isolation des murs"}
                   onChange={() => handleSelection(12, "isolation des murs")}
                 />
 
@@ -1004,7 +886,7 @@ const Simulation = () => {
                   type="radio"
                   value="Isolation des sol"
                   name="isolation"
-                  checked={selectedStep12 === "Isolation des sol"}
+                  checked={selections[11] === "Isolation des sol"}
                   onChange={() => handleSelection(12, "Isolation des sol")}
                 />
                 <img
@@ -1024,7 +906,7 @@ const Simulation = () => {
                   type="radio"
                   value="Fenêtres/Porte-fenêtres"
                   name="isolation"
-                  checked={selectedStep12 === "Fenêtres/Porte-fenêtres"}
+                  checked={selections[11] === "Fenêtres/Porte-fenêtres"}
                   onChange={() =>
                     handleSelection(12, "Fenêtres/Porte-fenêtres")
                   }
@@ -1045,7 +927,7 @@ const Simulation = () => {
                 type="radio"
                 value="Isolation d'une Toiture-Terrasse"
                 name="isolation"
-                checked={selectedStep12 === "Isolation d'une Toiture-Terrasse"}
+                checked={selections[11] === "Isolation d'une Toiture-Terrasse"}
                 onChange={() =>
                   handleSelection(12, "Isolation d'une Toiture-Terrasse")
                 }
@@ -1072,7 +954,7 @@ const Simulation = () => {
                   type="radio"
                   value="Pompe à chaleur Air/eau"
                   name="Pompe à chaleur"
-                  checked={selectedStep13 === "Pompe à chaleur Air/eau"}
+                  checked={selections[12] === "Pompe à chaleur Air/eau"}
                   onChange={() =>
                     handleSelection(13, "Pompe à chaleur Air/eau")
                   }
@@ -1094,7 +976,7 @@ const Simulation = () => {
                   type="radio"
                   value="Pompe à chaleur Air/eau"
                   name="Pompe à chaleur"
-                  checked={selectedStep13 === "Pompe à chaleur Air/eau"}
+                  checked={selections[12] === "Pompe à chaleur Air/eau"}
                   onChange={() =>
                     handleSelection(13, "Pompe à chaleur Air/eau")
                   }
@@ -1118,7 +1000,7 @@ const Simulation = () => {
                   type="radio"
                   value="Pompe à chaleur géothermique"
                   name="Pompe à chaleur"
-                  checked={selectedStep13 === "Pompe à chaleur géothermique"}
+                  checked={selections[12] === "Pompe à chaleur géothermique"}
                   onChange={() =>
                     handleSelection(13, "Pompe à chaleur géothermique")
                   }
@@ -1140,7 +1022,7 @@ const Simulation = () => {
                   type="radio"
                   value="Pompe à chaleur hybride"
                   name="Pompe à chaleur"
-                  checked={selectedStep13 === "Pompe à chaleur hybride"}
+                  checked={selections[12] === "Pompe à chaleur hybride"}
                   onChange={() =>
                     handleSelection(13, "Pompe à chaleur hybride")
                   }
@@ -1165,7 +1047,7 @@ const Simulation = () => {
                   type="radio"
                   value="Chaudière fioul à condensation"
                   name="Chauffage traditionnel"
-                  checked={selectedStep14 === "Chaudière fioul à condensation"}
+                  checked={selections[13] === "Chaudière fioul à condensation"}
                   onChange={() =>
                     handleSelection(14, "Chaudière fioul à condensation")
                   }
@@ -1189,7 +1071,7 @@ const Simulation = () => {
                   type="radio"
                   value="Chaudière gaz à condensation"
                   name="Chauffage traditionnel"
-                  checked={selectedStep14 === "Chaudière gaz à condensation"}
+                  checked={selections[13] === "Chaudière gaz à condensation"}
                   onChange={() =>
                     handleSelection(14, "Chaudière gaz à condensation")
                   }
@@ -1214,7 +1096,7 @@ const Simulation = () => {
                   value="Chaudière au charbon à condensation"
                   name="Chauffage traditionnel"
                   checked={
-                    selectedStep14 === "Chaudière au charbon à condensation"
+                    selections[13] === "Chaudière au charbon à condensation"
                   }
                   onChange={() =>
                     handleSelection(14, "Chaudière au charbon à condensation")
@@ -1241,7 +1123,7 @@ const Simulation = () => {
                   type="radio"
                   value="Chaudière bois à bûches"
                   name="Chauffage à bois"
-                  checked={selectedStep15 === "Chaudière bois à bûches"}
+                  checked={selections[14] === "Chaudière bois à bûches"}
                   onChange={() =>
                     handleSelection(15, "Chaudière bois à bûches")
                   }
@@ -1269,7 +1151,7 @@ const Simulation = () => {
                   value="Chaudière bois à granulés/plaquettes"
                   name="Chauffage à bois"
                   checked={
-                    selectedStep15 === "Chaudière bois à granulés/plaquettes"
+                    selections[14] === "Chaudière bois à granulés/plaquettes"
                   }
                   onChange={() =>
                     handleSelection(15, "Chaudière bois à granulés/plaquettes")
@@ -1292,7 +1174,7 @@ const Simulation = () => {
                   type="radio"
                   value="Insert à bûches ou granulés"
                   name="Chauffage à bois"
-                  checked={selectedStep15 === "Insert à bûches ou granulés"}
+                  checked={selections[14] === "Insert à bûches ou granulés"}
                   onChange={() =>
                     handleSelection(15, "Insert à bûches ou granulés")
                   }
@@ -1314,7 +1196,7 @@ const Simulation = () => {
                   type="radio"
                   value="Poêle à bûches ou granulés"
                   name="Chauffage à bois"
-                  checked={selectedStep15 === "Poêle à bûches ou granulés"}
+                  checked={selections[14] === "Poêle à bûches ou granulés"}
                   onChange={() =>
                     handleSelection(15, "Poêle à bûches ou granulés")
                   }
@@ -1343,7 +1225,7 @@ const Simulation = () => {
                   value="Panneaux solaires photovoltaïques"
                   name="Système solaire"
                   checked={
-                    selectedStep16 === "Panneaux solaires photovoltaïques"
+                    selections[15] === "Panneaux solaires photovoltaïques"
                   }
                   onChange={() =>
                     handleSelection(16, "Panneaux solaires photovoltaïques")
@@ -1366,7 +1248,7 @@ const Simulation = () => {
                   type="radio"
                   value="Système solaire combiné"
                   name="Système solaire"
-                  checked={selectedStep16 === "Système solaire combiné"}
+                  checked={selections[15] === "Système solaire combiné"}
                   onChange={() =>
                     handleSelection(16, "Système solaire combiné")
                   }
@@ -1388,7 +1270,7 @@ const Simulation = () => {
                   type="radio"
                   value="Chauffe-eau thermodynamique"
                   name="Système solaire"
-                  checked={selectedStep16 === "Chauffe-eau thermodynamique"}
+                  checked={selections[15] === "Chauffe-eau thermodynamique"}
                   onChange={() =>
                     handleSelection(16, "Chauffe-eau thermodynamique")
                   }
@@ -1412,7 +1294,7 @@ const Simulation = () => {
                   type="radio"
                   value="Chauffe-eau solaire individuel"
                   name="Système solaire"
-                  checked={selectedStep16 === "Chauffe-eau solaire individuel"}
+                  checked={selections[15] === "Chauffe-eau solaire individuel"}
                   onChange={() =>
                     handleSelection(16, "Chauffe-eau solaire individuel")
                   }
@@ -1457,7 +1339,7 @@ const Simulation = () => {
                   type="radio"
                   value="Isolation intérieure"
                   name="Isolation des murs"
-                  checked={selectedStep18 === "Isolation intérieure"}
+                  checked={selections[17] === "Isolation intérieure"}
                   onChange={() => handleSelection(18, "Isolation intérieure")}
                 />
                 <img
@@ -1477,7 +1359,7 @@ const Simulation = () => {
                   type="radio"
                   value="Isolation"
                   name="Isolation des murs"
-                  checked={selectedStep18 === "Isolation extérieure"}
+                  checked={selections[17] === "Isolation extérieure"}
                   onChange={() => handleSelection(18, "Isolation extérieure")}
                 />
                 <img
@@ -1497,7 +1379,7 @@ const Simulation = () => {
                   type="radio"
                   value="Je ne sais pas"
                   name="Isolation des murs"
-                  checked={selectedStep18 === "Je ne sais pas"}
+                  checked={selections[17] === "Je ne sais pas"}
                   onChange={() => handleSelection(18, "Je ne sais pas")}
                 />
                 <img className="w-32 h-32" src="/assets/question.png" />
@@ -1543,7 +1425,7 @@ const Simulation = () => {
               type="number"
               className="border-2 p-2 rounded-md border-gray-500"
               placeholder="Nombre total de Fenêtre"
-              checked={selectedStep19 === "Isolation des toitures terrasses"}
+              checked={selections[18] === "Isolation des toitures terrasses"}
               onChange={() =>
                 handleSelection(19, "Isolation des toitures terrasses")
               }
@@ -1572,7 +1454,7 @@ const Simulation = () => {
                 type="text"
                 className="border-2 p-2 rounded-md border-gray-500"
                 placeholder="Quel est le montant estimatif des travaux ?"
-                checked={selectedStep20 === "estimatif des travaux"}
+                checked={selections[19] === "estimatif des travaux"}
                 onChange={() => handleSelection(20, "estimatif des travaux")}
               />
             </div>

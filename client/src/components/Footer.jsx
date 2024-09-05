@@ -6,9 +6,9 @@ const Footer = () => {
       <div className="bg-black text-lg xl:text-xl   rounded-t-3xl  ">
         <div className="-mt-4 max-w-screen-xl m-auto flex flex-wrap space-x-5 px-5 justify-evenly">
           <div className="flex flex-col space-y-4 pt-10 w-64">
-            <h2 className="text-white font-medium text-xl border-4 border-white w-fit px-1">
+            <h2 className="text-white font-medium text-xl border-4 border-white w-fit px-2">
               {" "}
-              Aid Calculation
+              SOLULEC
             </h2>
             <p className="text-gray-300 font-medium">
               Notre objectif : vous aider à retrouver un confort thermique
