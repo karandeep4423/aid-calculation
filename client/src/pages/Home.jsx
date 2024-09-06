@@ -19,9 +19,6 @@ const Home = () => {
             Redécouvrons l'énergie au meilleur prix
           </h1>
           <p className="text-lg">Néogies votre courtier en énergie.</p>
-          <button className="mt-6 px-8 py-3bg-sky-500 text-white font-semibold rounded-lg hover:bg-blue-700">
-            Get Started
-          </button>
         </div>
       </section>
       {/* Second section */}
@@ -146,7 +143,7 @@ const Home = () => {
         <div
           className={
             value == "Changer mon chauffage"
-              ? "mx-10 md:mx-44 grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-screen-lg "
+              ? "mx-10 md:mx-24 lg:mx-44 grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-screen-lg "
               : "hidden"
           }
         >
@@ -247,7 +244,7 @@ const Home = () => {
         <div
           className={
             value == "Isoler ma maison"
-              ? "mx-10 md:mx-44 grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-screen-lg "
+              ? "mx-10 md:mx-24 lg:mx-44 grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-screen-lg "
               : "hidden"
           }
         >
@@ -381,6 +378,113 @@ const Home = () => {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+      {/* Fifth section */}
+      <div className="flex flex-col justify-center items-center mx-4 py-10">
+        <h2 className="font-bold text-4xl text-center">
+          Un accompagnement dédié, pour des travaux en toute sérénité
+        </h2>
+        <p className="text-xl text-center">
+          Nos conseillers spécialisés guident votre projet de A à Z.
+        </p>
+        <div className="flex-col md:flex-row flex mx-5 sm:mx-10 gap-10 my-7 sm:my-10">
+          <img
+            className="rounded-lg"
+            alt="support"
+            src="/assets/conseiller-mobile.webp"
+          ></img>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <img
+                className="w-20 h-20"
+                src="/assets/homePage/counselor.png"
+              ></img>
+              <h4 className="font-bold">Des conseillers à votre écoute</h4>
+              <p>Disponibles du lundi au vendredi de 8h à 19h.</p>
+            </div>
+            <div>
+              <img
+                className="w-20 h-20"
+                src="/assets/homePage/rating.png"
+              ></img>
+              <h4 className="font-bold">Experts en rénovation</h4>
+              <p>Formés en continu aux nouveautés du secteur.</p>
+            </div>
+            <div>
+              <img className="w-20 h-20" src="/assets/homePage/house.png"></img>
+              <h4 className="font-bold">Un suivi personnalisé</h4>
+              <p>Nos recommandations sont adaptées à votre logement.</p>
+            </div>
+            <div>
+              <img
+                className="w-20 h-20"
+                src="/assets/homePage/call-center.png"
+              ></img>
+              <h4 className="font-bold">
+                Une assistance pour obtenir vos aides
+              </h4>
+              <p>
+                Vous êtes guidé pour obtenir la Prime Effy et MaPrimeRenov'.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Soxth section */}
+      <div className="flex flex-col justify-center items-center mx-4 mb-10">
+        <h2 className="font-bold text-4xl text-center">
+          Nos conseils et astuces avec notre guide de la rénovation énergétique
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-4 my-10">
+          <Link to="#" className="bg-blue-50  p-5 rounded-2xl">
+            <h3 className="font-bold text-xl">Tout savoir sur les travaux.</h3>
+            <p className="py-4">
+              Quels travaux, quelle partie de mon logement, quels impacts…
+            </p>
+            <p className="font-bold">Découvrir les travaux</p>
+            <img
+              className="w-full h-72 pt-16"
+              src="/assets/homePage/Découvrir-travaux.png"
+            ></img>
+          </Link>
+          <Link className="bg-orange-50  p-5 rounded-2xl">
+            <h3 className="font-bold text-xl">
+              Notre guide des aides financières !
+            </h3>
+            <p className="py-4">
+              Prime Effy, MaPrimeRenov’, aides de l’Anah, TVA réduite…
+            </p>
+            <p className="font-bold">Découvrir les aides</p>
+            <img
+              className="w-72 h-72 pt-16"
+              src="/assets/homePage/Découvrir-aides.png"
+            ></img>
+          </Link>
+          <Link className="bg-amber-50  p-5 rounded-2xl">
+            <h3 className="font-bold text-xl">Les acteurs de la rénovation.</h3>
+            <p className="py-4">
+              Acteurs du secteur, artisan RGE, arnaques, normes de sécurité…
+            </p>
+            <p className="font-bold">Découvrir le secteur</p>
+            <img
+              className="w-72 h-72 pt-16"
+              src="/assets/homePage/Découvrir-secteur.png"
+            ></img>
+          </Link>
+          <Link className="bg-green-50  p-5 rounded-2xl">
+            <h3 className="font-bold text-xl">
+              Vos droits pendant et après les travaux.
+            </h3>
+            <p className="py-4">
+              Entretien, droits, garantie, déclaration d’impôts…
+            </p>
+            <p className="font-bold">Découvrir nos recommandations</p>
+            <img
+              className="w-72 h-72 pt-16"
+              src="/assets/homePage/Découvrir-maison.png"
+            ></img>
+          </Link>
         </div>
       </div>
     </div>
