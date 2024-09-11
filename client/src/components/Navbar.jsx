@@ -424,64 +424,78 @@ const Navbar = () => {
     </svg>
   );
 
-  const renderDropdown = (name, data) => (
-    <div className="dropdown group">
-      <button
-        onClick={() => toggleDropdown(name)}
-        className=" flex items-center hover:font-bold relative lg:py-5 cursor-pointer"
-      >
-        {name}
-        <span className="block lg:hidden ">
-          <DropdownIcon isOpen={state.activeDropdown === name} />
-        </span>
-      </button>
-      <div
-        className={`${
-          state.activeDropdown === name ? "block" : "hidden"
-        } grid-flow-col xl:left-10	 2xl:left-auto lg:left-0 lg:absolute lg:invisible lg:group-hover:visible  z-10 h-fit rounded-xl bg-blue-50 py-5 lg:py-10 divide-black lg:divide-x lg:grid items-start justify-start`}
-      >
-        {data.map((category) => (
-          <div key={category.category} className="category-section">
-            <h4 className="font-semibold  px-7 mb-2">{category.category}</h4>
-            {category.items.map(({ label, link, icon, sign, imgDes }) => (
-              <div
-                className="flex px-7  flex-col justify-start items-start"
-                key={label}
-              >
-                {icon && (
-                  <div className="flex gap-2 hover:font-bold items-center">
-                    {sign !== "je simule mon projet" && sign !== "img" ? (
+  const renderDropdown = (name, data) => {
+    const isDropdownOpen = state.activeDropdown === name;
+
+    return (
+      <div className="dropdown group">
+        {/* Dropdown button */}
+        <button
+          onClick={() => toggleDropdown(name)}
+          className="flex items-center hover:font-bold relative lg:py-5 cursor-pointer"
+        >
+          {name}
+          {/* Dropdown icon visible only on smaller screens */}
+          <span className="block lg:hidden">
+            <DropdownIcon isOpen={isDropdownOpen} />
+          </span>
+        </button>
+
+        {/* Dropdown content */}
+        <div
+          className={`${
+            isDropdownOpen ? "block" : "hidden"
+          } grid-flow-col xl:left-10 2xl:left-auto lg:left-0 lg:absolute lg:invisible lg:group-hover:visible z-10 h-fit rounded-xl bg-blue-50 py-5 lg:py-10 divide-black lg:divide-x lg:grid items-start justify-start`}
+        >
+          {data.map(({ category, items }) => (
+            <div key={category} className="category-section">
+              <h4 className="font-semibold px-7 mb-2">{category}</h4>
+
+              {items.map(({ label, link, icon, sign, imgDes }) => (
+                <div
+                  className="flex px-7 flex-col justify-start items-start"
+                  key={label}
+                >
+                  {/* Render based on item type */}
+                  {icon && sign !== "je simule mon projet" && sign !== "img" ? (
+                    <div className="flex gap-2 hover:font-bold items-center">
                       <img className="w-5 h-5" src={icon} alt={label} />
-                    ) : null}
-                    <Link onClick={toggleMenu} to={link}>
-                      {label}
+                      <Link to={link} onClick={toggleMenu}>
+                        {label}
+                      </Link>
+                    </div>
+                  ) : null}
+
+                  {/* Special button for "je simule mon projet" */}
+                  {sign === "je simule mon projet" && (
+                    <Link to={link}>
+                      <button
+                        onClick={toggleMenu}
+                        className="font-medium px-4 py-3 rounded-xl bg-sky-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-sky-400 transition-all duration-300"
+                      >
+                        {sign}
+                      </button>
                     </Link>
-                    {sign == "je simule mon projet" ? (
-                      <Link to={link}>
-                        <button
-                          onClick={toggleMenu}
-                          className="font-medium px-4 py-3 rounded-xl bg-sky-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-sky-400 transition-all duration-300"
-                        >
-                          {sign}
-                        </button>
-                      </Link>
-                    ) : null}
-                    {sign == "img" ? (
-                      <Link to={link}>
-                        <img className="w-20 h-20" src={icon}></img>
-                        <h3>{imgDes}</h3>
-                      </Link>
-                    ) : null}
-                  </div>
-                )}
-                {!icon && <p>{label}</p>}
-              </div>
-            ))}
-          </div>
-        ))}
+                  )}
+
+                  {/* Image and description for "img" sign */}
+                  {sign === "img" && (
+                    <Link to={link}>
+                      <img className="w-20 h-20" src={icon} alt={label} />
+                      <h3>{imgDes}</h3>
+                    </Link>
+                  )}
+
+                  {/* Default rendering when there's no icon */}
+                  {!icon && <p>{label}</p>}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div>

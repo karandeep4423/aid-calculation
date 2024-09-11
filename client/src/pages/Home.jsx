@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <div >
       <section
-        className="relative w-screen h-screen bg-cover bg-center flex justify-center items-center"
+        className="relative h-screen bg-cover bg-center flex justify-center items-center"
         style={{ backgroundImage: `url('/bg-earth.jpg')` }} // Image from the public folder
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
