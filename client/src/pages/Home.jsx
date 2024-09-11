@@ -8,9 +8,9 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div >
       <section
-        className="relative h-screen bg-cover bg-center flex justify-center items-center"
+        className="relative w-screen h-screen bg-cover bg-center flex justify-center items-center"
         style={{ backgroundImage: `url('/bg-earth.jpg')` }} // Image from the public folder
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -22,7 +22,7 @@ const Home = () => {
         </div>
       </section>
       {/* Second section */}
-      <div className="flex flex-col justify-center items-center mx-4 pt-10">
+      <div className="flex flex-col justify-center items-center mx-4 pt-10  ">
         <h2 className="font-bold text-4xl text-center">
           Qu'est-ce que vous voulez faire?
         </h2>
