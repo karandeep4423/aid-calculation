@@ -526,7 +526,7 @@ const Navbar = () => {
           {renderDropdown("Isolation", isolationItems)}
           {renderDropdown("Chauffage", chauffageItems)}
           {renderDropdown("Solaire", solaireItems)}
-          <div className=" hidden xl:flex space-x-5">
+          <div className="flex space-y-5 xl:space-y-0 items-center flex-col lg:hidden xl:flex xl:flex-row space-x-5">
             <span>{renderDropdown("Rénovation globale", globaleItems)}</span>
             {renderDropdown("Aides et Primes", aidItems)}
             {renderDropdown("Actualités", actualitésItems)}
