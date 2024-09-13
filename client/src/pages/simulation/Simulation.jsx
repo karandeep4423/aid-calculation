@@ -2,1474 +2,817 @@ import React, { useState } from "react";
 import RegisterForm from "../../components/auth/RegisterForm";
 
 const Simulation = () => {
-  // State to keep track of the current step
-  const [currentStep, setCurrentStep] = useState(0);
+  const [selections, setSelections] = useState({}); // Holds the user selections
 
-  const [selections, setSelections] = useState(Array(20).fill("")); // Initialize array for 20 steps
+  const objectLength = Object.keys(selections).length;
 
-  // Function to handle selection and move to the next step
-  const handleSelection = (step, selection) => {
-    const newSelections = [...selections];
-    newSelections[step - 1] = selection; // Store selection at the corresponding step index
-    setSelections(newSelections);
-    setCurrentStep(step + 1); // Move to the next step
+  // Handler for radio button selections
+  const handleSelection = (step, itemId, itemName) => {
+    setSelections((prevSelections) => ({
+      ...prevSelections,
+      [step]: { itemName, selectedValue: itemId }, // Store both itemName and selectedValue
+    }));
+  
   };
 
-  // Get box style based on the selected option for each step
-  const getBoxStyle = (step, value) => {
-    return selections[step - 1] === value
+  // Handler for text input changes
+  const handleInputChange = (stepIndex, inputName, value) => {
+    setSelections((prevSelections) => ({
+      ...prevSelections,
+      [stepIndex]: {
+        ...prevSelections[stepIndex],
+        [inputName]: value, // Store input name and value in the selections object
+      },
+    }));
+  };
+
+  // Function to determine the box style for radio button
+  const getBoxStyle = (step, itemId) => {
+    return selections[step]?.selectedValue === itemId
       ? "border-2 bg-sky-200 border-slate-400 p-5 m-5"
       : "p-5 m-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]";
   };
 
- // Function to get progress bar width based on current step
- const getProgressWidth = () => {
-  const progress = (currentStep / 20) * 100;
-  return `${progress}%`;
-};
+  // Function to calculate progress bar percentage
+  const calculateProgress = () => {
+    const totalSteps = simulationData.length;
+    const completedSteps = Object.keys(selections).length;
+    return `${(completedSteps / totalSteps) * 100}%`;
+  };
+
+  // Submit handler with POST request
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("/api.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(selections), // Send the consistent selections object
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Success:", data);
+        alert("Form submitted successfully!");
+      } else {
+        console.error("Error:", response.statusText);
+        alert("Failed to submit the form.");
+      }
+    } catch (error) {
+      console.error("Request failed:", error);
+      alert("An error occurred while submitting the form.");
+    }
+  };
 
   return (
     <div>
       {/* Progress Bar */}
-      <div className="fixed top-0 left-0 right-0 bg-gray-200 h-2">
+      <div className="fixed top-0 left-0 right-0 h-2">
         <div
           className="bg-blue-500 h-full"
-          style={{ width: getProgressWidth() }}
+          style={{ width: calculateProgress() }}
         ></div>
       </div>
-      <div className=" max-w-screen-md m-auto w-full h-fit  flex flex-col  px-10 items-center my-10 ">
+
+      {/* Form Content */}
+      <div className="max-w-screen-md m-auto w-full h-fit flex flex-col px-10 items-center my-10">
         <h1 className="font-bold text-center text-xl">
           Réalisons ensemble votre devis assurance habitation sur mesure en
           quelques minutes. C’est parti !
         </h1>
-        {/* Step 1 */}
-        <div className="my-10 p-5 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">Quel est votre besoin?</h2>
-          <p>
-            Si le besoin est multiple alors il faudra réaliser 2 simulations.
-            Avant de vous lancer dans des projets de travaux de rénovation,
-            contactez le conseiller France Rénov’ le plus proche de chez vous et
-            profitez gratuitement de ses conseils personnalisés pour mener à
-            bien votre projet.
-          </p>
-          <div className="grid sm:grid-cols-2">
-            <div
-              className={getBoxStyle(1, "Rénovation énergétique")}
-              onClick={() => handleSelection(1, "Rénovation énergétique")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Rénovation énergétique"
-                    name="Quel est votre besoin"
-                    type="radio"
-                    checked={selections[0] === "Rénovation énergétique"}
-                    onChange={() =>
-                      handleSelection(1, "Rénovation énergétique")
-                    }
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Rénovation énergétique
-                  </h3>
-                </div>
-                <p>
-                  Réduire ma facture d'énergie ou améliorer le confort de mon
-                  logement - Rénovation énergétique.
-                </p>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Rénovation-énergétique.png"
-                  alt="Rénovation énergétique"
-                />
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(1, "Sécurité / Salubrité")}
-              onClick={() => handleSelection(1, "Sécurité / Salubrité")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Sécurité / Salubrité"
-                    name="Quel est votre besoin"
-                    type="radio"
-                    checked={selections[0] === "Sécurité / Salubrité"}
-                    onChange={() => handleSelection(1, "Sécurité / Salubrité")}
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Sécurité / Salubrité
-                  </h3>
-                </div>
-                <p>
-                  Mettre mon logement aux normes de sécurité et de salubrité -
-                  Sécurité, salubrité.
-                </p>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Sécurité.png"
-                  alt="Sécurité / Salubrité"
-                />
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(1, "Autonomie de la personne")}
-              onClick={() => handleSelection(1, "Autonomie de la personne")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Autonomie de la personne"
-                    name="Quel est votre besoin"
-                    type="radio"
-                    checked={selections[0] === "Autonomie de la personne"}
-                    onChange={() =>
-                      handleSelection(1, "Autonomie de la personne")
-                    }
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Autonomie de la personne
-                  </h3>
-                </div>
-                <p>
-                  Adapter mon logement au vieillissement ou à une situation de
-                  handicap - Autonomie.
-                </p>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Autonomie-de-a-personne.png"
-                  alt="Autonomie de la personne"
-                />
-              </label>
-            </div>
-          </div>
-        </div>
 
-        {/* Step 2 */}
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">Vous êtes?</h2>
-          <div className="grid sm:grid-cols-2">
-            <div
-              className={getBoxStyle(2, "Propriétaire occupant")}
-              onClick={() => handleSelection(2, "Propriétaire occupant")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Propriétaire occupant"
-                    name="Vous êtes"
-                    type="radio"
-                    checked={selections[1] === "Propriétaire occupant"}
-                    onChange={() => handleSelection(2, "Propriétaire occupant")}
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Propriétaire occupant
-                  </h3>
-                </div>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Propriétaire-occupant.png"
-                  alt="Propriétaire occupant"
-                />
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(2, "Propriétaire bailleur")}
-              onClick={() => handleSelection(2, "Propriétaire bailleur")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Propriétaire bailleur"
-                    name="Vous êtes"
-                    type="radio"
-                    checked={selections[1] === "Propriétaire bailleur"}
-                    onChange={() => handleSelection(2, "Propriétaire bailleur")}
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Propriétaire bailleur
-                  </h3>
-                </div>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Propriétaire-bailleur.png"
-                  alt="Propriétaire bailleur"
-                />
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(2, "Syndicat de copropriétaires")}
-              onClick={() => handleSelection(2, "Syndicat de copropriétaires")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Syndicat de copropriétaires"
-                    name="Vous êtes"
-                    type="radio"
-                    checked={selections[1] === "Syndicat de copropriétaires"}
-                    onChange={() =>
-                      handleSelection(2, "Syndicat de copropriétaires")
-                    }
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Syndicat de copropriétaires
-                  </h3>
-                </div>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Syndicat-de-copropriétaires.png"
-                  alt="Syndicat de copropriétaires"
-                />
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Step 3 */}
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">Avez-vous une maison ou un appartement?</h2>
-          <div className="grid sm:grid-cols-2">
-            <div
-              className={getBoxStyle(3, "Maison")}
-              onClick={() => handleSelection(3, "Maison")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Maison"
-                    name="Avez-vous"
-                    type="radio"
-                    checked={selections[2] === "Maison"}
-                    onChange={() => handleSelection(3, "Maison")}
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Maison
-                  </h3>
-                </div>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/maison.png"
-                  alt="Maison"
-                />
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(3, "Appartement")}
-              onClick={() => handleSelection(3, "Appartement")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Appartement"
-                    name="Avez-vous"
-                    type="radio"
-                    checked={selections[2] === "Appartement"}
-                    onChange={() => handleSelection(3, "Appartement")}
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Appartement
-                  </h3>
-                </div>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/appartement.png"
-                  alt="Appartement"
-                />
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Step 4 */}
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">
-            Occupez-vous votre logement à titre de résidence principale ou
-            secondaire ?
-          </h2>
-          <div className="grid sm:grid-cols-2">
-            <div
-              className={getBoxStyle(4, "Résidence principale")}
-              onClick={() => handleSelection(4, "Résidence principale")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Résidence principale"
-                    name="Résidence"
-                    type="radio"
-                    checked={selections[3] === "Résidence principale"}
-                    onChange={() => handleSelection(4, "Résidence principale")}
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Résidence principale
-                  </h3>
-                </div>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Résidence-principale.png"
-                  alt="Résidence principale"
-                />
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(4, "Résidence secondaire")}
-              onClick={() => handleSelection(4, "Résidence secondaire")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Résidence secondaire"
-                    name="Résidence"
-                    type="radio"
-                    checked={selections[3] === "Résidence secondaire"}
-                    onChange={() => handleSelection(4, "Résidence secondaire")}
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Résidence secondaire
-                  </h3>
-                </div>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Résidence-secondaire.png"
-                  alt="Résidence secondaire"
-                />
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Step 5 */}
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">Votre logement a été construit il y a:</h2>
-          <div className="grid sm:grid-cols-2">
-            <div
-              className={getBoxStyle(5, "Maison de 2 ans")}
-              onClick={() => handleSelection(5, "Maison de 2 ans")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Maison de 2 ans"
-                    name="options"
-                    type="radio"
-                    checked={selections[4] === "Maison de 2 ans"}
-                    onChange={() => handleSelection(5, "Maison de 2 ans")}
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Maison de 2 ans
-                  </h3>
-                </div>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Maison-de-2-ans.png"
-                  alt="Maison de 2 ans"
-                />
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(5, "Entre 2 et 15 ans")}
-              onClick={() => handleSelection(5, "Entre 2 et 15 ans")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Entre 2 et 15 ans"
-                    name="options"
-                    type="radio"
-                    checked={selections[4] === "Entre 2 et 15 ans"}
-                    onChange={() => handleSelection(5, "Entre 2 et 15 ans")}
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Entre 2 et 15 ans
-                  </h3>
-                </div>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Entre-2-et-15-ans.png"
-                  alt="Entre 2 et 15 ans"
-                />
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(5, "Plus de 15 ans")}
-              onClick={() => handleSelection(5, "Plus de 15 ans")}
-            >
-              <label className="flex items-center flex-col">
-                <div className="flex gap-4 items-center">
-                  <input
-                    className="w-6 h-6"
-                    value="Plus de 15 ans"
-                    name="options"
-                    type="radio"
-                    checked={selections[4] === "Plus de 15 ans"}
-                    onChange={() => handleSelection(5, "Plus de 15 ans")}
-                  />
-                  <h3 className="text-center bg-gray-100 rounded-full p-3">
-                    Plus de 15 ans
-                  </h3>
-                </div>
-                <img
-                  className="w-24 h-24"
-                  src="/assets/Plus-de-15-ans.png"
-                  alt="Plus de 15 ans"
-                />
-              </label>
-            </div>
-          </div>
-        </div>
-        {/* Step 6 */}
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">
-            Merci, quelle est l'addresse du logement pour votre projet?
-          </h2>
-          <p>Tous les champs sont obligatories</p>
-          <div className="w-full mt-2 gap-5 flex flex-col  shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-            <input
-              className="border-2 p-2 rounded-md border-gray-500"
-              placeholder="Addresse"
-            />
-            <input
-              className="border-2 p-2 rounded-md border-gray-500"
-              placeholder="Ville"
-            />
-            <input
-              className="border-2 p-2 rounded-md border-gray-500"
-              placeholder="Code postral"
-              checked={selections[5] === "Code postral"}
-              onChange={() => handleSelection(6, "Code postral")}
-            />
-          </div>
-        </div>
-        {/* Step 7 */}
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">
-            Quelle est la note DPE de votre logement?
-          </h2>
-          <p>
-            Cette information nous permettra d'estimer plus précisement les
-            aides pour votre projet.{" "}
-          </p>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4">
-            <label
-              className={getBoxStyle(7, "Etiquette A")}
-              onClick={() => handleSelection(7, "Etiquette A")}
-            >
-              <input
-                className="w-6 h-6 "
-                value="Etiquette A"
-                name="DPE"
-                type="radio"
-                checked={selections[6] === "Etiquette A"}
-                onChange={() => handleSelection(7, "Etiquette A")}
-              />
-              <p className="font-bold text-white p-2 rounded-md text-center bg-green-600 text-4xl">
-                A
-              </p>
-              <p>Etiquette A</p>
-            </label>
-            <label
-              className={getBoxStyle(7, "Etiquette B")}
-              onClick={() => handleSelection(7, "Etiquette B")}
-            >
-              <input
-                className="w-6 h-6 "
-                value="Etiquette B"
-                name="DPE"
-                type="radio"
-                checked={selections[6] === "Etiquette B"}
-                onChange={() => handleSelection(7, "Etiquette B")}
-              />
-              <p className="font-bold text-white p-2 rounded-md text-center bg-green-400 text-4xl">
-                B
-              </p>
-              <p>Etiquette B</p>
-            </label>
-            <label
-              className={getBoxStyle(7, "Etiquette C")}
-              onClick={() => handleSelection(7, "Etiquette C")}
-            >
-              <input
-                className="w-6 h-6 "
-                value="Etiquette C"
-                name="DPE"
-                type="radio"
-                checked={selections[6] === "Etiquette C"}
-                onChange={() => handleSelection(7, "Etiquette C")}
-              />
-              <p className="font-bold text-white p-2 rounded-md text-center bg-green-300 text-4xl">
-                C
-              </p>
-              <p>Etiquette C</p>
-            </label>
-            <label
-              className={getBoxStyle(7, "Etiquette D")}
-              onClick={() => handleSelection(7, "Etiquette D")}
-            >
-              <input
-                className="w-6 h-6 "
-                value="Etiquette D"
-                name="DPE"
-                type="radio"
-                checked={selections[6] === "Etiquette D"}
-                onChange={() => handleSelection(7, "Etiquette D")}
-              />
-              <p className="font-bold text-white p-2 rounded-md text-center bg-yellow-300	 text-4xl">
-                D
-              </p>
-              <p>Etiquette D</p>
-            </label>
-            <label
-              className={getBoxStyle(7, "Etiquette E")}
-              onClick={() => handleSelection(7, "Etiquette E")}
-            >
-              <input
-                className="w-6 h-6 "
-                value="Etiquette E"
-                name="DPE"
-                type="radio"
-                checked={selections[6] === "Etiquette E"}
-                onChange={() => handleSelection(7, "Etiquette E")}
-              />
-              <p className="font-bold text-white p-2 rounded-md text-center bg-amber-300	 text-4xl">
-                E
-              </p>
-              <p>Etiquette E</p>
-            </label>
-            <label
-              className={getBoxStyle(7, "Etiquette F")}
-              onClick={() => handleSelection(7, "Etiquette F")}
-            >
-              <input
-                className="w-6 h-6 "
-                value="Etiquette F"
-                name="DPE"
-                type="radio"
-                checked={selections[6] === "Etiquette F"}
-                onChange={() => handleSelection(7, "Etiquette F")}
-              />
-              <p className="font-bold text-white p-2 rounded-md text-center bg-orange-400	 text-4xl">
-                F
-              </p>
-              <p>Etiquette F</p>
-            </label>
-            <label
-              className={getBoxStyle(7, "Etiquette G")}
-              onClick={() => handleSelection(7, "Etiquette G")}
-            >
-              <input
-                className="w-6 h-6 "
-                value="Etiquette G"
-                name="DPE"
-                type="radio"
-                checked={selections[6] === "Etiquette G"}
-                onChange={() => handleSelection(7, "Etiquette G")}
-              />
-              <p className="font-bold text-white p-2 rounded-md text-center bg-red-500 text-4xl">
-                G
-              </p>
-              <p>Etiquette G</p>
-            </label>
-            <label
-              className={getBoxStyle(7, "Je ne sais pas")}
-              onClick={() => handleSelection(7, "Je ne sais pas")}
-            >
-              <input
-                className="w-6 h-6 "
-                value="Je ne sais pas"
-                name="DPE"
-                type="radio"
-                checked={selections[6] === "Je ne sais pas"}
-                onChange={() => handleSelection(7, "Je ne sais pas")}
-              />
-              <p className="font-bold text-white p-2 rounded-md text-center bg-blue-500 text-4xl">
-                ?
-              </p>
-              <p>Je ne sais pas</p>
-            </label>
-          </div>
-        </div>
-        {/* Step 8 */}
-        <div className="my-10 p-3 sm:p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">Quelle est votre situation financiére?</h2>
-          <p>
-            Ces information vous sont demandées pour définir votre éligibilité
-            aux aides France Rénov
-          </p>
-          <div className="grid grid-cols-1">
-            <div className=" gap-5 flex flex-col m-2 sm:m-5 p-3 sm:p-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-              <div>
-                <label>Revenu fiscal de référence du foyer :*</label>
-                <p className="text-xs">
-                  Saisissez votre revenu fiscal de référence du foyer
-                </p>
-              </div>
-              <input
-                className="border-2 p-2 rounded-md border-gray-500"
-                placeholder="Addresse"
-              />{" "}
-              <div>
-                <label>Nombre de personnes composant le foyer :*</label>
-                <p className="text-xs">
-                  Saisissez le nombre de personnes composant le foyer
-                </p>
-              </div>
-              <input
-                className="border-2 p-2 rounded-md border-gray-500"
-                placeholder="ville"
-                checked={selections[7] === "ville"}
-                onChange={() => handleSelection(8, "ville")}
-              />{" "}
-            </div>
-          </div>
-        </div>
-        {/* Step 9 */}
-        <div className="my-10 p-3 sm:p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <div className="grid grid-cols-1">
-            <div className="gap-5 flex flex-col  m-2 sm:m-10 p-3 sm:p-5 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-              <label>
-                Quel est le nombre de logements constituant votre copropriété ?
-              </label>
-              <input
-                className="border-2 p-2 rounded-md border-gray-500"
-                type="number"
-              />
-              <label>
-                Quel est le nombre de logements dédiés à l’usage de l’habitation
-                principale ?
-              </label>
-              <input
-                className="border-2 p-2 rounded-md border-gray-500"
-                type="number"
-              />
-              <div className="flex flex-col gap-2">
-                <p>
-                  La copropriété est immatriculée et à jour annuellement au
-                  registre national des copropriétés:
-                </p>
-                <div>
-                  <input
-                    className="w-5 h-5"
-                    value="oui"
-                    name="national des copropriétés"
-                    type="radio"
-                  />
-                  <label className="pl-3 ">Oui</label>
-                </div>
-                <div>
-                  <input
-                    className="w-5 h-5"
-                    value="Non"
-                    name="national des copropriétés"
-                    type="radio"
-                  />
-                  <label className="pl-3">Non</label>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <p>
-                  Le taux d’impayés par rapport au budget de l’année N-2 est
-                  supérieur à 8%:
-                </p>
-                <div>
-                  <input
-                    className="w-5 h-5"
-                    value="oui"
-                    name=" Le taux"
-                    type="radio"
-                  />
-                  <label className="pl-3">Oui</label>
-                </div>
-                <div>
-                  <input
-                    className="w-5 h-5"
-                    value="Non"
-                    name=" Le taux"
-                    type="radio"
-                  />
-                  <label className="pl-3">Non</label>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <p>
-                  La copropriété est-elle située dans un quartier NPNRU*:{" "}
-                  <span className="text-xs">
-                    Nouveau Programme National de Renouvellement Urbain
-                  </span>
-                </p>
-                <div>
-                  <input
-                    className="w-5 h-5"
-                    value="oui"
-                    name="quartier NPNRU"
-                    type="radio"
-                  />
-                  <label className="pl-3">Oui</label>
-                </div>
-                <div>
-                  <input
-                    className="w-5 h-5"
-                    value="Non"
-                    name="quartier NPNRU"
-                    type="radio"
-                    checked={selections[8] === "quartier NPNRU"}
-                    onChange={() => handleSelection(9, "quartier NPNRU")}
-                  />
-                  <label className="pl-3">Non</label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {/* Step 10 */}
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">Vous etes?</h2>
-          <div className="grid grid-col gap-2">
-            <div>
-              <input
-                checked={selections[9] === "louer"}
-                onChange={() => handleSelection(10, "louer")}
-                className="w-5 h-5 mt-2"
-                name="louer"
-                type="radio"
-              />
-              <label className="pl-5 ">
-                Je m'engage à louer votre logement à des locataires aux revenus
-                modestes (pas un membre de ma famille ou de mon foyer fiscal).
-              </label>
-            </div>
-            <div className="">
-              <input
-                checked={selections[9] === "louer"}
-                onChange={() => handleSelection(10, "louer")}
-                className="w-5 h-5 mt-1"
-                name="louer"
-                type="radio"
-              />
-              <label className="pl-5">
-                Je suis prêt à louer mon bien avec un niveau de loyer plafonné.
-              </label>
-            </div>
-            <div className="">
-              <input
-                checked={selections[9] === "louer"}
-                onChange={() => handleSelection(10, "louer")}
-                className="w-5 h-5"
-                name="louer"
-                type="radio"
-              />
-              <label className="pl-5">
-                Mon logement sera loué à usage de résidence principal de
-                locataire.
-              </label>
-            </div>
-          </div>
-        </div>
-        {/* Step 11 */}
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">
-            L'un des membres de votre foyer correspond-il aux critères suivantes
-            ?*
-          </h2>
-          <p className="py-2">Plusieurs réponses possibles</p>
-          <div className="grid grid-cols-1 gap-2">
-            <div>
-              <input
-                checked={selections[10] === "critères suivantes"}
-                onChange={() => handleSelection(11, "critères suivantes")}
-                className="w-5 h-5"
-                name=""
-                type="radio"
-              />
-              <label className="pl-5">
-                Ågé de 60 à 69 ans sur conditions de GIR (groupe iso-ressources
-                de 1 à 6)
-              </label>
-            </div>
-            <div>
-              <input
-                checked={selections[10] === "Ågé de 70 ans ou plus"}
-                onChange={() => handleSelection(11, "Ågé de 70 ans ou plus")}
-                className="w-5 h-5"
-                name=""
-                type="radio"
-              />
-              <label className="pl-5">Ågé de 70 ans ou plus</label>
-            </div>
-            <div>
-              <input
-                checked={selections[10] === "Compensation du Handicap"}
-                onChange={() => handleSelection(11, "Compensation du Handicap")}
-                className="w-5 h-5"
-                name=""
-                type="radio"
-              />
-              <label className="pl-5">
-                A un taux d'incapacité égal ou supérieur à 50% ou bénéficie de
-                la Prestation de Compensation du Handicap (PCH)
-              </label>
-            </div>
-            <div>
-              <input
-                checked={selections[10] === "Aucune de ces situations"}
-                onChange={() => handleSelection(11, "Aucune de ces situations")}
-                className="w-5 h-5"
-                type="radio"
-              />
-              <label className="pl-5">Aucune de ces situations</label>
-            </div>
-          </div>
-        </div>
-        <div className="my-10 p-5 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          {/* Step 12 */}
-          <h2 className="font-bold">Isolation?</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3">
-            <div
-              className={getBoxStyle(12, "Isolation des combles")}
-              onClick={() => handleSelection(12, "Isolation des combles")}
-            >
-              <label>
-                <input
-                  className="w-5 h-5 right-2"
-                  type="radio"
-                  value="Isolation des combles"
-                  name="isolation"
-                  checked={selections[11] === "Isolation des combles"}
-                  onChange={() => handleSelection(12, "Isolation des combles")}
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/isolation-des-combles.png"
-                />
-                <p className="">Isolation des combles</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(12, "isolation des murs")}
-              onClick={() => handleSelection(12, "isolation des murs")}
-            >
-              <label>
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="isolation des murs"
-                  name="isolation"
-                  checked={selections[11] === "isolation des murs"}
-                  onChange={() => handleSelection(12, "isolation des murs")}
-                />
-
-                <img
-                  className="w-32 h-32"
-                  src="/assets/isolation-des-murs.png"
-                />
-                <p className="">isolation des murs</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(12, "Isolation des sol")}
-              onClick={() => handleSelection(12, "Isolation des sol")}
-            >
-              <label>
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Isolation des sol"
-                  name="isolation"
-                  checked={selections[11] === "Isolation des sol"}
-                  onChange={() => handleSelection(12, "Isolation des sol")}
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Isolation-des-sol.jpg"
-                />
-                <p className="">Isolation des sol</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(12, "Fenêtres/Porte-fenêtres")}
-              onClick={() => handleSelection(12, "Fenêtres/Porte-fenêtres")}
-            >
-              <label>
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Fenêtres/Porte-fenêtres"
-                  name="isolation"
-                  checked={selections[11] === "Fenêtres/Porte-fenêtres"}
-                  onChange={() =>
-                    handleSelection(12, "Fenêtres/Porte-fenêtres")
-                  }
-                />
-
-                <img className="w-32 h-32" src="/assets/Fenêtres.jpg" />
-                <p className="">Fenêtres/Porte-fenêtres</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(12, "Isolation d'une Toiture-Terrasse")}
-              onClick={() =>
-                handleSelection(12, "Isolation d'une Toiture-Terrasse")
-              }
-            >
-              <input
-                className="  w-5 h-5 right-2"
-                type="radio"
-                value="Isolation d'une Toiture-Terrasse"
-                name="isolation"
-                checked={selections[11] === "Isolation d'une Toiture-Terrasse"}
-                onChange={() =>
-                  handleSelection(12, "Isolation d'une Toiture-Terrasse")
-                }
-              />
-              <label htmlFor="Isolation d'une Toiture-Terrasse">
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Isolation-Terrasse.png"
-                />
-                <p className="">Isolation d'une Toiture-Terrasse</p>
-              </label>
-            </div>
-          </div>
-          {/* Step 13 */}
-          <h2 className="font-bold">Pompe à chaleur / chauffage sanitaire</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3">
-            <div
-              className={getBoxStyle(13, "Pompe à chaleur Air/eau")}
-              onClick={() => handleSelection(13, "Pompe à chaleur Air/eau")}
-            >
-              <label>
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Pompe à chaleur Air/eau"
-                  name="Pompe à chaleur"
-                  checked={selections[12] === "Pompe à chaleur Air/eau"}
-                  onChange={() =>
-                    handleSelection(13, "Pompe à chaleur Air/eau")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Pompe-à-chaleur-air.png"
-                />
-                <p className="">Pompe à chaleur Air/eau</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(13, "Pompe à chaleur Air/eau")}
-              onClick={() => handleSelection(13, "Pompe à chaleur Air/eau")}
-            >
-              <label htmlFor="Pompe à chaleur Air/eau">
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Pompe à chaleur Air/eau"
-                  name="Pompe à chaleur"
-                  checked={selections[12] === "Pompe à chaleur Air/eau"}
-                  onChange={() =>
-                    handleSelection(13, "Pompe à chaleur Air/eau")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Pompe-à-chaleur-eau.png"
-                />
-                <p className="">Pompe à chaleur Air/eau</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(13, "Pompe à chaleur géothermique")}
-              onClick={() =>
-                handleSelection(13, "Pompe à chaleur géothermique")
-              }
-            >
-              <label htmlFor="Pompe à chaleur géothermique">
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Pompe à chaleur géothermique"
-                  name="Pompe à chaleur"
-                  checked={selections[12] === "Pompe à chaleur géothermique"}
-                  onChange={() =>
-                    handleSelection(13, "Pompe à chaleur géothermique")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Pompe-à-chaleur-géothermique.png"
-                />
-                <p className="">Pompe à chaleur géothermique</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(13, "Pompe à chaleur hybride")}
-              onClick={() => handleSelection(13, "Pompe à chaleur hybride")}
-            >
-              <label htmlFor="Pompe à chaleur hybride">
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Pompe à chaleur hybride"
-                  name="Pompe à chaleur"
-                  checked={selections[12] === "Pompe à chaleur hybride"}
-                  onChange={() =>
-                    handleSelection(13, "Pompe à chaleur hybride")
-                  }
-                />
-                <img className="w-32 h-32" src="/maison.png" />
-                <p className="">Pompe à chaleur hybride</p>
-              </label>
-            </div>
-          </div>
-          {/* Step 14 */}
-          <h2 className="font-bold">Chauffage traditionnel</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3">
-            <div
-              className={getBoxStyle(14, "Chaudière fioul à condensation")}
-              onClick={() =>
-                handleSelection(14, "Chaudière fioul à condensation")
-              }
-            >
-              <label>
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Chaudière fioul à condensation"
-                  name="Chauffage traditionnel"
-                  checked={selections[13] === "Chaudière fioul à condensation"}
-                  onChange={() =>
-                    handleSelection(14, "Chaudière fioul à condensation")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Chaudière-fioul-à-condensation.png"
-                />
-                <p>Chaudière fioul à condensation</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(14, "Chaudière gaz à condensation")}
-              onClick={() =>
-                handleSelection(14, "Chaudière gaz à condensation")
-              }
-            >
-              <label>
-                <input
-                  className=" w-5 h-5 right-2"
-                  type="radio"
-                  value="Chaudière gaz à condensation"
-                  name="Chauffage traditionnel"
-                  checked={selections[13] === "Chaudière gaz à condensation"}
-                  onChange={() =>
-                    handleSelection(14, "Chaudière gaz à condensation")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Chaudière-gaz-à-condensation.png"
-                />
-                <p>Chaudière gaz à condensation</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(14, "Chaudière au charbon à condensation")}
-              onClick={() =>
-                handleSelection(14, "Chaudière au charbon à condensation")
-              }
-            >
-              <label>
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Chaudière au charbon à condensation"
-                  name="Chauffage traditionnel"
-                  checked={
-                    selections[13] === "Chaudière au charbon à condensation"
-                  }
-                  onChange={() =>
-                    handleSelection(14, "Chaudière au charbon à condensation")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Chaudière-au-charbon-à-condensation.png"
-                />
-                <p>Chaudière au charbon à condensation</p>
-              </label>
-            </div>
-          </div>
-          {/* Step 15 */}
-          <h2 className="font-bold">Chauffage à bois</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3">
-            <div
-              className={getBoxStyle(15, "Chaudière bois à bûches")}
-              onClick={() => handleSelection(15, "Chaudière bois à bûches")}
-            >
-              <label>
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Chaudière bois à bûches"
-                  name="Chauffage à bois"
-                  checked={selections[14] === "Chaudière bois à bûches"}
-                  onChange={() =>
-                    handleSelection(15, "Chaudière bois à bûches")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Chaudière-bois-à-bûches.png"
-                />
-                <p>Chaudière bois à bûches</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(
-                15,
-                "Chaudière bois à granulés/plaquettes"
-              )}
-              onClick={() =>
-                handleSelection(15, "Chaudière bois à granulés/plaquettes")
-              }
-            >
-              <label htmlFor="Chaudière bois à granulés/plaquettes">
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Chaudière bois à granulés/plaquettes"
-                  name="Chauffage à bois"
-                  checked={
-                    selections[14] === "Chaudière bois à granulés/plaquettes"
-                  }
-                  onChange={() =>
-                    handleSelection(15, "Chaudière bois à granulés/plaquettes")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Chaudière-bois-à-plaquettes.png"
-                />
-                <p>Chaudière bois à granulés/plaquettes</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(15, "Insert à bûches ou granulés")}
-              onClick={() => handleSelection(15, "Insert à bûches ou granulés")}
-            >
-              <label>
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Insert à bûches ou granulés"
-                  name="Chauffage à bois"
-                  checked={selections[14] === "Insert à bûches ou granulés"}
-                  onChange={() =>
-                    handleSelection(15, "Insert à bûches ou granulés")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Insert-à-bûches-ou-granulés.png"
-                />
-                <p>Insert à bûches ou granulés</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(15, "Poêle à bûches ou granulés")}
-              onClick={() => handleSelection(15, "Poêle à bûches ou granulés")}
-            >
-              <label htmlFor="Poêle à bûches ou granulés">
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Poêle à bûches ou granulés"
-                  name="Chauffage à bois"
-                  checked={selections[14] === "Poêle à bûches ou granulés"}
-                  onChange={() =>
-                    handleSelection(15, "Poêle à bûches ou granulés")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Poêle-à-bûches-ou-granulés.png"
-                />
-                <p>Poêle à bûches ou granulés</p>
-              </label>
-            </div>
-          </div>
-          {/* Step 16 */}
-          <h2 className="font-bold">Système solaire</h2>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3">
-            <div
-              className={getBoxStyle(16, "Panneaux solaires photovoltaïques")}
-              onClick={() =>
-                handleSelection(16, "Panneaux solaires photovoltaïques")
-              }
-            >
-              <label htmlFor="Panneaux solaires photovoltaïques">
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Panneaux solaires photovoltaïques"
-                  name="Système solaire"
-                  checked={
-                    selections[15] === "Panneaux solaires photovoltaïques"
-                  }
-                  onChange={() =>
-                    handleSelection(16, "Panneaux solaires photovoltaïques")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Panneaux-solaires-photovoltaïques.jpg"
-                />
-                <p>Panneaux solaires photovoltaïques</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(16, "Système solaire combiné")}
-              onClick={() => handleSelection(16, "Système solaire combiné")}
-            >
-              <label>
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Système solaire combiné"
-                  name="Système solaire"
-                  checked={selections[15] === "Système solaire combiné"}
-                  onChange={() =>
-                    handleSelection(16, "Système solaire combiné")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Système-solaire-combiné.png"
-                />
-                <p>Système solaire combiné</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(16, "Chauffe-eau thermodynamique")}
-              onClick={() => handleSelection(16, "Chauffe-eau thermodynamique")}
-            >
-              <label htmlFor="Chauffe-eau thermodynamique">
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Chauffe-eau thermodynamique"
-                  name="Système solaire"
-                  checked={selections[15] === "Chauffe-eau thermodynamique"}
-                  onChange={() =>
-                    handleSelection(16, "Chauffe-eau thermodynamique")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Chauffe-eau-thermodynamique.png"
-                />
-                <p>Chauffe-eau thermodynamique</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(16, "Chauffe-eau solaire individuel")}
-              onClick={() =>
-                handleSelection(16, "Chauffe-eau solaire individuel")
-              }
-            >
-              <label htmlFor="Chauffe-eau solaire individuel">
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Chauffe-eau solaire individuel"
-                  name="Système solaire"
-                  checked={selections[15] === "Chauffe-eau solaire individuel"}
-                  onChange={() =>
-                    handleSelection(16, "Chauffe-eau solaire individuel")
-                  }
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Chauffe-eau-solaire-individuel.jpg"
-                />
-                <p>Chauffe-eau solaire individuel</p>
-              </label>
-            </div>
-          </div>
-        </div>
-        {/* Step 17 */}
-        <div className="my-10 p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <div className="grid grid-cols-1 gap-2">
-            <div className="flex flex-row gap-2">
-              <input name="souhaite" className="w-5 h-5" type="radio" />
-              <label>
-                Je souhaite remplacer une chaudière individuelle au charbon, au
-                fioul ou au gaz.
-              </label>
-            </div>
-            <div className="flex flex-row gap-2">
-              <input name="souhaite" className="w-5 h-5" type="radio" />
-              <label>Non, je ne souhaite effectuer aucun remplacement.</label>
-            </div>
-          </div>
-        </div>
-        {/* Step 18 */}
-        <div className="my-10 p-3 sm:p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <h2 className="font-bold">Isolation des murs ?</h2>
-          {/* Step 18 */}
-          <div className="grid sm:grid-cols-2 md:grid-cols-3">
-            <div
-              className={getBoxStyle(18, "Isolation intérieure")}
-              onClick={() => handleSelection(18, "Isolation intérieure")}
-            >
-              <label htmlFor="Isolation intérieure">
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Isolation intérieure"
-                  name="Isolation des murs"
-                  checked={selections[17] === "Isolation intérieure"}
-                  onChange={() => handleSelection(18, "Isolation intérieure")}
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Isolation-intérieure.png"
-                />
-                <p>Isolation intérieure</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(18, "Isolation extérieure")}
-              onClick={() => handleSelection(18, "Isolation extérieure")}
-            >
-              <label htmlFor="Isolation extérieure">
-                <input
-                  className="w-5 h-5 right-2"
-                  type="radio"
-                  value="Isolation"
-                  name="Isolation des murs"
-                  checked={selections[17] === "Isolation extérieure"}
-                  onChange={() => handleSelection(18, "Isolation extérieure")}
-                />
-                <img
-                  className="w-32 h-32"
-                  src="/assets/Isolation-extérieure.png"
-                />
-                <p>Isolation extérieure</p>
-              </label>
-            </div>
-            <div
-              className={getBoxStyle(18, "Je ne sais pas")}
-              onClick={() => handleSelection(18, "Je ne sais pas")}
-            >
-              <label htmlFor="Je ne sais pas">
-                <input
-                  className="  w-5 h-5 right-2"
-                  type="radio"
-                  value="Je ne sais pas"
-                  name="Isolation des murs"
-                  checked={selections[17] === "Je ne sais pas"}
-                  onChange={() => handleSelection(18, "Je ne sais pas")}
-                />
-                <img className="w-32 h-32" src="/assets/question.png" />
-                <p>Je ne sais pas</p>
-              </label>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p>Quelle est la surface approximative de murs à isoler?</p>
-            <p className="text-xs">Surface en m</p>
-            <input
-              type="number"
-              className="border-2 p-2 rounded-md border-gray-500"
-              placeholder="Quelle est la surface approximative de murs à isoler?"
-            />{" "}
-          </div>
-          <div className="flex flex-col gap-2 mt-2 ">
-            <h3 className="font-bold">Fenêtre/ Portes-fenêtres</h3>
-            <p>Combien de fenetres souhaitez-vous remplacer?</p>
-            <p className="text-xs">Nombre total de Fenêtre/ Portes-fenêtres </p>
-            <input
-              type="number"
-              className="border-2 p-2 rounded-md border-gray-500"
-              placeholder="Combien de fenetres souhaitez-vous remplacer?"
-            />{" "}
-          </div>
-          {/* Step 19 */}
-          <div className="w-full flex flex-col gap-2 mt-2">
-            <h3 className="font-bold">isolation des murs </h3>
-            <p>Quelle est la surface approximative de combles à isoler?</p>
-            <p className="text-xs">Nombre total de Fenêtre/ Portes-fenêtres </p>
-            <input
-              type="number"
-              className="border-2 p-2 rounded-md border-gray-500"
-              placeholder="approximative de combles à isoler"
-            />{" "}
-          </div>
-          <div className="w-full flex flex-col gap-2 mt-3">
-            <h3 className="font-bold">Isolation des toitures terrasses</h3>
-            <p>Quelle est la surface toiture terrasse à isoler?</p>
-            <p className="text-xs">Nombre total de Fenêtre/ Portes-fenêtres </p>
-            <input
-              type="number"
-              className="border-2 p-2 rounded-md border-gray-500"
-              placeholder="Nombre total de Fenêtre"
-              checked={selections[18] === "Isolation des toitures terrasses"}
-              onChange={() =>
-                handleSelection(19, "Isolation des toitures terrasses")
-              }
-            />{" "}
-          </div>
-        </div>
-        {/* Step 20 */}
-        <div className="my-10 p-3 sm:p-10 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]">
-          <div className="grid grid-cols-1 gap-2">
-            <div>
-              <p>
-                Avez-vous une estimation du montant des travaux à réaliser ?
-              </p>
-              <div className="flex gap-3">
-                <input name="travaux à réaliser" value="oui" type="radio" />
-                <label>Oui</label>
-              </div>
-              <div className="flex gap-3">
-                <input name="travaux à réaliser" value="Non" type="radio" />
-                <label>Non</label>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <label>Quel est le montant estimatif des travaux ?</label>
-              <input
-                type="text"
-                className="border-2 p-2 rounded-md border-gray-500"
-                placeholder="Quel est le montant estimatif des travaux ?"
-                checked={selections[19] === "estimatif des travaux"}
-                onChange={() => handleSelection(20, "estimatif des travaux")}
-              />
-            </div>
-          </div>
-        </div>
         <div>
-          <h3 className="font-bold text-xl my-2">
-            Souhaitez-vous créer ou recevoir vos résultats par mail ?N'attendez
-            pas plus, créez votre compte en une minute !
-          </h3>
-          <RegisterForm />
+          {simulationData.map((stepData, stepIndex) => (
+            <div
+              key={stepIndex}
+              className={`my-10 p-5 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]
+                  ${
+                    stepIndex <= objectLength ? "block" : "hidden"
+                  } // Show current and previous steps, hide future steps
+              `}
+            >
+              <h2 className="font-bold">{stepData.category}</h2>
+              <p>{stepData.categoryDes}</p>
+
+              <div className="grid sm:grid-cols-2">
+                {stepData.items.map((item, itemIndex) => (
+                  <div
+                    key={itemIndex}
+                    className={
+                      item.inputType === "radio"
+                        ? getBoxStyle(stepIndex, item.Id)
+                        : null
+                    }
+                    onClick={() =>
+                      item.inputType === "radio" &&
+                      handleSelection(stepIndex, item.Id, item.itemName)
+                    }
+                  >
+                    {item.inputType === "radio" ? (
+                      <div className="flex items-center flex-col">
+                        <div className="flex gap-4 items-center">
+                          <input
+                            className="w-6 h-6"
+                            name={`step-${stepIndex}`} // Grouping radio buttons per step
+                            type="radio"
+                            checked={
+                              selections[stepIndex]?.selectedValue === item.Id
+                            } // Check if this item is selected
+                            onChange={() =>
+                              handleSelection(stepIndex, item.Id, item.itemName)
+                            }
+                          />
+                          <h3 className="text-center  rounded-full p-3">
+                            {item.itemName}
+                          </h3>
+                        </div>
+                        <p>{item.itemDes}</p>
+                        {item.icon && (
+                          <img
+                            className="w-24 h-24"
+                            src={item.icon}
+                            alt={item.itemName}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col px-2 py-2 items-center justify-center">
+                        <h2 className="font-bold">{item.itemName}</h2>
+                        <p>{item.itemDes}</p>
+                        <input
+                          className="border-2 p-2 w-full rounded-md border-gray-500"
+                          placeholder={item.itemName}
+                          type={item.inputType}
+                          value={selections[stepIndex]?.[item.itemName] || ""}
+                          onChange={(e) =>
+                            handleInputChange(
+                              stepIndex,
+                              item.itemName,
+                              e.target.value
+                            )
+                          }
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
+
+      {/* Submit Button */}
+      <div className="flex justify-center mt-8">
+        {objectLength === simulationData.length && (
+          <button
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        )}
+      </div>
+      {/* Register Form  */}
+      <div>
+        {objectLength === simulationData.length && (
+          <>
+            <h3 className="font-bold text-xl my-2">
+              Souhaitez-vous créer ou recevoir vos résultats par mail
+              ?N'attendez pas plus, créez votre compte en une minute !
+            </h3>
+            <RegisterForm />
+          </>
+        )}
       </div>
     </div>
   );
 };
+
+const simulationData = [
+  {
+    category: "Quel est votre besoin?",
+    categoryDes:
+      " Si le besoin est multiple alors il faudra réaliser 2 simulations. Avant de vous lancer dans des projets de travaux de rénovation, contactez le conseiller France Rénov’ le plus proche de chez vous et profitez gratuitement de ses conseils personnalisés pour mener à bien votre projet.",
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Rénovation énergétique",
+        itemDes:
+          "Réduire ma facture d'énergie ou améliorer le confort de mon logement - Rénovation énergétique.",
+        icon: "/assets/Rénovation-énergétique.png",
+        Id: "cat1-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Sécurité / Salubrité",
+        itemDes:
+          "Mettre mon logement aux normes de sécurité et de salubrité - Sécurité, salubrité.",
+        icon: "/assets/Sécurité.png",
+        Id: "cat1-item2",
+      },
+      {
+        inputType: "radio",
+        itemName: "Autonomie de la personne",
+        itemDes:
+          "Adapter mon logement au vieillissement ou à une situation de handicap - Autonomie.",
+        icon: "/assets/Autonomie-de-a-personne.png",
+        Id: "cat1-item3",
+      },
+    ],
+  },
+  {
+    category: "Vous êtes?",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Propriétaire occupant",
+        itemDes: null,
+        icon: "/assets/Propriétaire-occupant.png",
+        Id: "cat2-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Propriétaire bailleur",
+        itemDes: null,
+        icon: "/assets/Propriétaire-bailleur.png",
+        Id: "cat2-item2",
+      },
+      {
+        inputType: "radio",
+        itemName: "Syndicat de copropriétaires",
+        itemDes: null,
+        icon: "/assets/Syndicat-de-copropriétaires.png",
+        Id: "cat2-item3",
+      },
+    ],
+  },
+  {
+    category: "Avez-vous une maison ou un appartement?",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Maison",
+        itemDes: null,
+        icon: "/assets/maison.png",
+        Id: "cat3-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Appartement",
+        itemDes: null,
+        icon: "/assets/appartement.png",
+        Id: "cat3-item2",
+      },
+    ],
+  },
+  {
+    category:
+      "Occupez-vous votre logement à titre de résidence principale ou secondaire ?",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Résidence principale",
+        itemDes: null,
+        icon: "/assets/Résidence-principale.png",
+        Id: "cat4-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Résidence secondaire",
+        itemDes: null,
+        icon: "/assets/Résidence-secondaire.png",
+        Id: "cat4-item2",
+      },
+    ],
+  },
+  {
+    category: "Votre logement a été construit il y a:",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Maison de 2 ans",
+        itemDes: null,
+        icon: "/assets/Maison-de-2-ans.png",
+        Id: "cat5-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Entre 2 et 15 ans",
+        itemDes: null,
+        icon: "/assets/Entre-2-et-15-ans.png",
+        Id: "cat5-item2",
+      },
+      {
+        inputType: "radio",
+        itemName: "Plus de 15 ans",
+        itemDes: null,
+        icon: "/assets/Plus-de-15-ans.png",
+        Id: "cat5-item3",
+      },
+    ],
+  },
+  {
+    category: "Merci, quelle est l'addresse du logement pour votre projet?",
+    categoryDes: "Tous les champs sont obligatoires",
+    items: [
+      {
+        inputType: "text",
+        itemName: "Addresse",
+        itemDes: null,
+        icon: null,
+        Id: "cat6-item1",
+      },
+      {
+        inputType: "text",
+        itemName: "Ville",
+        itemDes: null,
+        icon: null,
+        Id: "cat6-item2",
+      },
+      {
+        inputType: "number",
+        itemName: "Code postral",
+        itemDes: null,
+        icon: null,
+        Id: "cat6-item3",
+      },
+    ],
+  },
+  {
+    category: "Quelle est la note DPE de votre logement?",
+    categoryDes:
+      "Cette information nous permettra d'estimer plus précisement les aides pour votre projet.",
+    items: [
+      {
+        inputType: "radio",
+        itemName: "A",
+        itemDes: "Etiquette",
+        icon: "/assets/maison.png",
+        Id: "cat7-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "B",
+        itemDes: "Etiquette",
+        icon: "/assets/maison.png",
+        Id: "cat7-item2",
+      },
+      {
+        inputType: "radio",
+        itemName: "C",
+        itemDes: "Etiquette",
+        icon: "/assets/maison.png",
+        Id: "cat7-item3",
+      },
+      {
+        inputType: "radio",
+        itemName: "D",
+        itemDes: "Etiquette",
+        icon: "/assets/maison.png",
+        Id: "cat7-item4",
+      },
+      {
+        inputType: "radio",
+        itemName: "E",
+        itemDes: "Etiquette",
+        icon: "/assets/maison.png",
+        Id: "cat7-item5",
+      },
+      {
+        inputType: "radio",
+        itemName: "F",
+        itemDes: "Etiquette",
+        icon: "/assets/maison.png",
+        Id: "cat7-item6",
+      },
+      {
+        inputType: "radio",
+        itemName: "G",
+        itemDes: "Etiquette",
+        icon: "/assets/maison.png",
+        Id: "cat7-item7",
+      },
+      {
+        inputType: "radio",
+        itemName: "?",
+        itemDes: "Je ne sais pas",
+        icon: "/assets/question.png",
+        Id: "cat7-item8",
+      },
+    ],
+  },
+  {
+    category: "Quelle est votre situation financiére?",
+    categoryDes:
+      "Ces informations vous sont demandées pour définir votre éligibilité aux aides France Rénov",
+    items: [
+      {
+        inputType: "text",
+        inputLabel: "Revenu fiscal de référence du foyer :*",
+        itemName: "Revenu fiscal",
+        itemDes: null,
+        icon: null,
+        Id: "cat8-item1",
+      },
+      {
+        inputType: "number",
+        inputLabel: "Nombre de personnes composant le foyer :*",
+        itemName: "Nombre de personnes",
+        itemDes: null,
+        icon: null,
+        Id: "cat8-item2",
+      },
+      {
+        inputType: "number",
+        itemName:
+          "Quel est le nombre de logements constituant votre copropriété ?",
+        itemDes: null,
+        icon: null,
+        Id: "cat8-item4",
+      },
+      {
+        inputType: "number",
+        itemName:
+          "Quel est le nombre de logements dédiés à l’usage de l’habitation principale ?",
+        itemDes: null,
+        icon: null,
+        Id: "cat8-item5",
+      },
+      {
+        inputType: "text",
+        itemName:
+          "La copropriété est immatriculée et à jour annuellement au registre national des copropriétés:",
+        itemDes: null,
+        icon: null,
+        Id: "cat8-item6",
+      },
+      {
+        inputType: "text",
+        itemName:
+          "Le taux d’impayés par rapport au budget de l’année N-2 est supérieur à 8%:",
+        itemDes: null,
+        icon: null,
+        Id: "cat8-item7",
+      },
+      {
+        inputType: "text",
+        itemName:
+          "La copropriété est-elle située dans un quartier NPNRU*: Nouveau",
+        itemDes: null,
+        icon: null,
+        Id: "cat8-item8",
+      },
+    ],
+  },
+  {
+    category: "Vous êtes?",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName:
+          "Je m'engage à louer votre logement à des locataires aux revenus modestes (pas un membre de ma famille ou de mon foyer fiscal).",
+        itemDes: null,
+        icon: null,
+        Id: "cat9-item1",
+      },
+      {
+        inputType: "radio",
+        itemName:
+          "Je suis prêt à louer mon bien avec un niveau de loyer plafonné.",
+        itemDes: null,
+        icon: null,
+        Id: "cat9-item2",
+      },
+      {
+        inputType: "radio",
+        itemName:
+          "Mon logement sera loué à usage de résidence principale de locataire.",
+        itemDes: null,
+        icon: null,
+        Id: "cat9-item3",
+      },
+    ],
+  },
+  {
+    category:
+      "L'un des membres de votre foyer correspond-il aux critères suivants ?*",
+    categoryDes: "Plusieurs réponses possibles",
+    items: [
+      {
+        inputType: "radio",
+        itemName:
+          "Âgé de 60 à 69 ans sur conditions de GIR (groupe iso-ressources de 1 à 6)",
+        itemDes: null,
+        icon: null,
+        Id: "cat10-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Âgé de 70 ans ou plus",
+        itemDes: null,
+        icon: null,
+        Id: "cat10-item2",
+      },
+      {
+        inputType: "radio",
+        itemName:
+          "A un taux d'incapacité égal ou supérieur à 50% ou bénéficie de la Prestation de Compensation du Handicap (PCH)",
+        itemDes: null,
+        icon: null,
+        Id: "cat10-item3",
+      },
+      {
+        inputType: "radio",
+        itemName: "Aucune de ces situations",
+        itemDes: null,
+        icon: null,
+        Id: "cat10-item4",
+      },
+    ],
+  },
+  {
+    category: "Isolation?",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Isolation des combles",
+        itemDes: null,
+        icon: "/assets/isolation-des-combles.png",
+        Id: "cat11-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "isolation des murs",
+        itemDes: null,
+        icon: "/assets/isolation-des-murs.png",
+        Id: "cat11-item2",
+      },
+      {
+        inputType: "radio",
+        itemName: "Isolation des sol",
+        itemDes: null,
+        icon: "/assets/Isolation-des-sol.jpg",
+        Id: "cat11-item3",
+      },
+      {
+        inputType: "radio",
+        itemName: "Fenêtres/Porte-fenêtres",
+        itemDes: null,
+        icon: "/assets/Fenêtres.jpg",
+        Id: "cat11-item4",
+      },
+      {
+        inputType: "radio",
+        itemName: "Isolation d'une Toiture-Terrasse",
+        itemDes: null,
+        icon: "/assets/Isolation-Terrasse.png",
+        Id: "cat11-item5",
+      },
+    ],
+  },
+  {
+    category: "Pompe à chaleur / chauffage sanitaire",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Pompe à chaleur Air/eau",
+        itemDes: null,
+        icon: "/assets/Pompe-à-chaleur-air.png",
+        Id: "cat12-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Pompe à chaleur Air/eau",
+        itemDes: null,
+        icon: "/assets/Pompe-à-chaleur-eau.png",
+        Id: "cat12-item2",
+      },
+      {
+        inputType: "radio",
+        itemName: "Pompe à chaleur géothermique",
+        itemDes: null,
+        icon: "/assets/Pompe-à-chaleur-géothermique.png",
+        Id: "cat12-item3",
+      },
+      {
+        inputType: "radio",
+        itemName: "Pompe à chaleur hybride",
+        itemDes: null,
+        icon: "/maison.png",
+        Id: "cat12-item4",
+      },
+    ],
+  },
+  {
+    category: "Chauffage traditionnel",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Chaudière fioul à condensation",
+        itemDes: null,
+        icon: "/assets/Chaudière-fioul-à-condensation.png",
+        Id: "cat13-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Chaudière gaz à condensation",
+        itemDes: null,
+        icon: "/assets/Chaudière-gaz-à-condensation.png",
+        Id: "cat13-item2",
+      },
+      {
+        inputType: "radio",
+        itemName: "Chaudière au charbon à condensation",
+        itemDes: null,
+        icon: "/assets/Chaudière-au-charbon-à-condensation.png",
+        Id: "cat13-item3",
+      },
+    ],
+  },
+  {
+    category: "Chauffage à bois",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Chaudière bois à bûches",
+        itemDes: null,
+        icon: "/assets/Chaudière-bois-à-bûches.png",
+        Id: "cat14-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Chaudière bois à granulés/plaquettes",
+        itemDes: null,
+        icon: "/assets/Chaudière-bois-à-plaquettes.png",
+        Id: "cat14-item2",
+      },
+      {
+        inputType: "radio",
+        itemName: "Insert à bûches ou granulés",
+        itemDes: null,
+        icon: "/assets/Insert-à-bûches-ou-granulés.png",
+        Id: "cat14-item3",
+      },
+      {
+        inputType: "radio",
+        itemName: "Poêle à bûches ou granulés",
+        itemDes: null,
+        icon: "/assets/Poêle-à-bûches-ou-granulés.png",
+        Id: "cat14-item4",
+      },
+    ],
+  },
+  {
+    category: "Système solaire",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Panneaux solaires photovoltaïques",
+        itemDes: null,
+        icon: "/assets/Panneaux-solaires-photovoltaïques.jpg",
+        Id: "cat15-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Système solaire combiné",
+        itemDes: null,
+        icon: "/assets/Système-solaire-combiné.png",
+        Id: "cat15-item2",
+      },
+      {
+        inputType: "radio",
+        itemName: "Chauffe-eau thermodynamique",
+        itemDes: null,
+        icon: "/assets/Chauffe-eau-thermodynamique.png",
+        Id: "cat15-item3",
+      },
+      {
+        inputType: "radio",
+        itemName: "Chauffe-eau solaire individuel",
+        itemDes: null,
+        icon: "/assets/Chauffe-eau-solaire-individuel.jpg",
+        Id: "cat15-item4",
+      },
+    ],
+  },
+  {
+    category: null,
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName:
+          "Je souhaite remplacer une chaudière individuelle au charbon, au fioul ou au gaz.",
+        itemDes: null,
+        icon: null,
+        Id: "cat16-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Non, je ne souhaite effectuer aucun remplacement.",
+        itemDes: null,
+        icon: null,
+        Id: "cat16-item2",
+      },
+    ],
+  },
+  {
+    category: "Isolation des murs ?",
+    categoryDes: null,
+    items: [
+      {
+        inputType: "radio",
+        itemName: "Isolation intérieure",
+        itemDes: null,
+        icon: "/assets/Isolation-intérieure.png",
+        Id: "cat16-item1",
+      },
+      {
+        inputType: "radio",
+        itemName: "Isolation extérieure",
+        itemDes: null,
+        icon: "/assets/Isolation-extérieure.png",
+        Id: "cat16-item2",
+      },
+      {
+        inputType: "radio",
+        itemName: "Je ne sais pas",
+        itemDes: null,
+        icon: "/assets/question.png",
+        Id: "cat16-item3",
+      },
+    ],
+  },
+  {
+    category: null,
+    categoryDes: null,
+    items: [
+      {
+        inputType: "number",
+        itemName: "Quelle est la surface approximative de murs à isoler?",
+        itemDes: "Surface en m",
+        icon: null,
+        Id: "cat17-item1",
+      },
+      {
+        inputType: "number",
+        itemName:
+          "Fenêtre/ Portes-fenêtre Combien de fenetres souhaitez-vous remplacer?",
+        itemDes: "Nombre total de Fenêtre/ Portes-fenêtres",
+        icon: null,
+        Id: "cat17-item2",
+      },
+      {
+        inputType: "number",
+        itemName:
+          "isolation des murs Quelle est la surface approximative de combles à isoler?",
+        itemDes: "Nombre total de Fenêtre/ Portes-fenêtres",
+        icon: null,
+        Id: "cat17-item3",
+      },
+      {
+        inputType: "number",
+        itemName:
+          "Isolation des toitures terrasses Quelle est la surface toiture terrasse à isoler?",
+        itemDes: "Nombre total de Fenêtre/ Portes-fenêtres",
+        icon: null,
+        Id: "cat17-item4",
+      },
+    ],
+  },
+  {
+    category: null,
+    categoryDes: null,
+    items: [
+      {
+        inputType: "text",
+        itemName:
+          "Avez-vous une estimation du montant des travaux à réaliser ?",
+        itemDes: null,
+        icon: null,
+        Id: "cat17-item1",
+      },
+      {
+        inputType: "text",
+        itemName: "Quel est le montant estimatif des travaux ?",
+        itemDes: null,
+        icon: null,
+        Id: "cat17-item2",
+      },
+    ],
+  },
+];
 
 export default Simulation;
