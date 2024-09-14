@@ -5,9 +5,9 @@ const Footer = () => {
     <div className="bg-black">
       <div className=" text-lg xl:text-xl   rounded-t-3xl -mt-4 max-w-screen-xl m-auto flex flex-wrap space-x-5 px-5 justify-evenly  ">
         <div className="flex  gap-20 pt-10">
-          <h2 className="text-white font-medium text-xl border-4 h-fit border-white w-fit px-2">
-            SOLULEC
-          </h2>
+          <Link to="/">
+            <img src="/logo.jpg" className="w-20 h-16"></img>
+          </Link>
           <p className="text-gray-300 text-3xl font-medium">
             N°1 de la rénovation énergétique en ligne
           </p>
@@ -20,13 +20,16 @@ const Footer = () => {
             </h4>
             <div className="flex gap-2">
               <Link>
-                <img className="w-10 h-10" src="/assets/maison.png"></img>
+                <img
+                  className="w-10 h-10 text-white"
+                  src="/instagram.png"
+                ></img>
               </Link>
               <Link>
-                <img className="w-10 h-10" src="/assets/maison.png"></img>
+                <img className="w-10 h-10" src="/facebook.png"></img>
               </Link>
               <Link>
-                <img className="w-10 h-10" src="/assets/maison.png"></img>
+                <img className="w-10 h-10" src="/linkedin.png"></img>
               </Link>
             </div>
             <div className="pt-3">

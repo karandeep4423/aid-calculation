@@ -8,7 +8,7 @@ const isolationItems = [
       {
         label: "Combles perdus",
         link: "/combles-perdus",
-        icon: "/assets/maison.png",
+        icon: "/assets/isolation-des-combles.png",
       },
       {
         label: "Combles aménageables",
@@ -18,7 +18,7 @@ const isolationItems = [
       {
         label: "Toiture terrasse",
         link: "/toiture-terrasse",
-        icon: "/assets/maison.png",
+        icon: "/assets/Isolation-Terrasse.png",
       },
       {
         sign: "je simule mon projet",
@@ -33,12 +33,12 @@ const isolationItems = [
       {
         label: "Isolation extérieure",
         link: "/Isolation-extérieure",
-        icon: "/assets/maison.png",
+        icon: "/assets/Isolation-intérieure.png",
       },
       {
         label: "Isolation intérieure",
         link: "/Isolation-intérieure",
-        icon: "/assets/maison.png",
+        icon:"/assets/Isolation-extérieure.png",
       },
     ],
   },
@@ -48,7 +48,7 @@ const isolationItems = [
       {
         label: "Isolation des fenêtres",
         link: "/isolation-fenetres",
-        icon: "/assets/maison.png",
+        icon:"/assets/Fenêtres.jpg",
       },
       {
         label: "VMC double flux",
@@ -81,17 +81,17 @@ const chauffageItems = [
       {
         label: "Pompe à chaleur air-air",
         link: "/pompe-à-chaleur-air-air",
-        icon: "/assets/maison.png",
+        icon:"/assets/Pompe-à-chaleur-air.png",
       },
       {
         label: "Pompe à chaleur air-eau",
         link: "/pompe-à-chaleur-air-eau",
-        icon: "/assets/maison.png",
+        icon: "/assets/Pompe-à-chaleur-eau.png",
       },
       {
         label: "Pompe à chaleur géothermique",
         link: "/isolation-interieure",
-        icon: "/assets/maison.png",
+        icon: "/assets/Pompe-à-chaleur-géothermique.png",
       },
       {
         sign: "je simule mon projet",
@@ -106,17 +106,17 @@ const chauffageItems = [
       {
         label: "Chaudière à condensation",
         link: "/isolation-fenetres",
-        icon: "/assets/maison.png",
+        icon: "/assets/Chaudière-fioul-à-condensation.png",
       },
       {
         label: "Chaudière à granulés",
         link: "/isolation-exterieure",
-        icon: "/assets/maison.png",
+        icon:  "/assets/Chaudière-gaz-à-condensation.png",
       },
       {
         label: "Chaudière à bûches",
         link: "/isolation-interieure",
-        icon: "/assets/maison.png",
+        icon: "/assets/Chaudière-au-charbon-à-condensation.png",
       },
     ],
   },
@@ -126,12 +126,12 @@ const chauffageItems = [
       {
         label: "Poêle à granulés",
         link: "/isolation-fenetres",
-        icon: "/assets/maison.png",
+        icon:  "/assets/Chaudière-gaz-à-condensation.png",
       },
       {
         label: "Poêle à bûches",
         link: "/isolation-exterieure",
-        icon: "/assets/maison.png",
+        icon: "/assets/Chaudière-au-charbon-à-condensation.png",
       },
     ],
   },
@@ -141,12 +141,12 @@ const chauffageItems = [
       {
         label: "Insert cheminée",
         link: "/isolation-fenetres",
-        icon: "/assets/maison.png",
+        icon: "/assets/Chaudière-bois-à-bûches.png",
       },
       {
         label: "Chauffe-eau thermodynamique",
         link: "/isolation-exterieure",
-        icon: "/assets/maison.png",
+        icon: "/assets/Chauffe-eau-thermodynamique.png",
       },
       {
         label: "Radiateur électrique",
@@ -167,7 +167,7 @@ const solaireItems = [
     items: [
       {
         sign: "img",
-        icon: "/assets/maison.png",
+        icon: "/assets/Système-solaire-combiné.png",
         link: "/simulation",
         imgDes: "Notre offre solaire",
       },
@@ -204,17 +204,17 @@ const solaireItems = [
       {
         label: "Panneaux solaires photovoltaïques",
         link: "/isolation-fenetres",
-        icon: "/assets/maison.png",
+        icon: "/assets/Panneaux-solaires-photovoltaïques.jpg",
       },
       {
         label: "Système solaire combiné",
         link: "/isolation-exterieure",
-        icon: "/assets/maison.png",
+        icon:"/assets/Système-solaire-combiné.png",
       },
       {
         label: "Chauffe-eau solaire",
         link: "/isolation-interieure",
-        icon: "/assets/maison.png",
+        icon: "/assets/Système-solaire-combiné.png",
       },
     ],
   },
@@ -501,8 +501,8 @@ const Navbar = () => {
     <div>
       <nav className="flex justify-between gap-5 h-20 px-4 xl:px-0 max-w-screen-xl m-auto">
         <Link to="/">
-          <div className="my-5 text-2xl font-medium w-fit h-fit px-2 border-4 text-center border-black">
-            <h2>SOLULEC</h2>
+          <div className="my-5  w-fit h-fit ">
+            <img className="w-20 h-10" src="/logo.jpg"></img>
           </div>
         </Link>
         <div className="flex items-center lg:hidden">

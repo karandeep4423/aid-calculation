@@ -177,13 +177,13 @@ const Simulation = () => {
       {/* Register Form  */}
       <div>
         {objectLength === simulationData.length && (
-          <>
-            <h3 className="font-bold text-xl my-2">
+          <div className="m-10">
+            <h3 className="font-bold text-center text-xl my-2">
               Souhaitez-vous créer ou recevoir vos résultats par mail
               ?N'attendez pas plus, créez votre compte en une minute !
             </h3>
             <RegisterForm />
-          </>
+          </div>
         )}
       </div>
     </div>
