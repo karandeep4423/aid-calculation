@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <div className="bg-black">
       <div className=" text-lg xl:text-xl   rounded-t-3xl -mt-4 max-w-screen-xl m-auto flex flex-wrap space-x-5 px-5 justify-evenly  ">
-        <div className="flex  gap-20 pt-10">
+        <div className="flex gap-5  sm:gap-20 pt-10">
           <Link to="/">
             <img src="/logo.jpg" className="w-20 h-16"></img>
           </Link>
