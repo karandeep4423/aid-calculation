@@ -3,7 +3,6 @@ import RegisterForm from "../../components/auth/RegisterForm";
 
 const Simulation = () => {
   const [selections, setSelections] = useState({}); // Holds the user selections
-
   const objectLength = Object.keys(selections).length;
 
   // Handler for radio button selections
@@ -12,7 +11,6 @@ const Simulation = () => {
       ...prevSelections,
       [step]: { itemName, selectedValue: itemId }, // Store both itemName and selectedValue
     }));
-  
   };
 
   // Handler for text input changes
@@ -75,116 +73,176 @@ const Simulation = () => {
         ></div>
       </div>
 
-      {/* Form Content */}
-      <div className="max-w-screen-md m-auto w-full h-fit flex flex-col px-10 items-center my-10">
-        <h1 className="font-bold text-center text-xl">
-          Réalisons ensemble votre devis assurance habitation sur mesure en
-          quelques minutes. C’est parti !
-        </h1>
+      {/*  Content */}
+      <div className="flex gap-32 p-10">
+        {/* Sidebar Progress */}
+        <div className="w-2/5">
+          <h2 className="font-semibold text-xl mb-4">Votre parcours</h2>
+          <div className="flex flex-col  ">
+            {/* Step 1 - Completed */}
+            <div className="flex items-center space-x-3 ">
+              <div className="flex flex-col items-center">
+                <div className="w-4 h-4 rounded-full bg-blue-500 text-white flex items-center justify-center">
+                  <svg
+                    className="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    ></path>
+                  </svg>
+                </div>
+                <div className="h-10  border-l border-blue-400"></div>
+              </div>
+              <span className=" mb-10">Votre logement</span>
+            </div>
 
+            {/* Step 2 - Incomplete */}
+            <div className="flex items-center space-x-3">
+              <div className="flex flex-col items-center">
+                <div className="w-4 h-4 rounded-full border-2 border-blue-400"></div>
+                <div className="h-10  border-l border-blue-400"></div>
+              </div>
+              <span className="text-gray-800 mb-10">Votre projet</span>
+            </div>
+
+            {/* Step 3 - Incomplete */}
+            <div className="flex items-center space-x-3">
+              <div className="flex flex-col items-center">
+                <div className="w-4 h-4 rounded-full border-2 border-blue-400"></div>
+                <div className="h-10 border-l border-blue-400"></div>
+              </div>
+              <span className="text-gray-800 mb-10">Vos informations</span>
+            </div>
+
+            {/* Step 4 - Incomplete */}
+            <div className="flex items-center space-x-3">
+              <div className="flex flex-col items-center">
+                <div className="w-4 h-4  rounded-full border-2 border-blue-400"></div>
+              </div>
+              <span className="text-gray-800 ">Votre devis et vos aides</span>
+            </div>
+          </div>
+        </div>
+        {/* Form content */}
         <div>
-          {simulationData.map((stepData, stepIndex) => (
-            <div
-              key={stepIndex}
-              className={`my-10 p-5 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]
+          <h1 className="font-bold text-center text-xl">
+            Réalisons ensemble votre devis assurance habitation sur mesure en
+            quelques minutes. C’est parti !
+          </h1>
+          <div>
+            {simulationData.map((stepData, stepIndex) => (
+              <div
+                key={stepIndex}
+                className={`my-10 p-5 rounded-lg border-2 border-white shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)]
                   ${
                     stepIndex <= objectLength ? "block" : "hidden"
                   } // Show current and previous steps, hide future steps
               `}
-            >
-              <h2 className="font-bold">{stepData.category}</h2>
-              <p>{stepData.categoryDes}</p>
+              >
+                <h2 className="font-bold">{stepData.category}</h2>
+                <p>{stepData.categoryDes}</p>
 
-              <div className="grid sm:grid-cols-2">
-                {stepData.items.map((item, itemIndex) => (
-                  <div
-                    key={itemIndex}
-                    className={
-                      item.inputType === "radio"
-                        ? getBoxStyle(stepIndex, item.Id)
-                        : null
-                    }
-                    onClick={() =>
-                      item.inputType === "radio" &&
-                      handleSelection(stepIndex, item.Id, item.itemName)
-                    }
-                  >
-                    {item.inputType === "radio" ? (
-                      <div className="flex items-center flex-col">
-                        <div className="flex gap-4 items-center">
+                <div className="grid sm:grid-cols-2">
+                  {stepData.items.map((item, itemIndex) => (
+                    <div
+                      key={itemIndex}
+                      className={
+                        item.inputType === "radio"
+                          ? getBoxStyle(stepIndex, item.Id)
+                          : null
+                      }
+                      onClick={() =>
+                        item.inputType === "radio" &&
+                        handleSelection(stepIndex, item.Id, item.itemName)
+                      }
+                    >
+                      {item.inputType === "radio" ? (
+                        <div className="flex items-center flex-col">
+                          <div className="flex gap-4 items-center">
+                            <input
+                              className="w-6 h-6"
+                              name={`step-${stepIndex}`} // Grouping radio buttons per step
+                              type="radio"
+                              checked={
+                                selections[stepIndex]?.selectedValue === item.Id
+                              } // Check if this item is selected
+                              onChange={() =>
+                                handleSelection(
+                                  stepIndex,
+                                  item.Id,
+                                  item.itemName
+                                )
+                              }
+                            />
+                            <h3 className="text-center  rounded-full p-3">
+                              {item.itemName}
+                            </h3>
+                          </div>
+                          <p>{item.itemDes}</p>
+                          {item.icon && (
+                            <img
+                              className="w-24 h-24"
+                              src={item.icon}
+                              alt={item.itemName}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <div className="flex flex-col px-2 py-2 items-center justify-center">
+                          <h2 className="font-bold">{item.itemName}</h2>
+                          <p>{item.itemDes}</p>
                           <input
-                            className="w-6 h-6"
-                            name={`step-${stepIndex}`} // Grouping radio buttons per step
-                            type="radio"
-                            checked={
-                              selections[stepIndex]?.selectedValue === item.Id
-                            } // Check if this item is selected
-                            onChange={() =>
-                              handleSelection(stepIndex, item.Id, item.itemName)
+                            className="border-2 p-2 w-full rounded-md border-gray-500"
+                            placeholder={item.itemName}
+                            type={item.inputType}
+                            value={selections[stepIndex]?.[item.itemName] || ""}
+                            onChange={(e) =>
+                              handleInputChange(
+                                stepIndex,
+                                item.itemName,
+                                e.target.value
+                              )
                             }
                           />
-                          <h3 className="text-center  rounded-full p-3">
-                            {item.itemName}
-                          </h3>
                         </div>
-                        <p>{item.itemDes}</p>
-                        {item.icon && (
-                          <img
-                            className="w-24 h-24"
-                            src={item.icon}
-                            alt={item.itemName}
-                          />
-                        )}
-                      </div>
-                    ) : (
-                      <div className="flex flex-col px-2 py-2 items-center justify-center">
-                        <h2 className="font-bold">{item.itemName}</h2>
-                        <p>{item.itemDes}</p>
-                        <input
-                          className="border-2 p-2 w-full rounded-md border-gray-500"
-                          placeholder={item.itemName}
-                          type={item.inputType}
-                          value={selections[stepIndex]?.[item.itemName] || ""}
-                          onChange={(e) =>
-                            handleInputChange(
-                              stepIndex,
-                              item.itemName,
-                              e.target.value
-                            )
-                          }
-                        />
-                      </div>
-                    )}
-                  </div>
-                ))}
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
+            ))}
+            {/* Submit Button  */}
+            <div className="flex justify-center mt-8">
+              {objectLength === simulationData.length && (
+                <button
+                  className="bg-blue-500 text-white px-6 py-2 rounded-lg"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </button>
+              )}
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Submit Button */}
-      <div className="flex justify-center mt-8">
-        {objectLength === simulationData.length && (
-          <button
-            className="bg-blue-500 text-white px-6 py-2 rounded-lg"
-            onClick={handleSubmit}
-          >
-            Submit
-          </button>
-        )}
-      </div>
-      {/* Register Form  */}
-      <div>
-        {objectLength === simulationData.length && (
-          <div className="m-10">
-            <h3 className="font-bold text-center text-xl my-2">
-              Souhaitez-vous créer ou recevoir vos résultats par mail
-              ?N'attendez pas plus, créez votre compte en une minute !
-            </h3>
-            <RegisterForm />
+            {/* Register Form */}
+            <div>
+              {objectLength === simulationData.length && (
+                <div className="m-10">
+                  <h3 className="font-bold text-center text-xl my-2">
+                    Souhaitez-vous créer ou recevoir vos résultats par mail
+                    ?N'attendez pas plus, créez votre compte en une minute !
+                  </h3>
+                  <RegisterForm />
+                </div>
+              )}
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

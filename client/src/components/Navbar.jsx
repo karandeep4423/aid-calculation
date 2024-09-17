@@ -38,7 +38,7 @@ const isolationItems = [
       {
         label: "Isolation intérieure",
         link: "/Isolation-intérieure",
-        icon:"/assets/Isolation-extérieure.png",
+        icon: "/assets/Isolation-extérieure.png",
       },
     ],
   },
@@ -48,7 +48,7 @@ const isolationItems = [
       {
         label: "Isolation des fenêtres",
         link: "/isolation-fenetres",
-        icon:"/assets/Fenêtres.jpg",
+        icon: "/assets/Fenêtres.jpg",
       },
       {
         label: "VMC double flux",
@@ -81,7 +81,7 @@ const chauffageItems = [
       {
         label: "Pompe à chaleur air-air",
         link: "/pompe-à-chaleur-air-air",
-        icon:"/assets/Pompe-à-chaleur-air.png",
+        icon: "/assets/Pompe-à-chaleur-air.png",
       },
       {
         label: "Pompe à chaleur air-eau",
@@ -111,7 +111,7 @@ const chauffageItems = [
       {
         label: "Chaudière à granulés",
         link: "/isolation-exterieure",
-        icon:  "/assets/Chaudière-gaz-à-condensation.png",
+        icon: "/assets/Chaudière-gaz-à-condensation.png",
       },
       {
         label: "Chaudière à bûches",
@@ -126,7 +126,7 @@ const chauffageItems = [
       {
         label: "Poêle à granulés",
         link: "/isolation-fenetres",
-        icon:  "/assets/Chaudière-gaz-à-condensation.png",
+        icon: "/assets/Chaudière-gaz-à-condensation.png",
       },
       {
         label: "Poêle à bûches",
@@ -209,7 +209,7 @@ const solaireItems = [
       {
         label: "Système solaire combiné",
         link: "/isolation-exterieure",
-        icon:"/assets/Système-solaire-combiné.png",
+        icon: "/assets/Système-solaire-combiné.png",
       },
       {
         label: "Chauffe-eau solaire",
@@ -445,20 +445,19 @@ const Navbar = () => {
         <div
           className={`${
             isDropdownOpen ? "block" : "hidden"
-          } grid-flow-col xl:left-10 2xl:left-auto lg:left-0 lg:absolute lg:invisible lg:group-hover:visible z-10 h-fit rounded-xl bg-blue-50 py-5 lg:py-10 divide-black lg:divide-x lg:grid items-start justify-start`}
+          } grid-flow-col xl:left-10 2xl:left-auto lg:left-0 lg:absolute lg:invisible lg:group-hover:visible z-10 h-fit rounded-xl bg-blue-100 py-5 lg:py-10 divide-gray-300 lg:divide-x lg:grid items-start justify-start`}
         >
           {data.map(({ category, items }) => (
             <div key={category} className="category-section">
-              <h4 className="font-semibold px-7 mb-2">{category}</h4>
-
+              <h4 className=" relative font-semibold px-7 mb-2">{category}</h4>
               {items.map(({ label, link, icon, sign, imgDes }) => (
                 <div
-                  className="flex px-7 flex-col justify-start items-start"
+                  className="  flex px-7 flex-col justify-start items-start"
                   key={label}
                 >
                   {/* Render based on item type */}
                   {icon && sign !== "je simule mon projet" && sign !== "img" ? (
-                    <div className="flex gap-2 hover:font-bold items-center">
+                    <div className="flex gap-2 py-2 hover:font-bold items-center">
                       <img className="w-5 h-5" src={icon} alt={label} />
                       <Link to={link} onClick={toggleMenu}>
                         {label}
@@ -493,6 +492,7 @@ const Navbar = () => {
             </div>
           ))}
         </div>
+        <div className="invisible pl-6 lg:group-hover:visible absolute  rounded-sm before:-top-2 before:absolute  before:h-4 before:w-4 before:-rotate-45 before:transform  before:border-blue-100 before:bg-blue-100"></div>
       </div>
     );
   };
@@ -542,10 +542,15 @@ const Navbar = () => {
           </Link> */}
 
           <div className="flex gap-4 flex-col lg:flex-row">
-            <Link to="/login">
+            <Link className="flex gap-1 items-center" to="/login">
+              <img
+                className="w-8 h-8"
+                src="/assets/espace-client.png"
+                alt="espace-client"
+              ></img>
               <button
+                className="hover:font-bold underline underline-offset-1"
                 onClick={toggleMenu}
-                className="font-medium px-4 py-3 rounded-xl bg-sky-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-sky-400 transition-all duration-300"
               >
                 Espace client
               </button>
@@ -553,7 +558,7 @@ const Navbar = () => {
             <Link to="/simulation">
               <button
                 onClick={toggleMenu}
-                className="font-medium px-4 py-3 rounded-xl bg-sky-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-sky-400 transition-all duration-300"
+                className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-3 rounded-full bg-sky-500 text-white transition-all duration-300"
               >
                 Demander un devis
               </button>

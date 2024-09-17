@@ -8,7 +8,23 @@ const Home = () => {
   };
 
   return (
-    <div >
+    <div>
+      {/* Appelez-nous  */}
+      <div className="hidden absolute z-10 top-24 right-3 bg-blue-50 sm:flex gap-2 w-fit h-fit p-2 rounded-lg">
+        <div>
+          <p className="text-blue-400 font-medium">Appelez-nous!</p>
+          <p p className="text-sm text-gray-600">
+            du lundi au vendredi - 8h à 19h
+          </p>
+        </div>
+        <div className="border-2 flex justify-center items-center gap-2 p-2 border-gray-300">
+          <p className="font-bold text-gray-600">3456</p>
+          <p className="text-sm bg-gray-400 w-full p-1 text-white">
+            Service gratuit + prix appel
+          </p>
+        </div>
+      </div>
+      {/* First section */}
       <section
         className="relative h-screen bg-cover bg-center flex justify-center items-center"
         style={{ backgroundImage: `url('/bg-earth.jpg')` }} // Image from the public folder
@@ -22,7 +38,10 @@ const Home = () => {
         </div>
       </section>
       {/* Second section */}
-      <div className="flex flex-col justify-center items-center mx-4 pt-10  ">
+      <div className="relative flex flex-col justify-center items-center mx-4 pt-10  ">
+        <div className="absolute sm:left-10 mix-blend-multiply w-11/12 h-96  top-28 bg-gradient-to-r from-blue-200 via-purple-200  to-yellow-100 filter blur-3xl transform translate-y-2 scale-y-75 skew-y-12 ">
+          {" "}
+        </div>
         <h2 className="font-bold text-4xl text-center">
           Qu'est-ce que vous voulez faire?
         </h2>
@@ -83,7 +102,7 @@ const Home = () => {
         </div>
       </div>
       {/* Fourth section */}
-      <div className="flex flex-col justify-center items-center mx-4 py-10">
+      <div className=" flex flex-col justify-center items-center mx-4 py-10">
         <h2 className="font-bold text-4xl text-center">
           Vous voulez faire des économies d'énergie ?
         </h2>
@@ -381,7 +400,10 @@ const Home = () => {
         </div>
       </div>
       {/* Fifth section */}
-      <div className="flex flex-col justify-center items-center mx-4 py-10">
+      <div className="relative flex flex-col justify-center items-center mx-4 py-10">
+        <div className="absolute sm:left-10 mix-blend-multiply w-11/12 h-96  top-28 bg-gradient-to-r from-blue-200 via-purple-200  to-yellow-100 filter blur-3xl transform translate-y-2 scale-y-75 skew-y-12 ">
+          {" "}
+        </div>
         <h2 className="font-bold text-4xl text-center">
           Un accompagnement dédié, pour des travaux en toute sérénité
         </h2>
@@ -431,13 +453,16 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {/* Soxth section */}
+      {/* Sixth section */}
       <div className="flex flex-col justify-center items-center mx-4 mb-10">
         <h2 className="font-bold text-4xl text-center">
           Nos conseils et astuces avec notre guide de la rénovation énergétique
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-4 my-10">
-          <Link to="#" className="bg-blue-50  p-5 rounded-2xl">
+          <Link
+            to="#"
+            className="bg-blue-50 hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]  p-5 rounded-2xl"
+          >
             <h3 className="font-bold text-xl">Tout savoir sur les travaux.</h3>
             <p className="py-4">
               Quels travaux, quelle partie de mon logement, quels impacts…
@@ -448,7 +473,7 @@ const Home = () => {
               src="/assets/homePage/Découvrir-travaux.png"
             ></img>
           </Link>
-          <Link className="bg-orange-50  p-5 rounded-2xl">
+          <Link className="bg-orange-50 hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]  p-5 rounded-2xl">
             <h3 className="font-bold text-xl">
               Notre guide des aides financières !
             </h3>
@@ -461,7 +486,7 @@ const Home = () => {
               src="/assets/homePage/Découvrir-aides.png"
             ></img>
           </Link>
-          <Link className="bg-amber-50  p-5 rounded-2xl">
+          <Link className="bg-amber-50 hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] p-5 rounded-2xl">
             <h3 className="font-bold text-xl">Les acteurs de la rénovation.</h3>
             <p className="py-4">
               Acteurs du secteur, artisan RGE, arnaques, normes de sécurité…
@@ -472,7 +497,7 @@ const Home = () => {
               src="/assets/homePage/Découvrir-secteur.png"
             ></img>
           </Link>
-          <Link className="bg-green-50  p-5 rounded-2xl">
+          <Link className="bg-green-50 hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] p-5 rounded-2xl">
             <h3 className="font-bold text-xl">
               Vos droits pendant et après les travaux.
             </h3>
