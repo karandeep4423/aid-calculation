@@ -948,20 +948,17 @@ const Simulation = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Success:", data);
         alert("Form submitted successfully!");
       } else {
-        console.error("Error:", response.statusText);
         alert("Failed to submit the form.");
       }
     } catch (error) {
-      console.error("Request failed:", error);
       alert("An error occurred while submitting the form.");
     }
   };
-  console.log("current step", objectLength, simulationData.length - 1);
+
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-auto sm:h-screen overflow-hidden">
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 right-0 h-2">
         <div

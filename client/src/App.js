@@ -11,7 +11,7 @@ import Footer from "./components/Footer";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import ForgotPassword from "./pages/auth/ForgotPassword";
-
+import Pages from "./pages/Pages";
 function AppContent() {
   const location = useLocation();
 
@@ -36,6 +36,7 @@ function AppContent() {
         <Route path="about-us" element={<About />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="/simulation" element={<Simulation />} />
+        <Route path="/:param" element={<Pages />} />
       </Routes>
 
       {/* Conditionally render Footer */}
