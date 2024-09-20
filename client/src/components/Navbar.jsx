@@ -500,11 +500,12 @@ const Navbar = () => {
   return (
     <div>
       <nav className="flex justify-between gap-5 h-20 px-4 xl:px-0 max-w-screen-xl m-auto">
-        <Link to="/">
-          <div className="my-5  w-fit h-fit ">
-            <img className="w-20 h-10" src="/logo.jpg"></img>
-          </div>
-        </Link>
+        <div className="flex items-center">
+          <Link to="/">
+            <img className="w-32 h-8" src="/logo.png"></img>
+          </Link>
+        </div>
+
         <div className="flex items-center lg:hidden">
           <button onClick={toggleMenu}>
             <img

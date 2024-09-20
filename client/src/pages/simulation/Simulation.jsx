@@ -875,7 +875,6 @@
 
 // export default Simulation;
 
-
 import React, { useState } from "react";
 
 const Simulation = () => {
@@ -968,7 +967,7 @@ const Simulation = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex gap-10 p-10  ">
+      <div className="flex gap-10 p-10">
         {/* Sidebar Progress */}
         <div className="w-2/5 hidden lg:block">
           <h2 className="font-semibold text-xl mb-4">Votre parcours</h2>
@@ -1095,13 +1094,13 @@ const Simulation = () => {
         </div>
 
         {/* Form content */}
-        <div className="w-full">
+        <div className="w-full h-full">
           <h1 className="font-bold text-center text-xl">
             Réalisons ensemble votre devis assurance habitation sur mesure en
             quelques minutes. C’est parti !
           </h1>
           {/* Form Steps */}
-          <div className="h-96  overflow-y-scroll">
+          <div className="  h-full sm:h-96  overflow-y-scroll ">
             {simulationData.map((stepData, stepIndex) => (
               <div
                 key={stepIndex}
@@ -1183,7 +1182,7 @@ const Simulation = () => {
             ))}
           </div>
           {/* Buttons */}
-          <div className="w-full bottom-0 bg-white p-4">
+          <div className="sticky w-full flex items-center justify-center bottom-0 bg-white">
             {/* Back and Next/Submit Buttons */}
             <div className="flex gap-3 items-center justify-center">
               {/* Back Button */}

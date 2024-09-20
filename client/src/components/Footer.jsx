@@ -5,9 +5,11 @@ const Footer = () => {
     <div className="bg-black">
       <div className=" text-lg xl:text-xl   rounded-t-3xl -mt-4 max-w-screen-xl m-auto flex flex-wrap space-x-5 px-5 justify-evenly  ">
         <div className="flex gap-5  sm:gap-20 pt-10">
+          <div className="bg-white p-1">
           <Link to="/">
-            <img src="/logo.jpg" className="w-20 h-16"></img>
+            <img src="/logo.png" className="w-32 h-9"></img>
           </Link>
+          </div>
           <p className="text-gray-300 text-3xl font-medium">
             N°1 de la rénovation énergétique en ligne
           </p>
@@ -42,7 +44,7 @@ const Footer = () => {
             </div>
           </div>
           {/*grid columns   */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 ">
             <div className="flex flex-col text-gray-300 font-medium space-y-4 pt-10">
               <Link className="text-xl font-medium text-white">Nos guides</Link>
               <Link to="/">Les chaudières bois</Link>
@@ -68,7 +70,7 @@ const Footer = () => {
               <Link to="/">Chauffage solaire</Link>
               <Link to="/">Chauffage électrique</Link>
               <Link to="/">Pompe à chaleur</Link>
-            </div>
+            </div> 
             <div className="flex flex-col text-gray-300 font-medium space-y-4 pt-10">
               <Link to="/" className="text-xl text-white font-medium">
                 L'énergie solaire

@@ -27,14 +27,14 @@ const Home = () => {
       {/* First section */}
       <section
         className="relative h-screen bg-cover bg-center flex justify-center items-center"
-        style={{ backgroundImage: `url('/bg-earth.jpg')` }} // Image from the public folder
+        style={{ backgroundImage: `url('/bg.webp')` }} // Image from the public folder
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-white">
           <h1 className="text-5xl px-2 text-center font-bold mb-4">
-            Redécouvrons l'énergie au meilleur prix
+            Solulec, l'énergie au meilleur prix
           </h1>
-          <p className="text-lg">Néogies votre courtier en énergie.</p>
+          {/* <p className="text-lg">Néogies votre courtier en énergie.</p> */}
         </div>
       </section>
       {/* Second section */}
