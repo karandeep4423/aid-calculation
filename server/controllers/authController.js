@@ -94,8 +94,10 @@ exports.login = async(req, res, next) => {
 exports.verifyAccount = async(req, res, next) => {
     try {
         const emailVerificationToken = req.params.token;
-        const user = await User.findOne({ emailVerificationToken });
+        console.log("user emailVerificationToken",emailVerificationToken);
 
+        const user = await User.findOne({emailVerificationToken});
+        console.log("user details",user);
         if (!user) {
             return res.status(404).json({ message: 'Invalid verification token' });
         }

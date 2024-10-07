@@ -128,7 +128,7 @@ const RegisterForm = () => {
   const handleRegister = () => {
     if (isFormValid()) {
       axios
-        .post("http://localhost:3000/api/auth/signup", formData)
+        .post("http://localhost:3001/api/auth/signup", formData)
         .then((result) => console.log(result))
         .catch((err) => console.log(err));
     } else {

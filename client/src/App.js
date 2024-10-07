@@ -12,6 +12,7 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Pages from "./pages/Pages";
+import VerifyMail from "./pages/VerifyMail";
 function AppContent() {
   const location = useLocation();
 
@@ -37,6 +38,7 @@ function AppContent() {
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="/simulation" element={<Simulation />} />
         <Route path="/:param" element={<Pages />} />
+        <Route path="/verify-email/:token" element={<VerifyMail/>}/>
       </Routes>
 
       {/* Conditionally render Footer */}

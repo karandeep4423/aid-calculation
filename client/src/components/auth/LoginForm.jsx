@@ -9,14 +9,14 @@ const LoginForm = () => {
   const { setToken } = useAuth();
   const navigate = useNavigate();
 
-  const isFormValid = () => {
-    return email != "" && password != "";
-  };
+  // const isFormValid = () => {
+  //   return email&& password;
+  // };
 
   const handleLogin = () => {
-    if (isFormValid()) {
+    if (email && password) {
       axios
-        .post("http://3001/api/auth/login", {
+        .post("http://localhost:3001/api/auth/login", {
           email: email,
           password: password,
         })
@@ -42,10 +42,12 @@ const LoginForm = () => {
             Email
           </label>
           <input
+            value={email}
             className="shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             type="email"
             placeholder="username@gmail.com"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="mb-4">
@@ -53,13 +55,15 @@ const LoginForm = () => {
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="password"
           >
-          Mot de passe
+            Mot de passe
           </label>
           <input
+            value={password}
             className="shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
             type="password"
             placeholder="Mot de passe"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="flex items-center justify-between mb-6">
@@ -71,6 +75,7 @@ const LoginForm = () => {
           </Link>
         </div>
         <button
+          onClick={handleLogin}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
           type="button"
         >
