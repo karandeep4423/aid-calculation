@@ -21,7 +21,9 @@ const LoginForm = () => {
           password: password,
         })
         .then((result) => {
-          setToken("this is a test token");
+          console.log("result",result);
+          setToken(result.data.token);
+          localStorage.setItem('userDetails', JSON.stringify(result.data.user));
           navigate("/dashboard", { replace: true });
         })
         .catch((err) => console.log(err));

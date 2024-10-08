@@ -390,6 +390,8 @@ const Navbar = () => {
     activeDropdown: null,
   });
 
+  const user = JSON.parse(localStorage.getItem("userDetails"));
+  console.log("username", user);
   const toggleMenu = () => {
     setState((prevState) => ({
       ...prevState,
@@ -543,17 +545,18 @@ const Navbar = () => {
           </Link> */}
 
           <div className="flex gap-4 flex-col lg:flex-row">
-            <Link className="flex gap-1 items-center" to="/login">
+            <Link className="flex gap-1 items-center" to={user?.firstname==null?"/login":"/dashboard"}>
               <img
                 className="w-8 h-8"
                 src="/assets/espace-client.png"
                 alt="espace-client"
               ></img>
+              
               <button
                 className="hover:font-bold underline underline-offset-1"
                 onClick={toggleMenu}
               >
-                Espace client
+               {user?.firstname==null?"Espace client":user?.firstname}
               </button>
             </Link>
             <Link to="/simulation">
