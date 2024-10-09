@@ -3,15 +3,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../provider/authProvider";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { setToken } = useAuth();
   const navigate = useNavigate();
 
-  // const isFormValid = () => {
-  //   return email&& password;
-  // };
 
   const handleLogin = () => {
     if (email && password) {
@@ -22,13 +21,14 @@ const LoginForm = () => {
         })
         .then((result) => {
           console.log("result",result);
+          toast.success("Login successfully!");
           setToken(result.data.token);
           localStorage.setItem('userDetails', JSON.stringify(result.data.user));
           navigate("/dashboard", { replace: true });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => toast.error(err.response.data.message));
     } else {
-      console.log("Form is not valid");
+      toast.error("Form is not valid");
     }
   };
 

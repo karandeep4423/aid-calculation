@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom"; // To access the token from URL params
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const VerifyMail = () => {
   // Get the token from the URL
   const { token } = useParams();
   // State to manage the verification status and messages
   const [message, setMessage] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  console.log("token", token);
+  const navigate = useNavigate();
 
   const verifyEmail = async () => {
     try {
@@ -20,12 +18,10 @@ const VerifyMail = () => {
       );
       // Update message and stop loading
       setMessage(response.data.message);
-      setLoading(false);
+      navigate("/login", { replace: true });
     } catch (err) {
       // Handle errors (e.g., invalid token or expired token)
-      setError(true);
       setMessage(err.response?.data?.message || "An error occurred");
-      setLoading(false);
     }
   };
 

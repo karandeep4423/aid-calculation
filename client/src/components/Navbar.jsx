@@ -391,7 +391,7 @@ const Navbar = () => {
   });
 
   const user = JSON.parse(localStorage.getItem("userDetails"));
-  console.log("username", user);
+  
   const toggleMenu = () => {
     setState((prevState) => ({
       ...prevState,

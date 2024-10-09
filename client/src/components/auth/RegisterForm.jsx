@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -129,10 +131,13 @@ const RegisterForm = () => {
     if (isFormValid()) {
       axios
         .post("http://localhost:3001/api/auth/signup", formData)
-        .then((result) => console.log(result))
-        .catch((err) => console.log(err));
+        .then((result) => {
+          console.log("result signup", result);
+          toast.success("Email verification link has been sent!");
+        })
+        .catch((err) => toast.error(err.response.data.message));
     } else {
-      console.log("Form is not valid");
+      toast.error("Form is not valid");
     }
   };
 
@@ -169,7 +174,7 @@ const RegisterForm = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="firstname"
             >
-            Prénom
+              Prénom
             </label>
             <input
               className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
