@@ -389,9 +389,18 @@ const Navbar = () => {
     isMenuOpen: false,
     activeDropdown: null,
   });
+  const [showProfile, setShowProfile] = useState(false);
+
+  const profile = () => {
+    setShowProfile(!showProfile);
+  };
 
   const user = JSON.parse(localStorage.getItem("userDetails"));
-  
+
+  const logout = () => {
+    localStorage.clear();
+  };
+
   const toggleMenu = () => {
     setState((prevState) => ({
       ...prevState,
@@ -545,20 +554,45 @@ const Navbar = () => {
           </Link> */}
 
           <div className="flex gap-4 flex-col lg:flex-row">
-            <Link className="flex gap-1 items-center" to={user?.firstname==null?"/login":"/dashboard"}>
+            <Link
+              className="flex relative gap-1 items-center"
+              to={user?.firstname == null ? "/login" : null}
+            >
               <img
                 className="w-8 h-8"
                 src="/assets/espace-client.png"
                 alt="espace-client"
               ></img>
-              
               <button
-                className="hover:font-bold underline underline-offset-1"
-                onClick={toggleMenu}
+                className="hover:font-bold  underline underline-offset-1"
+                onClick={profile}
               >
-               {user?.firstname==null?"Espace client":user?.firstname}
+                {user?.firstname == null ? "Espace client" : user?.firstname}
               </button>
             </Link>
+            {/* Profile card */}
+            <div
+              className={`${
+                showProfile == true
+                  ? "mt-16 flex flex-col gap-5 rounded-xl absolute w-fit h-fit p-5 bg-blue-200"
+                  : "hidden"
+              }`}
+            >
+              <button onClick={profile}>
+                <Link
+                  className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-3 rounded-full bg-sky-500 text-white transition-all duration-300"
+                  to="/dashboard"
+                >
+                  Dashboard
+                </Link>
+              </button>
+              <button
+                onClick={logout}
+                className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-3 rounded-full bg-sky-500 text-white transition-all duration-300"
+              >
+                <Link to="/login">Logout</Link>
+              </button>
+            </div>
             <Link to="/simulation">
               <button
                 onClick={toggleMenu}
