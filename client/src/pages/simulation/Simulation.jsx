@@ -880,8 +880,9 @@ import React, { useState } from "react";
 const Simulation = () => {
   const [selections, setSelections] = useState({}); // Holds the user selections
   const [currentStep, setCurrentStep] = useState(0); // Tracks the current step
+  const [suggestions, setSuggestions] = useState([]); // Holds address suggestions
   const objectLength = Object.keys(selections).length;
-
+  console.log("suggestions", suggestions);
   // Handler for radio button selections
   const handleSelection = (step, itemId, itemName) => {
     setSelections((prevSelections) => ({
@@ -904,6 +905,36 @@ const Simulation = () => {
         [inputName]: value, // Store input name and value in the selections object
       },
     }));
+    if (inputName.toLowerCase().includes("address")) {
+      fetchSuggestions(value);
+    }
+  };
+
+  //fetch address suggestions
+  const fetchSuggestions = async (query) => {
+    if (!query.trim()) {
+      setSuggestions([]); // Clear suggestions if input is empty
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(
+          query
+        )}&limit=5`
+      );
+      const data = await response.json();
+      setSuggestions(data.features.map((feature) => feature.properties.label));
+    } catch (error) {
+      console.error("Error fetching address suggestions:", error);
+    }
+  };
+
+  // update suggestion address in form
+  const handleSuggestionClick = (suggestion, stepIndex, itemName) => {
+    handleInputChange(stepIndex, itemName, suggestion);
+    // Clear the suggestions array after selection
+    setSuggestions([]);
   };
 
   // Handle "Next" button click for text input steps
@@ -947,6 +978,7 @@ const Simulation = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log("form data", data);
         alert("Form submitted successfully!");
       } else {
         alert("Failed to submit the form.");
@@ -1173,6 +1205,26 @@ const Simulation = () => {
                               )
                             }
                           />
+                          {/* Display suggestions */}
+                          {suggestions.length > !0 && (
+                            <ul className="bg-white border border-gray-300 rounded-md mt-1 w-full">
+                              {suggestions.map((suggestion, index) => (
+                                <li
+                                  key={index}
+                                  className="p-2 cursor-pointer hover:bg-gray-200"
+                                  onClick={() =>
+                                    handleSuggestionClick(
+                                      suggestion,
+                                      stepIndex,
+                                      item.itemName
+                                    )
+                                  }
+                                >
+                                  {suggestion}
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                         </div>
                       )}
                     </div>
@@ -1356,20 +1408,6 @@ const simulationData = [
         itemDes: null,
         icon: null,
         Id: "cat6-item1",
-      },
-      {
-        inputType: "text",
-        itemName: "Ville",
-        itemDes: null,
-        icon: null,
-        Id: "cat6-item2",
-      },
-      {
-        inputType: "number",
-        itemName: "Code postral",
-        itemDes: null,
-        icon: null,
-        Id: "cat6-item3",
       },
     ],
   },

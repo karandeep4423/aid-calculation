@@ -399,6 +399,8 @@ const Navbar = () => {
 
   const logout = () => {
     localStorage.clear();
+    // Refresh the page (or redirect programmatically)
+    window.location.reload();
   };
 
   const toggleMenu = () => {

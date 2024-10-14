@@ -21,7 +21,6 @@ import VerifyMail from "./pages/VerifyMail";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./routes/ProtectedRoute";
-
 function AppContent() {
   const location = useLocation();
 
