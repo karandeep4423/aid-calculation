@@ -455,7 +455,7 @@ exports.primePTZ = async(req, res, next) => {
 /*
 test
 {
-    "user": "60d21b4667d0d8992e610c85",
+    "user": "6703c5a7eacd4eb5fae1de93",
     "typeSimulation": "renovation",
     "typeBenef": "Propriétaire occupant",
     "typeLogement": "Maison",

@@ -4,15 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../provider/authProvider";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loader, setLoader] = useState(false);
   const { setToken } = useAuth();
   const navigate = useNavigate();
 
-
   const handleLogin = () => {
+    setLoader(true);
     if (email && password) {
       axios
         .post("http://localhost:3001/api/auth/login", {
@@ -20,14 +22,19 @@ const LoginForm = () => {
           password: password,
         })
         .then((result) => {
-          console.log("result",result);
+          console.log("result", result);
+          setLoader(false);
           toast.success("Login successfully!");
           setToken(result.data.token);
-          localStorage.setItem('userDetails', JSON.stringify(result.data.user));
+          localStorage.setItem("userDetails", JSON.stringify(result.data.user));
           navigate("/dashboard", { replace: true });
         })
-        .catch((err) => toast.error(err.response.data.message));
+        .catch((err) => {
+          toast.error(err.response.data.message);
+          setLoader(false);
+        });
     } else {
+      setLoader(false);
       toast.error("Form is not valid");
     }
   };
@@ -76,18 +83,28 @@ const LoginForm = () => {
             Mot de passe oublié ?
           </Link>
         </div>
-        <button
-          onClick={handleLogin}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
-          type="button"
-        >
-          Me Connecter
-        </button>
+        {loader == true ? (
+          <button
+            onClick={handleLogin}
+            className="bg-blue-500 cursor-not-allowed hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+            type="button"
+          >
+            <ClipLoader className="mt-1" color="white" size={28} />
+          </button>
+        ) : (
+          <button
+            onClick={handleLogin}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+            type="button"
+          >
+            Me Connecter
+          </button>
+        )}
         <div className=" my-4 grid grid-cols-3 items-center text-black">
           <hr className="border-black" />
           <p className="text-center text-sm">OR</p>
           <hr className="border-black" />
-        </div>{" "}
+        </div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
           type="button"

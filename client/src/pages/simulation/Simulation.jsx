@@ -876,13 +876,16 @@
 // export default Simulation;
 
 import React, { useState } from "react";
+import Register from "../auth/Register";
 
 const Simulation = () => {
   const [selections, setSelections] = useState({}); // Holds the user selections
   const [currentStep, setCurrentStep] = useState(0); // Tracks the current step
   const [suggestions, setSuggestions] = useState([]); // Holds address suggestions
   const objectLength = Object.keys(selections).length;
-  console.log("suggestions", suggestions);
+  console.log("objections", objectLength);
+  const user = JSON.parse(localStorage.getItem("userDetails"));
+  console.log("user", user);
   // Handler for radio button selections
   const handleSelection = (step, itemId, itemName) => {
     setSelections((prevSelections) => ({
@@ -968,13 +971,20 @@ const Simulation = () => {
   // Submit handler
   const handleSubmit = async () => {
     try {
-      const response = await fetch("/api.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(selections),
-      });
+      const response = await fetch(
+        " http://localhost:3001/api/simulation/type-menage",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nbPers: 10,
+            revenu: 2351,
+            codePostal: "14000",
+          }),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -1140,7 +1150,7 @@ const Simulation = () => {
                   stepIndex === currentStep ? "block" : "hidden"
                 }`}
               >
-                <h2 className="font-bold">{stepData.category}</h2>
+                <span className="font-bold">{stepData.category}</span>
                 <p>{stepData.categoryDes}</p>
 
                 <div className="grid sm:grid-cols-2">
@@ -1270,6 +1280,7 @@ const Simulation = () => {
     </div>
   );
 };
+const user = JSON.parse(localStorage.getItem("userDetails"));
 
 const simulationData = [
   {
@@ -1879,6 +1890,11 @@ const simulationData = [
         Id: "cat17-item2",
       },
     ],
+  },
+  {
+    category: user == null ? <Register /> : null,
+    categoryDes: null,
+    items: [],
   },
 ];
 

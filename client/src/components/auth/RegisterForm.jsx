@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const RegisterForm = () => {
+  const [loader, setLoader] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     firstname: "",
@@ -30,7 +32,6 @@ const RegisterForm = () => {
     gender: false,
     password: false,
   });
-
   useEffect(() => {
     if (touchedFields.email) validateEmail();
   }, [formData.email, touchedFields.email]);
@@ -74,7 +75,7 @@ const RegisterForm = () => {
 
   const validateFirstname = () => {
     let errors = [];
-    if (formData.firstname.length < 2)
+    if (!formData.firstname || formData.firstname.length < 2)
       errors.push("At least 2 characters required");
     if (formData.firstname.length > 50)
       errors.push("Max 50 characters allowed");
@@ -85,7 +86,7 @@ const RegisterForm = () => {
 
   const validateLastname = () => {
     let errors = [];
-    if (formData.lastname.length < 2)
+    if (!formData.lastname || formData.lastname.length < 2)
       errors.push("At least 2 characters required");
     if (formData.lastname.length > 50) errors.push("Max 50 characters allowed");
     if (!/^[a-zA-Z]+$/.test(formData.lastname))
@@ -127,17 +128,45 @@ const RegisterForm = () => {
     );
   };
 
+  // Function to reset formData to its initial empty state
+  const resetForm = () => {
+    setFormData({
+      email: "",
+      firstname: "",
+      lastname: "",
+      phone: "",
+      gender: "",
+      password: "",
+    });
+    setTouchedFields({
+      email: false,
+      firstname: false,
+      lastname: false,
+      phone: false,
+      gender: false,
+      password: false,
+    });
+  };
+
+  //Register form data
   const handleRegister = () => {
     if (isFormValid()) {
+      setLoader(true);
       axios
         .post("http://localhost:3001/api/auth/signup", formData)
         .then((result) => {
           console.log("result signup", result);
+          setLoader(false);
+          resetForm();
           toast.success("Email verification link has been sent!");
         })
-        .catch((err) => toast.error(err.response.data.message));
+        .catch((err) => {
+          toast.error(err.response.data.message);
+          setLoader(false);
+        });
     } else {
       toast.error("Form is not valid");
+      setLoader(false);
     }
   };
 
@@ -299,14 +328,25 @@ const RegisterForm = () => {
             )}
           </div>
           <div className="flex items-center justify-between">
-            <button
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
-              onClick={handleRegister}
-              disabled={!isFormValid()}
-            >
-              Register
-            </button>
+            {loader == true ? (
+              <button
+                className="w-full cursor-not-allowed bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="button"
+                onClick={handleRegister}
+                disabled={!isFormValid()}
+              >
+                <ClipLoader className="mt-1" color="white" size={28} />
+              </button>
+            ) : (
+              <button
+                className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="button"
+                onClick={handleRegister}
+                disabled={!isFormValid()}
+              >
+                Register
+              </button>
+            )}
           </div>
           <div className=" my-4 grid grid-cols-3 items-center text-black">
             <hr className="border-black" />
