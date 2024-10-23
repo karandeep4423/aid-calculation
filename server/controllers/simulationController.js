@@ -1,456 +1,481 @@
-const createError = require('../utils/appError');
-const houseHoldType = require('../services/simulation/houseHoldType');
-const primeRenov = require('../services/simulation/primeRenov');
-const primeRenovCoprop = require('../services/simulation/primeRenovCoprop');
-const primeRenovParcAcc = require('../services/simulation/primeRenovParcAcc');
-const primeRemplChaff = require('../services/simulation/primeRemplChaff');
-const primeAdapt = require('../services/simulation/primeAdapt');
-const {householdData} = require('../validation/validation');
-const Simulation = require('../models/simulationModel');
+const createError = require("../utils/appError");
+const houseHoldType = require("../services/simulation/houseHoldType");
+const primeRenov = require("../services/simulation/primeRenov");
+const primeRenovCoprop = require("../services/simulation/primeRenovCoprop");
+const primeRenovParcAcc = require("../services/simulation/primeRenovParcAcc");
+const primeRemplChaff = require("../services/simulation/primeRemplChaff");
+const primeAdapt = require("../services/simulation/primeAdapt");
+const { householdData } = require("../validation/validation");
+const Simulation = require("../models/simulationModel");
 
+exports.householdType = async (req, res, next) => {
+  try {
+    const { error, value } = householdData.validate(req.body);
 
-exports.householdType = async(req, res, next) => {
-    try {
-        const { error, value } = householdData.validate(req.body);
-
-        if (error) {
-            return next(new createError(error.details[0].message, 400));
-        }
-
-        const { nbPers, revenu, postalCode } = value;
-        const category = houseHoldType.getCategory(nbPers, revenu, postalCode);
-
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            result: category
-        })
-    } catch (error) {
-        next(error);
+    if (error) {
+      return next(new createError(error.details[0].message, 400));
     }
+
+    const { nbPers, revenu, postalCode } = value;
+    const category = houseHoldType.getCategory(nbPers, revenu, postalCode);
+
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      result: category,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-exports.primeRenov = async(req, res, next) => {
-    try {
-        await Simulation.validate(req.body);
+exports.primeRenov = async (req, res, next) => {
+  console.log("renvo", req.body);
+  try {
+    await Simulation.validate(req.body);
 
-        const simulation = new Simulation({
-            // user: req.body.user,
-            typeSimulation: 'renovation',
-            typeBenef: req.body.typeBenef,
-            typeLogement: req.body.typeLogement,
-            natureResidence: req.body.natureResidence,
-            dureeConstruction: req.body.dureeConstruction,
-            occupation8: req.body.occupation8,
-            adresse: req.body.adresse,
-            ville: req.body.ville,
-            codePostal: req.body.codePostal,
-            region: req.body.region,
-            nbPers: req.body.nbPers,
-            revenuFiscal: req.body.revenuFiscal,
-            dpeLogement: req.body.dpeLogement,
-            travaux: req.body.travaux,
-        });
+    const simulation = new Simulation({
+      user: req.body.user,
+      typeSimulation: "renovation",
+      typeBenef: req.body.typeBenef,
+      typeLogement: req.body.typeLogement,
+      natureResidence: req.body.natureResidence,
+      dureeConstruction: req.body.dureeConstruction,
+      occupation8: req.body.occupation8,
+      adresse: req.body.adresse,
+      ville: req.body.ville,
+      codePostal: req.body.codePostal,
+      region: req.body.region,
+      nbPers: req.body.nbPers,
+      revenuFiscal: req.body.revenuFiscal,
+      dpeLogement: req.body.dpeLogement,
+      travaux: req.body.travaux,
+    });
 
-        // const { error, value } = Simulation.validate(simulation);
-        // if (error) {
-        //     return next(new createError(error.details[0].message, 400));
-        // }
+    // const { error, value } = Simulation.validate(simulation);
+    // if (error) {
+    //     return next(new createError(error.details[0].message, 400));
+    // }
 
-        const eligible = primeRenov.checkPrimeRenovElig(simulation);
-        let travaux = [];
-        if(simulation.travaux.length !== 0 && eligible === true) {
-            travaux = primeRenov.getTravauxResult(simulation.travaux, houseHoldType.getCategory(simulation.nbPers, simulation.revenuFiscal, simulation.codePostal));
-        }
-
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            result: {
-                'eligible' : eligible,
-                'travaux' : travaux,
-                'simulation': simulation
-            }
-        })
-    } catch (error) {
-        next(error);
+    const eligible = primeRenov.checkPrimeRenovElig(simulation);
+    let travauxResult = [];
+    if (simulation.travaux.length !== 0 && eligible === true) {
+      travaux = primeRenov.getTravauxResult(
+        simulation.travaux,
+        houseHoldType.getCategory(
+          simulation.nbPers,
+          simulation.revenuFiscal,
+          simulation.codePostal
+        )
+      );
     }
+    // Set eligible and travaux result in simulation
+    simulation.eligible = eligible;
+    simulation.travauxResult = travauxResult;
+
+    // Save the simulation with eligible and travaux result
+    await simulation.save();
+
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      result: {
+        eligible: eligible,
+        travauxResult: travauxResult,
+        simulation: simulation,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-
-exports.primeRenovCoprop = async(req, res, next) => {
+exports.getSimulationByUserId = async (req, res, next) => {
     try {
-        await Simulation.validate(req.body);
-
-        const simulation = new Simulation({
-            // user: req.body.user,
-            typeSimulation: 'copropriete',
-            typeBenef: req.body.typeBenef,
-            typeLogement: req.body.typeLogement,
-            natureResidence: req.body.natureResidence,
-            dureeConstruction: req.body.dureeConstruction,
-            occupation8: req.body.occupation8,
-            adresse: req.body.adresse,
-            ville: req.body.ville,
-            codePostal: req.body.codePostal,
-            region: req.body.region,
-            nbPers: req.body.nbPers,
-            revenuFiscal: req.body.revenuFiscal,
-            dpeLogement: req.body.dpeLogement,
-
-            gainEnergetique: req.body.gainEnergetique,
-            nbLogement: req.body.nbLogement,
-            nbLogementHabPrinc: req.body.nbLogementHabPrinc,
-            copImmat: req.body.copImmat,
-            n2sup8: req.body.n2sup8,
-            copNpnru: req.body.copNpnru,
-            copEstimation: req.body.copEstimation,
-            copEstimationMontant: req.body.copEstimationMontant
+      const userId = req.params.userId; // Get user ID from request params
+  
+      // Find all simulations for the provided user ID
+      const simulations = await Simulation.find({ user: userId });
+  
+      if (!simulations || simulations.length === 0) {
+        return res.status(404).json({
+          status: "error",
+          message: "No simulations found for this user.",
         });
-
-        console.log(simulation);
-
-        const eligible = primeRenovCoprop.checkPrimeRenovCopropElig(simulation);
-        // let travaux = [];
-        // if(simulation.travaux.length !== 0 && eligible === true) {
-        //     travaux = primeRenov.getTravauxResult(simulation.travaux, houseHoldType.getCategory(simulation.nbPers, simulation.revenuFiscal, simulation.codePostal));
-        // }
-
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            result: {
-                'eligible' : eligible,
-                'travaux' : travaux,
-                'simulation': simulation
-            }
-        })
+      }
+  
+      // Return the found simulations
+      res.status(200).json({
+        status: "success",
+        message: "Simulations retrieved successfully.",
+        simulations: simulations,
+      });
     } catch (error) {
-        next(error);
+      next(error);
     }
+  };
+  
+
+exports.primeRenovCoprop = async (req, res, next) => {
+  try {
+    await Simulation.validate(req.body);
+
+    const simulation = new Simulation({
+      // user: req.body.user,
+      typeSimulation: "copropriete",
+      typeBenef: req.body.typeBenef,
+      typeLogement: req.body.typeLogement,
+      natureResidence: req.body.natureResidence,
+      dureeConstruction: req.body.dureeConstruction,
+      occupation8: req.body.occupation8,
+      adresse: req.body.adresse,
+      ville: req.body.ville,
+      codePostal: req.body.codePostal,
+      region: req.body.region,
+      nbPers: req.body.nbPers,
+      revenuFiscal: req.body.revenuFiscal,
+      dpeLogement: req.body.dpeLogement,
+
+      gainEnergetique: req.body.gainEnergetique,
+      nbLogement: req.body.nbLogement,
+      nbLogementHabPrinc: req.body.nbLogementHabPrinc,
+      copImmat: req.body.copImmat,
+      n2sup8: req.body.n2sup8,
+      copNpnru: req.body.copNpnru,
+      copEstimation: req.body.copEstimation,
+      copEstimationMontant: req.body.copEstimationMontant,
+    });
+
+    console.log(simulation);
+
+    const eligible = primeRenovCoprop.checkPrimeRenovCopropElig(simulation);
+    // let travaux = [];
+    // if(simulation.travaux.length !== 0 && eligible === true) {
+    //     travaux = primeRenov.getTravauxResult(simulation.travaux, houseHoldType.getCategory(simulation.nbPers, simulation.revenuFiscal, simulation.codePostal));
+    // }
+
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      result: {
+        eligible: eligible,
+        travaux: travaux,
+        simulation: simulation,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-exports.primeRenovCopropAides = async(req, res, next) => {
-    try {
-        //await Simulation.validate(req.body);
+exports.primeRenovCopropAides = async (req, res, next) => {
+  try {
+    //await Simulation.validate(req.body);
 
-        const simulation = new Simulation({
-            // user: req.body.user,
-            gainEnergetique: req.body.gainEnergetique,
-            dpeLogement: req.body.dpeLogement,
-            dpeLogementPost: req.body.dpeLogementPost,
-            copEstimation: req.body.copEstimation,
-            copEstimationMontant: req.body.copEstimationMontant,
-        });
+    const simulation = new Simulation({
+      // user: req.body.user,
+      gainEnergetique: req.body.gainEnergetique,
+      dpeLogement: req.body.dpeLogement,
+      dpeLogementPost: req.body.dpeLogementPost,
+      copEstimation: req.body.copEstimation,
+      copEstimationMontant: req.body.copEstimationMontant,
+    });
 
-        const aides = primeRenovCoprop.primeRenovCopropAides(simulation);
+    const aides = primeRenovCoprop.primeRenovCopropAides(simulation);
 
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            result: {
-                'aides' : aides,
-                'simulation': simulation
-            }
-        })
-    } catch (error) {
-        next(error);
-    }
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      result: {
+        aides: aides,
+        simulation: simulation,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-exports.primeRenovCopropBonif = async(req, res, next) => {
-    try {
-        //await Simulation.validate(req.body);
+exports.primeRenovCopropBonif = async (req, res, next) => {
+  try {
+    //await Simulation.validate(req.body);
 
-        const simulation = new Simulation({
-            // user: req.body.user,
-            dpeLogement: req.body.dpeLogement,
-            dpeLogementPost: req.body.dpeLogementPost,
-            copEstimation: req.body.copEstimation,
-            copEstimationMontant: req.body.copEstimationMontant,
-        });
+    const simulation = new Simulation({
+      // user: req.body.user,
+      dpeLogement: req.body.dpeLogement,
+      dpeLogementPost: req.body.dpeLogementPost,
+      copEstimation: req.body.copEstimation,
+      copEstimationMontant: req.body.copEstimationMontant,
+    });
 
-        const bonification = primeRenovCoprop.primeRenovCopropBonif(simulation);
+    const bonification = primeRenovCoprop.primeRenovCopropBonif(simulation);
 
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            result: {
-                'bonification' : bonification,
-                'simulation': simulation
-            }
-        })
-    } catch (error) {
-        next(error);
-    }
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      result: {
+        bonification: bonification,
+        simulation: simulation,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-exports.primeRenovCopropBonifFrag = async(req, res, next) => {
-    try {
-        //await Simulation.validate(req.body);
+exports.primeRenovCopropBonifFrag = async (req, res, next) => {
+  try {
+    //await Simulation.validate(req.body);
 
-        const simulation = new Simulation({
-            // user: req.body.user,
-            n2sup8: req.body.n2sup8,
-            copNpnru: req.body.copNpnru,
-            copEstimationMontant: req.body.copEstimationMontant,
-        });
+    const simulation = new Simulation({
+      // user: req.body.user,
+      n2sup8: req.body.n2sup8,
+      copNpnru: req.body.copNpnru,
+      copEstimationMontant: req.body.copEstimationMontant,
+    });
 
-        const bonification = primeRenovCoprop.primeRenovCopropBonifFrag(simulation);
+    const bonification = primeRenovCoprop.primeRenovCopropBonifFrag(simulation);
 
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            result: {
-                'bonification_fragiles' : bonification,
-                'simulation': simulation
-            }
-        })
-    } catch (error) {
-        next(error);
-    }
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      result: {
+        bonification_fragiles: bonification,
+        simulation: simulation,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
+exports.primeRenovParcAcc = async (req, res, next) => {
+  try {
+    await Simulation.validate(req.body);
 
-exports.primeRenovParcAcc = async(req, res, next) => {
+    const simulation = new Simulation({
+      // user: req.body.user,
+      typeSimulation: "parc acc",
+      typeBenef: req.body.typeBenef,
+      typeLogement: req.body.typeLogement,
+      natureResidence: req.body.natureResidence,
+      dureeConstruction: req.body.dureeConstruction,
+      occupation8: req.body.occupation8,
+      adresse: req.body.adresse,
+      ville: req.body.ville,
+      codePostal: req.body.codePostal,
+      region: req.body.region,
+      nbPers: req.body.nbPers,
+      revenuFiscal: req.body.revenuFiscal,
+      dpeLogement: req.body.dpeLogement,
+      dpeLogementPost: req.body.dpeLogementPost,
+      copEstimationMontant: req.body.copEstimationMontant,
+    });
 
-    try {
-        await Simulation.validate(req.body);
-
-        const simulation = new Simulation({
-            // user: req.body.user,
-            typeSimulation: 'parc acc',
-            typeBenef: req.body.typeBenef,
-            typeLogement: req.body.typeLogement,
-            natureResidence: req.body.natureResidence,
-            dureeConstruction: req.body.dureeConstruction,
-            occupation8: req.body.occupation8,
-            adresse: req.body.adresse,
-            ville: req.body.ville,
-            codePostal: req.body.codePostal,
-            region: req.body.region,
-            nbPers: req.body.nbPers,
-            revenuFiscal: req.body.revenuFiscal,
-            dpeLogement: req.body.dpeLogement,
-            dpeLogementPost: req.body.dpeLogementPost,
-            copEstimationMontant: req.body.copEstimationMontant
-        });
-
-        const eligible = primeRenovParcAcc.checkPrimeRenovParcAccEligibilite(simulation);
-
-        if (eligible === true) {
-            const prime = primeRenovParcAcc.checkPrimeRenovParcAccPrime(simulation);
-        } else {
-            const prime = null;
-        }
-
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            result: {
-                'eligible' : eligible,
-                'prime': prime,
-                'simulation': simulation
-            }
-        })
-    } catch (error) {
-        next(error);
+    const eligible =
+      primeRenovParcAcc.checkPrimeRenovParcAccEligibilite(simulation);
+    let prime;
+    if (eligible === true) {
+      prime = primeRenovParcAcc.checkPrimeRenovParcAccPrime(simulation);
+    } else {
+      prime = null;
     }
+
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      result: {
+        eligible: eligible,
+        prime: prime,
+        simulation: simulation,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 // dosent work , missing conditions ...
-exports.primeLocAvantage = async(req, res, next) => {
+exports.primeLocAvantage = async (req, res, next) => {
+  try {
+    await Simulation.validate(req.body);
 
-    try {
-        await Simulation.validate(req.body);
+    const simulation = new Simulation({
+      // user: req.body.user,
+      typeSimulation: "loc avantage",
+      typeBenef: req.body.typeBenef,
+      typeLogement: req.body.typeLogement,
+      natureResidence: req.body.natureResidence,
+      dureeConstruction: req.body.dureeConstruction,
+      occupation8: req.body.occupation8,
+      adresse: req.body.adresse,
+      ville: req.body.ville,
+      codePostal: req.body.codePostal,
+      region: req.body.region,
+      nbPers: req.body.nbPers,
+      revenuFiscal: req.body.revenuFiscal,
+      dpeLogementPost: req.body.dpeLogementPost,
+    });
 
-        const simulation = new Simulation({
-            // user: req.body.user,
-            typeSimulation: 'loc avantage',
-            typeBenef: req.body.typeBenef,
-            typeLogement: req.body.typeLogement,
-            natureResidence: req.body.natureResidence,
-            dureeConstruction: req.body.dureeConstruction,
-            occupation8: req.body.occupation8,
-            adresse: req.body.adresse,
-            ville: req.body.ville,
-            codePostal: req.body.codePostal,
-            region: req.body.region,
-            nbPers: req.body.nbPers,
-            revenuFiscal: req.body.revenuFiscal,
-            dpeLogementPost: req.body.dpeLogementPost,
-
-        });
-
-
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            result: null
-        })
-    } catch (error) {
-        next(error);
-    }
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      result: null,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
- 
-exports.primeRemplacementChauffEligibilite = async(req, res, next) => {
+exports.primeRemplacementChauffEligibilite = async (req, res, next) => {
+  try {
+    await Simulation.validate(req.body);
 
-    try {
-        await Simulation.validate(req.body);
+    const simulation = new Simulation({
+      // user: req.body.user,
+      typeSimulation: "rempl chauff",
+      typeBenef: req.body.typeBenef,
+      typeLogement: req.body.typeLogement,
+      natureResidence: req.body.natureResidence,
+      dureeConstruction: req.body.dureeConstruction,
+      occupation8: req.body.occupation8,
+      adresse: req.body.adresse,
+      ville: req.body.ville,
+      codePostal: req.body.codePostal,
+      region: req.body.region,
+      nbPers: req.body.nbPers,
+      revenuFiscal: req.body.revenuFiscal,
+    });
 
-        const simulation = new Simulation({
-            // user: req.body.user,
-            typeSimulation: 'rempl chauff',
-            typeBenef: req.body.typeBenef,
-            typeLogement: req.body.typeLogement,
-            natureResidence: req.body.natureResidence,
-            dureeConstruction: req.body.dureeConstruction,
-            occupation8: req.body.occupation8,
-            adresse: req.body.adresse,
-            ville: req.body.ville,
-            codePostal: req.body.codePostal,
-            region: req.body.region,
-            nbPers: req.body.nbPers,
-            revenuFiscal: req.body.revenuFiscal,
-        });
+    const eligible = primeRemplChaff.primeRemplChaffCheck(simulation);
 
-        const eligible = primeRemplChaff.primeRemplChaffCheck(simulation)
-
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            eligible: eligible
-        })
-    } catch (error) {
-        next(error);
-    }
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      eligible: eligible,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-exports.primeRemplacementChauffRempl = async(req, res, next) => {
+exports.primeRemplacementChauffRempl = async (req, res, next) => {
+  try {
+    await Simulation.validate(req.body);
 
-    try {
-        await Simulation.validate(req.body);
+    const simulation = new Simulation({
+      // user: req.body.user,
+      typeSimulation: "rempl chauff",
+      typeBenef: req.body.typeBenef,
+      typeLogement: req.body.typeLogement,
+      natureResidence: req.body.natureResidence,
+      dureeConstruction: req.body.dureeConstruction,
+      occupation8: req.body.occupation8,
+      adresse: req.body.adresse,
+      ville: req.body.ville,
+      codePostal: req.body.codePostal,
+      region: req.body.region,
+      nbPers: req.body.nbPers,
+      revenuFiscal: req.body.revenuFiscal,
+      remplacementChauffage: req.body.remplacementChauffage,
+    });
 
-        const simulation = new Simulation({
-            // user: req.body.user,
-            typeSimulation: 'rempl chauff',
-            typeBenef: req.body.typeBenef,
-            typeLogement: req.body.typeLogement,
-            natureResidence: req.body.natureResidence,
-            dureeConstruction: req.body.dureeConstruction,
-            occupation8: req.body.occupation8,
-            adresse: req.body.adresse,
-            ville: req.body.ville,
-            codePostal: req.body.codePostal,
-            region: req.body.region,
-            nbPers: req.body.nbPers,
-            revenuFiscal: req.body.revenuFiscal,
-            remplacementChauffage: req.body.remplacementChauffage
-        });
-
-        const eligible = primeRemplChaff.primeRemplChaffCheck(simulation)
-        if (eligible === true) {
-            const primes = primeRemplChaff.primeRemplChauffRem(simulation)
-        } else {
-            const primes = null;
-        }
-
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            eligible: eligible,
-            primes: primes
-        })
-    } catch (error) {
-        next(error);
+    const eligible = primeRemplChaff.primeRemplChaffCheck(simulation);
+    if (eligible === true) {
+      const primes = primeRemplChaff.primeRemplChauffRem(simulation);
+    } else {
+      const primes = null;
     }
+
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      eligible: eligible,
+      primes: primes,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
+exports.primeAdapt = async (req, res, next) => {
+  try {
+    await Simulation.validate(req.body);
 
-exports.primeAdapt = async(req, res, next) => {
+    const simulation = new Simulation({
+      // user: req.body.user,
+      typeSimulation: "rempl chauff",
+      typeBenef: req.body.typeBenef,
+      typeLogement: req.body.typeLogement,
+      natureResidence: req.body.natureResidence,
+      dureeConstruction: req.body.dureeConstruction,
+      occupation8: req.body.occupation8,
+      adresse: req.body.adresse,
+      ville: req.body.ville,
+      codePostal: req.body.codePostal,
+      region: req.body.region,
+      nbPers: req.body.nbPers,
+      revenuFiscal: req.body.revenuFiscal,
+      copEstimationMontant: req.body.copEstimationMontant,
+    });
 
-    try {
-        await Simulation.validate(req.body);
-
-        const simulation = new Simulation({
-            // user: req.body.user,
-            typeSimulation: 'rempl chauff',
-            typeBenef: req.body.typeBenef,
-            typeLogement: req.body.typeLogement,
-            natureResidence: req.body.natureResidence,
-            dureeConstruction: req.body.dureeConstruction,
-            occupation8: req.body.occupation8,
-            adresse: req.body.adresse,
-            ville: req.body.ville,
-            codePostal: req.body.codePostal,
-            region: req.body.region,
-            nbPers: req.body.nbPers,
-            revenuFiscal: req.body.revenuFiscal,
-            copEstimationMontant: req.body.copEstimationMontant
-        });
-
-        const eligible = primeAdapt.checkPrimeAdaptElig(simulation)
-        if (eligible === true) {
-            const primes = primeAdapt.getPrimeAdaptResult(simulation)
-        } else {
-            const primes = null;
-        }
-
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            eligible: eligible,
-            primes: primes
-        })
-    } catch (error) {
-        next(error);
+    const eligible = primeAdapt.checkPrimeAdaptElig(simulation);
+    if (eligible === true) {
+      const primes = primeAdapt.getPrimeAdaptResult(simulation);
+    } else {
+      const primes = null;
     }
+
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      eligible: eligible,
+      primes: primes,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
+exports.primePTZ = async (req, res, next) => {
+  try {
+    await Simulation.validate(req.body);
 
-exports.primePTZ = async(req, res, next) => {
+    const simulation = new Simulation({
+      // user: req.body.user,
+      typeSimulation: "prime ptz",
+      typeBenef: req.body.typeBenef,
+      typeLogement: req.body.typeLogement,
+      natureResidence: req.body.natureResidence,
+      dureeConstruction: req.body.dureeConstruction,
+      occupation8: req.body.occupation8,
+      adresse: req.body.adresse,
+      ville: req.body.ville,
+      codePostal: req.body.codePostal,
+      region: req.body.region,
+      nbPers: req.body.nbPers,
+      revenuFiscal: req.body.revenuFiscal,
+      copEstimationMontant: req.body.copEstimationMontant,
+      dpeLogement: req.body.dpeLogement,
+      travaux: req.body.travaux,
+    });
 
-    try {
-        await Simulation.validate(req.body);
-
-        const simulation = new Simulation({
-            // user: req.body.user,
-            typeSimulation: 'prime ptz',
-            typeBenef: req.body.typeBenef,
-            typeLogement: req.body.typeLogement,
-            natureResidence: req.body.natureResidence,
-            dureeConstruction: req.body.dureeConstruction,
-            occupation8: req.body.occupation8,
-            adresse: req.body.adresse,
-            ville: req.body.ville,
-            codePostal: req.body.codePostal,
-            region: req.body.region,
-            nbPers: req.body.nbPers,
-            revenuFiscal: req.body.revenuFiscal,
-            copEstimationMontant: req.body.copEstimationMontant,
-            dpeLogement: req.body.dpeLogement,
-            travaux: req.body.travaux,
- 
-        });
-
-        const eligible = primeAdapt.checkPrimePTZElig(simulation)
-        let primes = null;
-        if (eligible === true) {
-            primes = primeAdapt.getPrimePTZResult(simulation)
-        }
-
-        res.status(200).json({
-            status: 'success',
-            message: 'success',
-            eligible: eligible,
-            primes: primes
-        })
-    } catch (error) {
-        next(error);
+    const eligible = primeAdapt.checkPrimePTZElig(simulation);
+    let primes = null;
+    if (eligible === true) {
+      primes = primeAdapt.getPrimePTZResult(simulation);
     }
-};
 
+    res.status(200).json({
+      status: "success",
+      message: "success",
+      eligible: eligible,
+      primes: primes,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 /*
 test

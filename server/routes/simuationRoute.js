@@ -21,5 +21,7 @@ router.post('/prime-remplacement-chauff/rempl', simulationController.primeRempla
 router.post('/prime-adapt', simulationController.primeAdapt);
 
 router.post('/prime-ptz', simulationController.primePTZ);
+router.get('/user/:userId', simulationController.getSimulationByUserId);
+
 
 module.exports = router;
