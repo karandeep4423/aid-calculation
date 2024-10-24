@@ -27,4 +27,31 @@ const sendVerificationEmail = async (to, verificationToken) => {
     }
 };
 
-module.exports = { sendVerificationEmail };
+const sendPasswordResetEmail = async (to, resetUrl) => {
+
+    const mailHtml = `
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Password Reset Request</title>
+        </head>
+        <body>
+            <p>Veuillez cliquer <a href="${process.env.APP_URL}/${resetUrl}">ici</a> pour changer votre password.</p>
+        </body>
+        </html>
+    `;
+
+    try {
+        await mailer.sendEmail(
+            to,
+            'Password Reset Request',
+            mailHtml
+        );
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+module.exports = { sendVerificationEmail, sendPasswordResetEmail };

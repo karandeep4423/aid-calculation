@@ -3,8 +3,10 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useAuth } from "../../provider/authProvider";
 
 const RegisterForm = () => {
+  const { setUserData } = useAuth(); // Get setUserData from context
   const [loader, setLoader] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -38,6 +40,7 @@ const RegisterForm = () => {
 
   useEffect(() => {
     if (touchedFields.firstname) validateFirstname();
+    console.log("Validating useffect firstname:", formData.firstname);
   }, [formData.firstname, touchedFields.firstname]);
 
   useEffect(() => {
@@ -75,7 +78,7 @@ const RegisterForm = () => {
 
   const validateFirstname = () => {
     let errors = [];
-    if (!formData.firstname || formData.firstname.length < 2)
+    if (formData.firstname.length < 2)
       errors.push("At least 2 characters required");
     if (formData.firstname.length > 50)
       errors.push("Max 50 characters allowed");
@@ -149,21 +152,24 @@ const RegisterForm = () => {
   };
 
   //Register form data
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (isFormValid()) {
       setLoader(true);
-      axios
-        .post("http://localhost:3001/api/auth/signup", formData)
-        .then((result) => {
-          console.log("result signup", result);
-          setLoader(false);
-          resetForm();
-          toast.success("Email verification link has been sent!");
-        })
-        .catch((err) => {
-          toast.error(err.response.data.message);
-          setLoader(false);
-        });
+      try {
+        const result = await axios.post(
+          "http://localhost:3001/api/auth/signup",
+          formData
+        );
+        console.log("result signup", result);
+        // Store user data and token in context
+        setUserData(result.data.user);
+        toast.success("Email verification link has been sent!");
+        resetForm();
+      } catch (err) {
+        toast.error(err.response?.data?.message || "An error occurred");
+      } finally {
+        setLoader(false); // Ensure loader is always reset in the end
+      }
     } else {
       toast.error("Form is not valid");
       setLoader(false);
@@ -220,10 +226,10 @@ const RegisterForm = () => {
             {errors.firstname.length > 0 && (
               <p className="text-red-500 text-xs italic">
                 {errors.firstname.map((error, index) => (
-                  <React.Fragment key={index}>
+                  <div key={index}>
                     {error}
                     <br />
-                  </React.Fragment>
+                  </div>
                 ))}
               </p>
             )}
@@ -250,10 +256,10 @@ const RegisterForm = () => {
             {errors.lastname.length > 0 && (
               <p className="text-red-500 text-xs italic">
                 {errors.lastname.map((error, index) => (
-                  <React.Fragment key={index}>
+                  <div key={index}>
                     {error}
                     <br />
-                  </React.Fragment>
+                  </div>
                 ))}
               </p>
             )}

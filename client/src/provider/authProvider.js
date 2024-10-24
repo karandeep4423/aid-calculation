@@ -7,6 +7,14 @@ const AuthProvider = ({ children }) => {
   // State to hold the authentication token
   const [token, setToken_] = useState(localStorage.getItem("token"));
 
+  // State to hold user register data
+  const [user, setUser] = useState(null);
+
+  // Function to set user register data
+  const setUserData = (userData) => {
+    setUser(userData);
+  };
+
   // Function to set the authentication token
   const setToken = (newToken) => {
     setToken_(newToken);
@@ -15,10 +23,10 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      localStorage.setItem('token',token);
+      localStorage.setItem("token", token);
     } else {
       delete axios.defaults.headers.common["Authorization"];
-      localStorage.removeItem('token')
+      localStorage.removeItem("token");
     }
   }, [token]);
 
@@ -27,8 +35,10 @@ const AuthProvider = ({ children }) => {
     () => ({
       token,
       setToken,
+      user,
+      setUserData, // Expose setUserData in context
     }),
-    [token]
+    [token,user]
   );
 
   // Provide the authentication context to the children components

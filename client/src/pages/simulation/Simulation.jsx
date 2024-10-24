@@ -879,6 +879,7 @@ import React, { useState } from "react";
 import Register from "../auth/Register";
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../../provider/authProvider";
 
 const Simulation = () => {
   const [selections, setSelections] = useState({}); // Holds the user selections
@@ -886,9 +887,10 @@ const Simulation = () => {
   const [suggestions, setSuggestions] = useState([]); // Holds address suggestions
   const objectLength = Object.keys(selections).length;
   console.log("objections", objectLength);
-  const user = JSON.parse(localStorage.getItem("userDetails"));
-  console.log("user", user?._id);
+  // const user = JSON.parse(localStorage.getItem("userDetails"));
   const navigate = useNavigate();
+  const { user } = useAuth(); // Access user data from context
+  console.log("user", user?._id);
 
   // Handler for radio button selections
   const handleSelection = (step, itemId, itemName) => {

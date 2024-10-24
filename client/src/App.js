@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 import Pages from "./pages/Pages";
 import VerifyMail from "./pages/VerifyMail";
 import "react-toastify/dist/ReactToastify.css";
@@ -45,6 +46,7 @@ function AppContent() {
         <Route path="/contact-us" element={<Contact />} />
         <Route path="about-us" element={<About />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password/:token" element={<ResetPassword />} />
         <Route path="/simulation" element={<Simulation />} />
         <Route path="/:param" element={<Pages />} />
         <Route path="/verify-email/:token" element={<VerifyMail />} />
