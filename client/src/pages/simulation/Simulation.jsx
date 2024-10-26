@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Register from "../auth/Register";
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../provider/authProvider";
 
 const Simulation = () => {
@@ -10,8 +10,10 @@ const Simulation = () => {
   const [suggestions, setSuggestions] = useState([]); // Holds address suggestions
   const objectLength = Object.keys(selections).length;
 
-  const { userID} = useAuth(); // Access user data from context
-  const user = JSON.parse(localStorage.getItem("userDetails"))||userID;
+  const { userID } = useAuth(); // Access user data from context
+  const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+  const user = userDetails?._id || userID;
+  console.log("user id", selections);
   const navigate = useNavigate();
 
   // Handler for radio button selections
@@ -101,12 +103,13 @@ const Simulation = () => {
       // Map the selections to the format expected by the backend
       const transformedData = mapSelectionsToBackend(selections);
 
-      // Check if user is not registered
-      if (!user?._id) {
-        toast.error("Register before submitting the form!"); // Corrected error message
+      // Check if the user is not registered
+      if (!user) {
+        toast.error("Please register before submitting the form!");
         return; // Early return to prevent further execution
       }
 
+      // Send a POST request with transformed data
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/simulation/prime-renov`,
         {
@@ -114,18 +117,22 @@ const Simulation = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(transformedData), // Send the transformed data
+          body: JSON.stringify(transformedData),
         }
       );
 
+      // Handle the response from the server
+      const data = await response.json();
       if (response.ok) {
-        const data = await response.json();
         toast.success("Form submitted successfully!");
-        navigate('/dashboard');
+        navigate("/dashboard");
       } else {
-        toast.error("Failed to submit the form!");
+        toast.error(
+          `Failed to submit the form: ${data.message || "Unknown error"}`
+        );
       }
     } catch (error) {
+      console.error("Error during submission:", error);
       toast.error("An error occurred while submitting the form.");
     }
   };
@@ -133,7 +140,7 @@ const Simulation = () => {
   // Function to map selections to the required backend format
   const mapSelectionsToBackend = (selections) => {
     return {
-      user: user?._id, // Example static user ID
+      user: user, // Example static user ID
       typeSimulation: "renovation",
       typeBenef: selections[1]?.itemName || "",
       typeLogement: selections[2]?.itemName || "",
@@ -144,7 +151,8 @@ const Simulation = () => {
       ville: "Paris", // Extract from the address
       codePostal: "75000", // Hardcoded example, ideally extracted from the address
       region: "Île-de-France", // Hardcoded region, ideally extracted dynamically
-      nbPers: parseInt(selections[8]?.["Ecrit nbbers "], 10) || 0,
+      nbPers:
+        parseInt(selections[8]?.["Ecrire le nombre de personnes"], 10) || 0,
       revenuFiscal: parseInt(selections[9]?.["Revenu Fiscal "], 10) || 0,
       dpeLogement: selections[7]?.itemName || "",
       travaux: parseInt(selections[10]?.Travaux, 10) || 0,
