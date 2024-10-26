@@ -91,30 +91,29 @@ exports.primeRenov = async (req, res, next) => {
 };
 
 exports.getSimulationByUserId = async (req, res, next) => {
-    try {
-      const userId = req.params.userId; // Get user ID from request params
-  
-      // Find all simulations for the provided user ID
-      const simulations = await Simulation.find({ user: userId });
-  
-      if (!simulations || simulations.length === 0) {
-        return res.status(404).json({
-          status: "error",
-          message: "No simulations found for this user.",
-        });
-      }
-  
-      // Return the found simulations
-      res.status(200).json({
-        status: "success",
-        message: "Simulations retrieved successfully.",
-        simulations: simulations,
+  try {
+    const userId = req.params.userId; // Get user ID from request params
+
+    // Find all simulations for the provided user ID
+    const simulations = await Simulation.find({ user: userId });
+
+    if (!simulations || simulations.length === 0) {
+      return res.status(404).json({
+        status: "error",
+        message: "No simulations found for this user.",
       });
-    } catch (error) {
-      next(error);
     }
-  };
-  
+
+    // Return the found simulations
+    res.status(200).json({
+      status: "success",
+      message: "Simulations retrieved successfully.",
+      simulations: simulations,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.primeRenovCoprop = async (req, res, next) => {
   try {
@@ -379,12 +378,12 @@ exports.primeRemplacementChauffRempl = async (req, res, next) => {
       revenuFiscal: req.body.revenuFiscal,
       remplacementChauffage: req.body.remplacementChauffage,
     });
-
+    let primes;
     const eligible = primeRemplChaff.primeRemplChaffCheck(simulation);
     if (eligible === true) {
-      const primes = primeRemplChaff.primeRemplChauffRem(simulation);
+      primes = primeRemplChaff.primeRemplChauffRem(simulation);
     } else {
-      const primes = null;
+      primes = null;
     }
 
     res.status(200).json({
@@ -420,10 +419,11 @@ exports.primeAdapt = async (req, res, next) => {
     });
 
     const eligible = primeAdapt.checkPrimeAdaptElig(simulation);
+    let primes;
     if (eligible === true) {
-      const primes = primeAdapt.getPrimeAdaptResult(simulation);
+      primes = primeAdapt.getPrimeAdaptResult(simulation);
     } else {
-      const primes = null;
+      primes = null;
     }
 
     res.status(200).json({

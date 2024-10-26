@@ -8,11 +8,11 @@ const AuthProvider = ({ children }) => {
   const [token, setToken_] = useState(localStorage.getItem("token"));
 
   // State to hold user register data
-  const [user, setUser] = useState(null);
+  const [userID, setUserID] = useState(null);
 
   // Function to set user register data
   const setUserData = (userData) => {
-    setUser(userData);
+    setUserID(userData);
   };
 
   // Function to set the authentication token
@@ -35,10 +35,10 @@ const AuthProvider = ({ children }) => {
     () => ({
       token,
       setToken,
-      user,
+      userID,
       setUserData, // Expose setUserData in context
     }),
-    [token,user]
+    [token,userID]
   );
 
   // Provide the authentication context to the children components

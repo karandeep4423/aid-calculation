@@ -17,7 +17,7 @@ const LoginForm = () => {
     setLoader(true);
     if (email && password) {
       axios
-        .post("http://localhost:3001/api/auth/login", {
+        .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, {
           email: email,
           password: password,
         })

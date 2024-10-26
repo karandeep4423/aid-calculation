@@ -43,6 +43,17 @@ const pagesData = [
         content:"Jusqu'à 25% d'économies d'énergie"
     }
   },
+  {
+    page: "chaudière-à-condensation",
+    h1: "Tout savoir sur l’isolation des murs intérieurs",
+    content:
+      "L’isolation des murs par l'intérieur consiste à recouvrir les façades internes d'un logement de matériau isolant. Quels sont les avantages et les inconvénients, quelle technique choisir, combien ça coûte et des aides financières existent-elles ? Voici ce qu'il faut savoir.",
+    image:"/assets/maison.png",
+    sideBox:{
+        heading:"Estimez le prix de votre isolation",
+        content:"Jusqu'à 25% d'économies d'énergie"
+    }
+  },
 ];
 
 export default pagesData;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const [expandedProjectId, setExpandedProjectId] = useState(null);
@@ -19,7 +20,7 @@ const Dashboard = () => {
   const getSimulationsByUserId = async (userId) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/simulation/user/${userId}`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/simulation/user/${userId}`,
         {
           method: "GET",
           headers: {
@@ -32,9 +33,6 @@ const Dashboard = () => {
         const data = await response.json();
         console.log("data", data.simulations);
         setSimulations(data.simulations); // Update state with the fetched simulations
-      } else {
-        const errorData = await response.json();
-        toast.error("Failed to fetch simulations: " + errorData.message);
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -55,7 +53,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
         <div
           onClick={() => toggleProject("personal-info")}
-          className="my-10 flex flex-col gap-4 items-center m-auto shadow-md bg-sky-200 h-fit w-fit p-8 rounded-2xl"
+          className="my-10 m-auto flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
         >
           <h2 className="text-2xl font-semibold">
             Mes informations personnelles
@@ -90,7 +88,7 @@ const Dashboard = () => {
                   <h2 className="text-2xl font-semibold">Mon Projet</h2>
                   <div
                     className={`transition duration-700 ease-in-out flex-col  gap-4  ' ${
-                      expandedProjectId === simulation._id  ? "flex " : "hidden"
+                      expandedProjectId === simulation._id ? "flex " : "hidden"
                     }`}
                   >
                     <div className="flex flex-col items-start gap-2">
@@ -186,7 +184,16 @@ const Dashboard = () => {
               ))}
             </ul>
           ) : (
-            <p>no data</p>
+            <div className="mb-10 sm:mb-0 sm:my-10">
+            <p className="text-2xl pb-2">Vous n'avez aucun projet.</p>
+            <Link to="/simulation">
+              <button
+                className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-3 rounded-full bg-sky-500 text-white transition-all duration-300"
+              >
+                Demander un devis
+              </button>
+            </Link>
+            </div>
           )}
         </div>
       </div>
