@@ -14,7 +14,7 @@ const VerifyMail = () => {
     try {
       // Send the verification request to the backend
       const response = await axios.get(
-        `${process.env.BACKEND_URL}/api/auth/verify-account/${token}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/verify-account/${token}`
       );
       // Update message and stop loading
       setMessage(response.data.message);
