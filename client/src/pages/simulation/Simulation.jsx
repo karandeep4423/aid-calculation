@@ -13,8 +13,8 @@ const Simulation = () => {
   const { userID } = useAuth(); // Access user data from context
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
   const user = userDetails?._id || userID;
-  console.log("user id", selections);
   const navigate = useNavigate();
+  console.log("user",user)
 
   // Handler for radio button selections
   const handleSelection = (step, itemId, itemName) => {
@@ -158,6 +158,685 @@ const Simulation = () => {
       travaux: parseInt(selections[10]?.Travaux, 10) || 0,
     };
   };
+
+  //Data of simulation
+  const simulationData = [
+    {
+      category: "Quel est votre besoin?",
+      categoryDes:
+        " Si le besoin est multiple alors il faudra réaliser 2 simulations. Avant de vous lancer dans des projets de travaux de rénovation, contactez le conseiller France Rénov’ le plus proche de chez vous et profitez gratuitement de ses conseils personnalisés pour mener à bien votre projet.",
+      items: [
+        {
+          inputType: "radio",
+          itemName: "Rénovation énergétique",
+          itemDes:
+            "Réduire ma facture d'énergie ou améliorer le confort de mon logement - Rénovation énergétique.",
+          icon: "/assets/Rénovation-énergétique.png",
+          Id: "cat1-item1",
+        },
+        {
+          inputType: "radio",
+          itemName: "Sécurité / Salubrité",
+          itemDes:
+            "Mettre mon logement aux normes de sécurité et de salubrité - Sécurité, salubrité.",
+          icon: "/assets/Sécurité.png",
+          Id: "cat1-item2",
+        },
+        {
+          inputType: "radio",
+          itemName: "Autonomie de la personne",
+          itemDes:
+            "Adapter mon logement au vieillissement ou à une situation de handicap - Autonomie.",
+          icon: "/assets/Autonomie-de-a-personne.png",
+          Id: "cat1-item3",
+        },
+      ],
+    },
+    {
+      category: "Vous êtes?",
+      categoryDes: null,
+      items: [
+        {
+          inputType: "radio",
+          itemName: "Propriétaire occupant",
+          itemDes: null,
+          icon: "/assets/Propriétaire-occupant.png",
+          Id: "cat2-item1",
+        },
+        {
+          inputType: "radio",
+          itemName: "Propriétaire bailleur",
+          itemDes: null,
+          icon: "/assets/Propriétaire-bailleur.png",
+          Id: "cat2-item2",
+        },
+        {
+          inputType: "radio",
+          itemName: "Syndicat de copropriétaires",
+          itemDes: null,
+          icon: "/assets/Syndicat-de-copropriétaires.png",
+          Id: "cat2-item3",
+        },
+      ],
+    },
+    {
+      category: "Avez-vous une maison ou un appartement?",
+      categoryDes: null,
+      items: [
+        {
+          inputType: "radio",
+          itemName: "Maison",
+          itemDes: null,
+          icon: "/assets/maison.png",
+          Id: "cat3-item1",
+        },
+        {
+          inputType: "radio",
+          itemName: "Appartement",
+          itemDes: null,
+          icon: "/assets/appartement.png",
+          Id: "cat3-item2",
+        },
+      ],
+    },
+    {
+      category:
+        "Occupez-vous votre logement à titre de résidence principale ou secondaire ?",
+      categoryDes: null,
+      items: [
+        {
+          inputType: "radio",
+          itemName: "Principale",
+          itemDes: null,
+          icon: "/assets/Résidence-principale.png",
+          Id: "cat4-item1",
+        },
+        {
+          inputType: "radio",
+          itemName: "Secondaire",
+          itemDes: null,
+          icon: "/assets/Résidence-secondaire.png",
+          Id: "cat4-item2",
+        },
+      ],
+    },
+    {
+      category: "Votre logement a été construit il y a:",
+      categoryDes: null,
+      items: [
+        {
+          inputType: "radio",
+          itemName: "Maison de 2 ans",
+          itemDes: null,
+          icon: "/assets/Maison-de-2-ans.png",
+          Id: "cat5-item1",
+        },
+        {
+          inputType: "radio",
+          itemName: "Entre 2 et 15 ans",
+          itemDes: null,
+          icon: "/assets/Entre-2-et-15-ans.png",
+          Id: "cat5-item2",
+        },
+        {
+          inputType: "radio",
+          itemName: "Plus de 15 ans",
+          itemDes: null,
+          icon: "/assets/Plus-de-15-ans.png",
+          Id: "cat5-item3",
+        },
+      ],
+    },
+    {
+      category: "Merci, quelle est l'addresse du logement pour votre projet?",
+      categoryDes: "Tous les champs sont obligatoires",
+      items: [
+        {
+          inputType: "text",
+          itemName: "Addresse",
+          itemDes: null,
+          icon: null,
+          Id: "cat6-item1",
+        },
+      ],
+    },
+    {
+      category: "Est ce que vous êtes travailliez ?",
+      categoryDes: null,
+      items: [
+        {
+          inputType: "radio",
+          itemName: "Yes",
+          itemDes: null,
+          icon: null,
+          Id: "cartL-1",
+        },
+        {
+          inputType: "radio",
+          itemName: "No",
+          itemDes: null,
+          icon: null,
+          Id: "cartL-2",
+        },
+      ],
+    },
+    {
+      category: "Quelle est la note DPE de votre logement?",
+      categoryDes:
+        "Cette information nous permettra d'estimer plus précisement les aides pour votre projet.",
+      items: [
+        {
+          inputType: "radio",
+          itemName: "A",
+          itemDes: "Etiquette",
+          icon: "/assets/maison.png",
+          Id: "cat7-item1",
+        },
+        {
+          inputType: "radio",
+          itemName: "B",
+          itemDes: "Etiquette",
+          icon: "/assets/maison.png",
+          Id: "cat7-item2",
+        },
+        {
+          inputType: "radio",
+          itemName: "C",
+          itemDes: "Etiquette",
+          icon: "/assets/maison.png",
+          Id: "cat7-item3",
+        },
+        {
+          inputType: "radio",
+          itemName: "D",
+          itemDes: "Etiquette",
+          icon: "/assets/maison.png",
+          Id: "cat7-item4",
+        },
+        {
+          inputType: "radio",
+          itemName: "E",
+          itemDes: "Etiquette",
+          icon: "/assets/maison.png",
+          Id: "cat7-item5",
+        },
+        {
+          inputType: "radio",
+          itemName: "F",
+          itemDes: "Etiquette",
+          icon: "/assets/maison.png",
+          Id: "cat7-item6",
+        },
+        {
+          inputType: "radio",
+          itemName: "G",
+          itemDes: "Etiquette",
+          icon: "/assets/maison.png",
+          Id: "cat7-item7",
+        },
+        {
+          inputType: "radio",
+          itemName: "?",
+          itemDes: "Je ne sais pas",
+          icon: "/assets/question.png",
+          Id: "cat7-item8",
+        },
+      ],
+    },
+    {
+      category: null,
+      categoryDes: null,
+      items: [
+        {
+          inputType: "number",
+          inputLabel: "Ecrire le nombre de personnes:*",
+          itemName: "Ecrire le nombre de personnes",
+          itemDes: null,
+          icon: null,
+          Id: "cartO-item1",
+        },
+      ],
+    },
+    {
+      category: null,
+      categoryDes: null,
+      items: [
+        {
+          inputType: "number",
+          inputLabel: "Revenu Fiscal :*",
+          itemName: "Revenu Fiscal ",
+          itemDes: null,
+          icon: null,
+          Id: "cartM-item1",
+        },
+      ],
+    },
+    {
+      category: null,
+      categoryDes: null,
+      items: [
+        {
+          inputType: "number",
+          inputLabel: "Travaux :*",
+          itemName: "Travaux",
+          itemDes: null,
+          icon: null,
+          Id: "cartL-item1",
+        },
+      ],
+    },
+    // {
+    //   category: "Quelle est votre situation financiére?",
+    //   categoryDes:
+    //     "Ces informations vous sont demandées pour définir votre éligibilité aux aides France Rénov",
+    //   items: [
+    //     {
+    //       inputType: "text",
+    //       inputLabel: "Revenu fiscal de référence du foyer :*",
+    //       itemName: "Revenu fiscal",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat8-item1",
+    //     },
+    //     {
+    //       inputType: "number",
+    //       inputLabel: "Nombre de personnes composant le foyer :*",
+    //       itemName: "Nombre de personnes",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat8-item2",
+    //     },
+    //     {
+    //       inputType: "number",
+    //       itemName:
+    //         "Quel est le nombre de logements constituant votre copropriété ?",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat8-item4",
+    //     },
+    //     {
+    //       inputType: "number",
+    //       itemName:
+    //         "Quel est le nombre de logements dédiés à l’usage de l’habitation principale ?",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat8-item5",
+    //     },
+    //     {
+    //       inputType: "text",
+    //       itemName:
+    //         "La copropriété est immatriculée et à jour annuellement au registre national des copropriétés:",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat8-item6",
+    //     },
+    //     {
+    //       inputType: "text",
+    //       itemName:
+    //         "Le taux d’impayés par rapport au budget de l’année N-2 est supérieur à 8%:",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat8-item7",
+    //     },
+    //     {
+    //       inputType: "text",
+    //       itemName:
+    //         "La copropriété est-elle située dans un quartier NPNRU*: Nouveau",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat8-item8",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category: "Vous êtes?",
+    //   categoryDes: null,
+    //   items: [
+    //     {
+    //       inputType: "radio",
+    //       itemName:
+    //         "Je m'engage à louer votre logement à des locataires aux revenus modestes (pas un membre de ma famille ou de mon foyer fiscal).",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat9-item1",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName:
+    //         "Je suis prêt à louer mon bien avec un niveau de loyer plafonné.",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat9-item2",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName:
+    //         "Mon logement sera loué à usage de résidence principale de locataire.",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat9-item3",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category:
+    //     "L'un des membres de votre foyer correspond-il aux critères suivants ?*",
+    //   categoryDes: "Plusieurs réponses possibles",
+    //   items: [
+    //     {
+    //       inputType: "radio",
+    //       itemName:
+    //         "Âgé de 60 à 69 ans sur conditions de GIR (groupe iso-ressources de 1 à 6)",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat10-item1",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Âgé de 70 ans ou plus",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat10-item2",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName:
+    //         "A un taux d'incapacité égal ou supérieur à 50% ou bénéficie de la Prestation de Compensation du Handicap (PCH)",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat10-item3",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Aucune de ces situations",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat10-item4",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category: "Isolation?",
+    //   categoryDes: null,
+    //   items: [
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Isolation des combles",
+    //       itemDes: null,
+    //       icon: "/assets/isolation-des-combles.png",
+    //       Id: "cat11-item1",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "isolation des murs",
+    //       itemDes: null,
+    //       icon: "/assets/isolation-des-murs.png",
+    //       Id: "cat11-item2",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Isolation des sol",
+    //       itemDes: null,
+    //       icon: "/assets/Isolation-des-sol.jpg",
+    //       Id: "cat11-item3",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Fenêtres/Porte-fenêtres",
+    //       itemDes: null,
+    //       icon: "/assets/Fenêtres.jpg",
+    //       Id: "cat11-item4",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Isolation d'une Toiture-Terrasse",
+    //       itemDes: null,
+    //       icon: "/assets/Isolation-Terrasse.png",
+    //       Id: "cat11-item5",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category: "Pompe à chaleur / chauffage sanitaire",
+    //   categoryDes: null,
+    //   items: [
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Pompe à chaleur Air/eau",
+    //       itemDes: null,
+    //       icon: "/assets/Pompe-à-chaleur-air.png",
+    //       Id: "cat12-item1",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Pompe à chaleur Air/eau",
+    //       itemDes: null,
+    //       icon: "/assets/Pompe-à-chaleur-eau.png",
+    //       Id: "cat12-item2",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Pompe à chaleur géothermique",
+    //       itemDes: null,
+    //       icon: "/assets/Pompe-à-chaleur-géothermique.png",
+    //       Id: "cat12-item3",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Pompe à chaleur hybride",
+    //       itemDes: null,
+    //       icon: "/maison.png",
+    //       Id: "cat12-item4",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category: "Chauffage traditionnel",
+    //   categoryDes: null,
+    //   items: [
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Chaudière fioul à condensation",
+    //       itemDes: null,
+    //       icon: "/assets/Chaudière-fioul-à-condensation.png",
+    //       Id: "cat13-item1",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Chaudière gaz à condensation",
+    //       itemDes: null,
+    //       icon: "/assets/Chaudière-gaz-à-condensation.png",
+    //       Id: "cat13-item2",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Chaudière au charbon à condensation",
+    //       itemDes: null,
+    //       icon: "/assets/Chaudière-au-charbon-à-condensation.png",
+    //       Id: "cat13-item3",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category: "Chauffage à bois",
+    //   categoryDes: null,
+    //   items: [
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Chaudière bois à bûches",
+    //       itemDes: null,
+    //       icon: "/assets/Chaudière-bois-à-bûches.png",
+    //       Id: "cat14-item1",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Chaudière bois à granulés/plaquettes",
+    //       itemDes: null,
+    //       icon: "/assets/Chaudière-bois-à-plaquettes.png",
+    //       Id: "cat14-item2",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Insert à bûches ou granulés",
+    //       itemDes: null,
+    //       icon: "/assets/Insert-à-bûches-ou-granulés.png",
+    //       Id: "cat14-item3",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Poêle à bûches ou granulés",
+    //       itemDes: null,
+    //       icon: "/assets/Poêle-à-bûches-ou-granulés.png",
+    //       Id: "cat14-item4",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category: "Système solaire",
+    //   categoryDes: null,
+    //   items: [
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Panneaux solaires photovoltaïques",
+    //       itemDes: null,
+    //       icon: "/assets/Panneaux-solaires-photovoltaïques.jpg",
+    //       Id: "cat15-item1",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Système solaire combiné",
+    //       itemDes: null,
+    //       icon: "/assets/Système-solaire-combiné.png",
+    //       Id: "cat15-item2",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Chauffe-eau thermodynamique",
+    //       itemDes: null,
+    //       icon: "/assets/Chauffe-eau-thermodynamique.png",
+    //       Id: "cat15-item3",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Chauffe-eau solaire individuel",
+    //       itemDes: null,
+    //       icon: "/assets/Chauffe-eau-solaire-individuel.jpg",
+    //       Id: "cat15-item4",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category: null,
+    //   categoryDes: null,
+    //   items: [
+    //     {
+    //       inputType: "radio",
+    //       itemName:
+    //         "Je souhaite remplacer une chaudière individuelle au charbon, au fioul ou au gaz.",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat16-item1",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Non, je ne souhaite effectuer aucun remplacement.",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat16-item2",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category: "Isolation des murs ?",
+    //   categoryDes: null,
+    //   items: [
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Isolation intérieure",
+    //       itemDes: null,
+    //       icon: "/assets/Isolation-intérieure.png",
+    //       Id: "cat16-item1",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Isolation extérieure",
+    //       itemDes: null,
+    //       icon: "/assets/Isolation-extérieure.png",
+    //       Id: "cat16-item2",
+    //     },
+    //     {
+    //       inputType: "radio",
+    //       itemName: "Je ne sais pas",
+    //       itemDes: null,
+    //       icon: "/assets/question.png",
+    //       Id: "cat16-item3",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category: null,
+    //   categoryDes: null,
+    //   items: [
+    //     {
+    //       inputType: "number",
+    //       itemName: "Quelle est la surface approximative de murs à isoler?",
+    //       itemDes: "Surface en m",
+    //       icon: null,
+    //       Id: "cat17-item1",
+    //     },
+    //     {
+    //       inputType: "number",
+    //       itemName:
+    //         "Fenêtre/ Portes-fenêtre Combien de fenetres souhaitez-vous remplacer?",
+    //       itemDes: "Nombre total de Fenêtre/ Portes-fenêtres",
+    //       icon: null,
+    //       Id: "cat17-item2",
+    //     },
+    //     {
+    //       inputType: "number",
+    //       itemName:
+    //         "isolation des murs Quelle est la surface approximative de combles à isoler?",
+    //       itemDes: "Nombre total de Fenêtre/ Portes-fenêtres",
+    //       icon: null,
+    //       Id: "cat17-item3",
+    //     },
+    //     {
+    //       inputType: "number",
+    //       itemName:
+    //         "Isolation des toitures terrasses Quelle est la surface toiture terrasse à isoler?",
+    //       itemDes: "Nombre total de Fenêtre/ Portes-fenêtres",
+    //       icon: null,
+    //       Id: "cat17-item4",
+    //     },
+    //   ],
+    // },
+    // {
+    //   category: null,
+    //   categoryDes: null,
+    //   items: [
+    //     {
+    //       inputType: "text",
+    //       itemName:
+    //         "Avez-vous une estimation du montant des travaux à réaliser ?",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat17-item1",
+    //     },
+    //     {
+    //       inputType: "text",
+    //       itemName: "Quel est le montant estimatif des travaux ?",
+    //       itemDes: null,
+    //       icon: null,
+    //       Id: "cat17-item2",
+    //     },
+    //   ],
+    // },
+    {
+      category: user === null ? <Register /> : null,
+      categoryDes: null,
+      items: [],
+    },
+  ];
 
   return (
     <div className="h-auto sm:h-screen overflow-hidden">
@@ -439,686 +1118,7 @@ const Simulation = () => {
         </div>
       </div>
     </div>
-  );
+  );  
 };
-const user = JSON.parse(localStorage.getItem("userDetails"));
-
-const simulationData = [
-  {
-    category: "Quel est votre besoin?",
-    categoryDes:
-      " Si le besoin est multiple alors il faudra réaliser 2 simulations. Avant de vous lancer dans des projets de travaux de rénovation, contactez le conseiller France Rénov’ le plus proche de chez vous et profitez gratuitement de ses conseils personnalisés pour mener à bien votre projet.",
-    items: [
-      {
-        inputType: "radio",
-        itemName: "Rénovation énergétique",
-        itemDes:
-          "Réduire ma facture d'énergie ou améliorer le confort de mon logement - Rénovation énergétique.",
-        icon: "/assets/Rénovation-énergétique.png",
-        Id: "cat1-item1",
-      },
-      {
-        inputType: "radio",
-        itemName: "Sécurité / Salubrité",
-        itemDes:
-          "Mettre mon logement aux normes de sécurité et de salubrité - Sécurité, salubrité.",
-        icon: "/assets/Sécurité.png",
-        Id: "cat1-item2",
-      },
-      {
-        inputType: "radio",
-        itemName: "Autonomie de la personne",
-        itemDes:
-          "Adapter mon logement au vieillissement ou à une situation de handicap - Autonomie.",
-        icon: "/assets/Autonomie-de-a-personne.png",
-        Id: "cat1-item3",
-      },
-    ],
-  },
-  {
-    category: "Vous êtes?",
-    categoryDes: null,
-    items: [
-      {
-        inputType: "radio",
-        itemName: "Propriétaire occupant",
-        itemDes: null,
-        icon: "/assets/Propriétaire-occupant.png",
-        Id: "cat2-item1",
-      },
-      {
-        inputType: "radio",
-        itemName: "Propriétaire bailleur",
-        itemDes: null,
-        icon: "/assets/Propriétaire-bailleur.png",
-        Id: "cat2-item2",
-      },
-      {
-        inputType: "radio",
-        itemName: "Syndicat de copropriétaires",
-        itemDes: null,
-        icon: "/assets/Syndicat-de-copropriétaires.png",
-        Id: "cat2-item3",
-      },
-    ],
-  },
-  {
-    category: "Avez-vous une maison ou un appartement?",
-    categoryDes: null,
-    items: [
-      {
-        inputType: "radio",
-        itemName: "Maison",
-        itemDes: null,
-        icon: "/assets/maison.png",
-        Id: "cat3-item1",
-      },
-      {
-        inputType: "radio",
-        itemName: "Appartement",
-        itemDes: null,
-        icon: "/assets/appartement.png",
-        Id: "cat3-item2",
-      },
-    ],
-  },
-  {
-    category:
-      "Occupez-vous votre logement à titre de résidence principale ou secondaire ?",
-    categoryDes: null,
-    items: [
-      {
-        inputType: "radio",
-        itemName: "Principale",
-        itemDes: null,
-        icon: "/assets/Résidence-principale.png",
-        Id: "cat4-item1",
-      },
-      {
-        inputType: "radio",
-        itemName: "Secondaire",
-        itemDes: null,
-        icon: "/assets/Résidence-secondaire.png",
-        Id: "cat4-item2",
-      },
-    ],
-  },
-  {
-    category: "Votre logement a été construit il y a:",
-    categoryDes: null,
-    items: [
-      {
-        inputType: "radio",
-        itemName: "Maison de 2 ans",
-        itemDes: null,
-        icon: "/assets/Maison-de-2-ans.png",
-        Id: "cat5-item1",
-      },
-      {
-        inputType: "radio",
-        itemName: "Entre 2 et 15 ans",
-        itemDes: null,
-        icon: "/assets/Entre-2-et-15-ans.png",
-        Id: "cat5-item2",
-      },
-      {
-        inputType: "radio",
-        itemName: "Plus de 15 ans",
-        itemDes: null,
-        icon: "/assets/Plus-de-15-ans.png",
-        Id: "cat5-item3",
-      },
-    ],
-  },
-  {
-    category: "Merci, quelle est l'addresse du logement pour votre projet?",
-    categoryDes: "Tous les champs sont obligatoires",
-    items: [
-      {
-        inputType: "text",
-        itemName: "Addresse",
-        itemDes: null,
-        icon: null,
-        Id: "cat6-item1",
-      },
-    ],
-  },
-  {
-    category: "Est ce que vous êtes travailliez ?",
-    categoryDes: null,
-    items: [
-      {
-        inputType: "radio",
-        itemName: "Yes",
-        itemDes: null,
-        icon: null,
-        Id: "cartL-1",
-      },
-      {
-        inputType: "radio",
-        itemName: "No",
-        itemDes: null,
-        icon: null,
-        Id: "cartL-2",
-      },
-    ],
-  },
-  {
-    category: "Quelle est la note DPE de votre logement?",
-    categoryDes:
-      "Cette information nous permettra d'estimer plus précisement les aides pour votre projet.",
-    items: [
-      {
-        inputType: "radio",
-        itemName: "A",
-        itemDes: "Etiquette",
-        icon: "/assets/maison.png",
-        Id: "cat7-item1",
-      },
-      {
-        inputType: "radio",
-        itemName: "B",
-        itemDes: "Etiquette",
-        icon: "/assets/maison.png",
-        Id: "cat7-item2",
-      },
-      {
-        inputType: "radio",
-        itemName: "C",
-        itemDes: "Etiquette",
-        icon: "/assets/maison.png",
-        Id: "cat7-item3",
-      },
-      {
-        inputType: "radio",
-        itemName: "D",
-        itemDes: "Etiquette",
-        icon: "/assets/maison.png",
-        Id: "cat7-item4",
-      },
-      {
-        inputType: "radio",
-        itemName: "E",
-        itemDes: "Etiquette",
-        icon: "/assets/maison.png",
-        Id: "cat7-item5",
-      },
-      {
-        inputType: "radio",
-        itemName: "F",
-        itemDes: "Etiquette",
-        icon: "/assets/maison.png",
-        Id: "cat7-item6",
-      },
-      {
-        inputType: "radio",
-        itemName: "G",
-        itemDes: "Etiquette",
-        icon: "/assets/maison.png",
-        Id: "cat7-item7",
-      },
-      {
-        inputType: "radio",
-        itemName: "?",
-        itemDes: "Je ne sais pas",
-        icon: "/assets/question.png",
-        Id: "cat7-item8",
-      },
-    ],
-  },
-  {
-    category: null,
-    categoryDes: null,
-    items: [
-      {
-        inputType: "number",
-        inputLabel: "Ecrire le nombre de personnes:*",
-        itemName: "Ecrire le nombre de personnes",
-        itemDes: null,
-        icon: null,
-        Id: "cartO-item1",
-      },
-    ],
-  },
-  {
-    category: null,
-    categoryDes: null,
-    items: [
-      {
-        inputType: "number",
-        inputLabel: "Revenu Fiscal :*",
-        itemName: "Revenu Fiscal ",
-        itemDes: null,
-        icon: null,
-        Id: "cartM-item1",
-      },
-    ],
-  },
-  {
-    category: null,
-    categoryDes: null,
-    items: [
-      {
-        inputType: "number",
-        inputLabel: "Travaux :*",
-        itemName: "Travaux",
-        itemDes: null,
-        icon: null,
-        Id: "cartL-item1",
-      },
-    ],
-  },
-  // {
-  //   category: "Quelle est votre situation financiére?",
-  //   categoryDes:
-  //     "Ces informations vous sont demandées pour définir votre éligibilité aux aides France Rénov",
-  //   items: [
-  //     {
-  //       inputType: "text",
-  //       inputLabel: "Revenu fiscal de référence du foyer :*",
-  //       itemName: "Revenu fiscal",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat8-item1",
-  //     },
-  //     {
-  //       inputType: "number",
-  //       inputLabel: "Nombre de personnes composant le foyer :*",
-  //       itemName: "Nombre de personnes",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat8-item2",
-  //     },
-  //     {
-  //       inputType: "number",
-  //       itemName:
-  //         "Quel est le nombre de logements constituant votre copropriété ?",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat8-item4",
-  //     },
-  //     {
-  //       inputType: "number",
-  //       itemName:
-  //         "Quel est le nombre de logements dédiés à l’usage de l’habitation principale ?",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat8-item5",
-  //     },
-  //     {
-  //       inputType: "text",
-  //       itemName:
-  //         "La copropriété est immatriculée et à jour annuellement au registre national des copropriétés:",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat8-item6",
-  //     },
-  //     {
-  //       inputType: "text",
-  //       itemName:
-  //         "Le taux d’impayés par rapport au budget de l’année N-2 est supérieur à 8%:",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat8-item7",
-  //     },
-  //     {
-  //       inputType: "text",
-  //       itemName:
-  //         "La copropriété est-elle située dans un quartier NPNRU*: Nouveau",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat8-item8",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category: "Vous êtes?",
-  //   categoryDes: null,
-  //   items: [
-  //     {
-  //       inputType: "radio",
-  //       itemName:
-  //         "Je m'engage à louer votre logement à des locataires aux revenus modestes (pas un membre de ma famille ou de mon foyer fiscal).",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat9-item1",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName:
-  //         "Je suis prêt à louer mon bien avec un niveau de loyer plafonné.",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat9-item2",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName:
-  //         "Mon logement sera loué à usage de résidence principale de locataire.",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat9-item3",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category:
-  //     "L'un des membres de votre foyer correspond-il aux critères suivants ?*",
-  //   categoryDes: "Plusieurs réponses possibles",
-  //   items: [
-  //     {
-  //       inputType: "radio",
-  //       itemName:
-  //         "Âgé de 60 à 69 ans sur conditions de GIR (groupe iso-ressources de 1 à 6)",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat10-item1",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Âgé de 70 ans ou plus",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat10-item2",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName:
-  //         "A un taux d'incapacité égal ou supérieur à 50% ou bénéficie de la Prestation de Compensation du Handicap (PCH)",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat10-item3",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Aucune de ces situations",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat10-item4",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category: "Isolation?",
-  //   categoryDes: null,
-  //   items: [
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Isolation des combles",
-  //       itemDes: null,
-  //       icon: "/assets/isolation-des-combles.png",
-  //       Id: "cat11-item1",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "isolation des murs",
-  //       itemDes: null,
-  //       icon: "/assets/isolation-des-murs.png",
-  //       Id: "cat11-item2",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Isolation des sol",
-  //       itemDes: null,
-  //       icon: "/assets/Isolation-des-sol.jpg",
-  //       Id: "cat11-item3",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Fenêtres/Porte-fenêtres",
-  //       itemDes: null,
-  //       icon: "/assets/Fenêtres.jpg",
-  //       Id: "cat11-item4",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Isolation d'une Toiture-Terrasse",
-  //       itemDes: null,
-  //       icon: "/assets/Isolation-Terrasse.png",
-  //       Id: "cat11-item5",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category: "Pompe à chaleur / chauffage sanitaire",
-  //   categoryDes: null,
-  //   items: [
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Pompe à chaleur Air/eau",
-  //       itemDes: null,
-  //       icon: "/assets/Pompe-à-chaleur-air.png",
-  //       Id: "cat12-item1",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Pompe à chaleur Air/eau",
-  //       itemDes: null,
-  //       icon: "/assets/Pompe-à-chaleur-eau.png",
-  //       Id: "cat12-item2",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Pompe à chaleur géothermique",
-  //       itemDes: null,
-  //       icon: "/assets/Pompe-à-chaleur-géothermique.png",
-  //       Id: "cat12-item3",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Pompe à chaleur hybride",
-  //       itemDes: null,
-  //       icon: "/maison.png",
-  //       Id: "cat12-item4",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category: "Chauffage traditionnel",
-  //   categoryDes: null,
-  //   items: [
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Chaudière fioul à condensation",
-  //       itemDes: null,
-  //       icon: "/assets/Chaudière-fioul-à-condensation.png",
-  //       Id: "cat13-item1",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Chaudière gaz à condensation",
-  //       itemDes: null,
-  //       icon: "/assets/Chaudière-gaz-à-condensation.png",
-  //       Id: "cat13-item2",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Chaudière au charbon à condensation",
-  //       itemDes: null,
-  //       icon: "/assets/Chaudière-au-charbon-à-condensation.png",
-  //       Id: "cat13-item3",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category: "Chauffage à bois",
-  //   categoryDes: null,
-  //   items: [
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Chaudière bois à bûches",
-  //       itemDes: null,
-  //       icon: "/assets/Chaudière-bois-à-bûches.png",
-  //       Id: "cat14-item1",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Chaudière bois à granulés/plaquettes",
-  //       itemDes: null,
-  //       icon: "/assets/Chaudière-bois-à-plaquettes.png",
-  //       Id: "cat14-item2",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Insert à bûches ou granulés",
-  //       itemDes: null,
-  //       icon: "/assets/Insert-à-bûches-ou-granulés.png",
-  //       Id: "cat14-item3",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Poêle à bûches ou granulés",
-  //       itemDes: null,
-  //       icon: "/assets/Poêle-à-bûches-ou-granulés.png",
-  //       Id: "cat14-item4",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category: "Système solaire",
-  //   categoryDes: null,
-  //   items: [
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Panneaux solaires photovoltaïques",
-  //       itemDes: null,
-  //       icon: "/assets/Panneaux-solaires-photovoltaïques.jpg",
-  //       Id: "cat15-item1",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Système solaire combiné",
-  //       itemDes: null,
-  //       icon: "/assets/Système-solaire-combiné.png",
-  //       Id: "cat15-item2",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Chauffe-eau thermodynamique",
-  //       itemDes: null,
-  //       icon: "/assets/Chauffe-eau-thermodynamique.png",
-  //       Id: "cat15-item3",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Chauffe-eau solaire individuel",
-  //       itemDes: null,
-  //       icon: "/assets/Chauffe-eau-solaire-individuel.jpg",
-  //       Id: "cat15-item4",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category: null,
-  //   categoryDes: null,
-  //   items: [
-  //     {
-  //       inputType: "radio",
-  //       itemName:
-  //         "Je souhaite remplacer une chaudière individuelle au charbon, au fioul ou au gaz.",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat16-item1",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Non, je ne souhaite effectuer aucun remplacement.",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat16-item2",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category: "Isolation des murs ?",
-  //   categoryDes: null,
-  //   items: [
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Isolation intérieure",
-  //       itemDes: null,
-  //       icon: "/assets/Isolation-intérieure.png",
-  //       Id: "cat16-item1",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Isolation extérieure",
-  //       itemDes: null,
-  //       icon: "/assets/Isolation-extérieure.png",
-  //       Id: "cat16-item2",
-  //     },
-  //     {
-  //       inputType: "radio",
-  //       itemName: "Je ne sais pas",
-  //       itemDes: null,
-  //       icon: "/assets/question.png",
-  //       Id: "cat16-item3",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category: null,
-  //   categoryDes: null,
-  //   items: [
-  //     {
-  //       inputType: "number",
-  //       itemName: "Quelle est la surface approximative de murs à isoler?",
-  //       itemDes: "Surface en m",
-  //       icon: null,
-  //       Id: "cat17-item1",
-  //     },
-  //     {
-  //       inputType: "number",
-  //       itemName:
-  //         "Fenêtre/ Portes-fenêtre Combien de fenetres souhaitez-vous remplacer?",
-  //       itemDes: "Nombre total de Fenêtre/ Portes-fenêtres",
-  //       icon: null,
-  //       Id: "cat17-item2",
-  //     },
-  //     {
-  //       inputType: "number",
-  //       itemName:
-  //         "isolation des murs Quelle est la surface approximative de combles à isoler?",
-  //       itemDes: "Nombre total de Fenêtre/ Portes-fenêtres",
-  //       icon: null,
-  //       Id: "cat17-item3",
-  //     },
-  //     {
-  //       inputType: "number",
-  //       itemName:
-  //         "Isolation des toitures terrasses Quelle est la surface toiture terrasse à isoler?",
-  //       itemDes: "Nombre total de Fenêtre/ Portes-fenêtres",
-  //       icon: null,
-  //       Id: "cat17-item4",
-  //     },
-  //   ],
-  // },
-  // {
-  //   category: null,
-  //   categoryDes: null,
-  //   items: [
-  //     {
-  //       inputType: "text",
-  //       itemName:
-  //         "Avez-vous une estimation du montant des travaux à réaliser ?",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat17-item1",
-  //     },
-  //     {
-  //       inputType: "text",
-  //       itemName: "Quel est le montant estimatif des travaux ?",
-  //       itemDes: null,
-  //       icon: null,
-  //       Id: "cat17-item2",
-  //     },
-  //   ],
-  // },
-  {
-    category: user == null ? <Register /> : null,
-    categoryDes: null,
-    items: [],
-  },
-];
 
 export default Simulation;
