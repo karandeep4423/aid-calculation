@@ -3,18 +3,20 @@ import Register from "../auth/Register";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../provider/authProvider";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Simulation = () => {
   const [selections, setSelections] = useState({}); // Holds the user selections
   const [currentStep, setCurrentStep] = useState(0); // Tracks the current step
   const [suggestions, setSuggestions] = useState([]); // Holds address suggestions
+  const [loader, setLoader] = useState(false);
   const objectLength = Object.keys(selections).length;
 
   const { userID } = useAuth(); // Access user data from context
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
   const user = userDetails?._id || userID;
   const navigate = useNavigate();
-  console.log("user",user)
+  console.log("user", user);
 
   // Handler for radio button selections
   const handleSelection = (step, itemId, itemName) => {
@@ -108,7 +110,7 @@ const Simulation = () => {
         toast.error("Please register before submitting the form!");
         return; // Early return to prevent further execution
       }
-
+      setLoader(true);
       // Send a POST request with transformed data
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/simulation/prime-renov`,
@@ -125,14 +127,18 @@ const Simulation = () => {
       const data = await response.json();
       if (response.ok) {
         toast.success("Form submitted successfully!");
+        setLoader(false);
+        setSelections({});
         navigate("/dashboard");
       } else {
+        setLoader(false);
         toast.error(
           `Failed to submit the form: ${data.message || "Unknown error"}`
         );
       }
     } catch (error) {
       console.error("Error during submission:", error);
+      setLoader(false);
       toast.error("An error occurred while submitting the form.");
     }
   };
@@ -1105,10 +1111,18 @@ const Simulation = () => {
                 >
                   Next
                 </button>
+              ) : loader == true ? (
+                <button
+                  className="bg-green-500 w-full cursor-not-allowed hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-10 py-3 rounded-full  text-white transition-all duration-300"
+                  type="button"
+                >
+                  <ClipLoader className="mt-1" color="white" size={28} />
+                </button>
               ) : (
                 <button
-                  className="bg-green-500 hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-10 py-3 rounded-full  text-white transition-all duration-300"
                   onClick={handleSubmit}
+                  className="bg-green-500  w-full hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-10 py-3 rounded-full  text-white transition-all duration-300"
+                  type="button"
                 >
                   Submit
                 </button>
@@ -1118,7 +1132,7 @@ const Simulation = () => {
         </div>
       </div>
     </div>
-  );  
+  );
 };
 
 export default Simulation;

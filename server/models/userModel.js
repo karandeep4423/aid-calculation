@@ -76,7 +76,7 @@ const userSchema = new mongoose.Schema({
   // Added fields for forgot password functionality
   resetPasswordToken: String,
   resetPasswordExpiresAt: Date,
-});
+},{ timestamps: true });
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

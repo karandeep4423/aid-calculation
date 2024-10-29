@@ -22,6 +22,8 @@ router.post('/prime-adapt', simulationController.primeAdapt);
 
 router.post('/prime-ptz', simulationController.primePTZ);
 router.get('/user/:userId', simulationController.getSimulationByUserId);
+router.get('/admin', simulationController.getSimulationByAdmin);
+
 
 
 module.exports = router;

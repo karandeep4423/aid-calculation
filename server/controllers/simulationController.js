@@ -7,6 +7,7 @@ const primeRemplChaff = require("../services/simulation/primeRemplChaff");
 const primeAdapt = require("../services/simulation/primeAdapt");
 const { householdData } = require("../validation/validation");
 const Simulation = require("../models/simulationModel");
+const User = require("../models/userModel");
 
 exports.householdType = async (req, res, next) => {
   try {
@@ -95,7 +96,7 @@ exports.getSimulationByUserId = async (req, res, next) => {
     const userId = req.params.userId; // Get user ID from request params
 
     // Find all simulations for the provided user ID
-    const simulations = await Simulation.find({ user: userId });
+    const simulations = await Simulation.find({ user: userId }).sort({ createdAt: -1 }) ;
 
     if (!simulations || simulations.length === 0) {
       return res.status(404).json({
@@ -471,6 +472,23 @@ exports.primePTZ = async (req, res, next) => {
       message: "success",
       eligible: eligible,
       primes: primes,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getSimulationByAdmin = async (req, res, next) => {
+  try {
+
+    // Find all simulations for the provided user ID
+    const userData = await User.find().sort({ createdAt: -1 });
+
+    // Return the found simulations
+    res.status(200).json({
+      status: "success",
+      message: "Simulations retrieved successfully.",
+      userData: userData,
     });
   } catch (error) {
     next(error);

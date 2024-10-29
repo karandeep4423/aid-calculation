@@ -22,6 +22,7 @@ import VerifyMail from "./pages/VerifyMail";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Admin from "./pages/Admin";
 function AppContent() {
   const location = useLocation();
 
@@ -32,7 +33,7 @@ function AppContent() {
   const hideNavbarAndFooter = hideNavbarAndFooterPaths.includes(
     location.pathname
   );
-
+  const user = JSON.parse(localStorage.getItem("userDetails"));
   return (
     <>
       {/* Conditionally render Navbar */}
@@ -53,6 +54,9 @@ function AppContent() {
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          {user?.role === "admin" ? (
+            <Route path="/admin" element={<Admin />} />
+          ) : null}
         </Route>
       </Routes>
 

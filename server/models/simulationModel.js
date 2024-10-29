@@ -4,7 +4,6 @@ const User = require("./userModel");
 const Schema = mongoose.Schema;
 
 const simulationSchema = new mongoose.Schema({
-  createdAt: Date,
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -161,7 +160,7 @@ const simulationSchema = new mongoose.Schema({
   travauxResult: [{ type: String }], // Add travaux result field
 
   // bailleur attributes ...
-});
+},{ timestamps: true });
 
 const Simulation = mongoose.model("Simulation", simulationSchema);
 module.exports = Simulation;

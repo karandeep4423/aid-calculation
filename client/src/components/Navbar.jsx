@@ -47,7 +47,7 @@ const isolationItems = [
     items: [
       {
         label: "Isolation des fenêtres",
-        link: "/isolation-fenetres",
+        link: "/isolation-des-fenetres",
         icon: "/assets/Fenêtres.jpg",
       },
       {
@@ -62,7 +62,7 @@ const isolationItems = [
     items: [
       {
         label: "Le guide de l'isolation",
-        link: "/Le-guide-de-l'isolation",
+        link: "/Le-guide-de-isolation",
         icon: "/assets/maison.png",
       },
       {
@@ -90,7 +90,7 @@ const chauffageItems = [
       },
       {
         label: "Pompe à chaleur géothermique",
-        link: "/isolation-interieure",
+        link: "/pompe-à-chaleur-géothermique",
         icon: "/assets/Pompe-à-chaleur-géothermique.png",
       },
       {
@@ -105,17 +105,17 @@ const chauffageItems = [
     items: [
       {
         label: "Chaudière à condensation",
-        link: "/isolation-fenetres",
+        link: "/chaudière-à-condensation",
         icon: "/assets/Chaudière-fioul-à-condensation.png",
       },
       {
         label: "Chaudière à granulés",
-        link: "/isolation-exterieure",
+        link: "/chaudière-à-granulés",
         icon: "/assets/Chaudière-gaz-à-condensation.png",
       },
       {
         label: "Chaudière à bûches",
-        link: "/isolation-interieure",
+        link: "/chaudière-à-bûches",
         icon: "/assets/Chaudière-au-charbon-à-condensation.png",
       },
     ],
@@ -125,12 +125,12 @@ const chauffageItems = [
     items: [
       {
         label: "Poêle à granulés",
-        link: "/isolation-fenetres",
+        link: "/poêle-à-granulés",
         icon: "/assets/Chaudière-gaz-à-condensation.png",
       },
       {
         label: "Poêle à bûches",
-        link: "/isolation-exterieure",
+        link: "/poêle-à-bûches",
         icon: "/assets/Chaudière-au-charbon-à-condensation.png",
       },
     ],
@@ -140,22 +140,22 @@ const chauffageItems = [
     items: [
       {
         label: "Insert cheminée",
-        link: "/isolation-fenetres",
+        link: "/insert-cheminée",
         icon: "/assets/Chaudière-bois-à-bûches.png",
       },
       {
         label: "Chauffe-eau thermodynamique",
-        link: "/isolation-exterieure",
+        link: "/chauffe-eau-thermodynamique",
         icon: "/assets/Chauffe-eau-thermodynamique.png",
       },
       {
         label: "Radiateur électrique",
-        link: "/guide-isolation",
+        link: "/radiateur-électrique",
         icon: "/assets/maison.png",
       },
       {
         label: "Thermostat",
-        link: "/temoignages-clients",
+        link: "/thermostat",
         icon: "/assets/maison.png",
       },
     ],
@@ -178,17 +178,17 @@ const solaireItems = [
     items: [
       {
         label: "Caractéristiques techniques",
-        link: "/pompe-à-chaleur-air-air",
+        link: "/caractéristiques-techniques",
         icon: "/assets/maison.png",
       },
       {
         label: "Comment ça marche?",
-        link: "/pompe-à-chaleur-air-eau",
+        link: "/comment-ça-marche",
         icon: "/assets/maison.png",
       },
       {
-        label: "Installation avec Effy",
-        link: "/isolation-interieure",
+        label: "Installation avec Solulec",
+        link: "/installation-avec-solulec",
         icon: "/assets/maison.png",
       },
       {
@@ -203,17 +203,17 @@ const solaireItems = [
     items: [
       {
         label: "Panneaux solaires photovoltaïques",
-        link: "/isolation-fenetres",
+        link: "/panneaux-solaires-photovoltaïques",
         icon: "/assets/Panneaux-solaires-photovoltaïques.jpg",
       },
       {
         label: "Système solaire combiné",
-        link: "/isolation-exterieure",
+        link: "/système-solaire-combiné",
         icon: "/assets/Système-solaire-combiné.png",
       },
       {
         label: "Chauffe-eau solaire",
-        link: "/isolation-interieure",
+        link: "/chauffe-eau-solaire",
         icon: "/assets/Système-solaire-combiné.png",
       },
     ],
@@ -226,22 +226,22 @@ const globaleItems = [
     items: [
       {
         label: "Bilan énergétique",
-        link: "/pompe-à-chaleur-air-air",
+        link: "/bilan-énergétique",
         icon: "/assets/maison.png",
       },
       {
         label: "Audit énergétique",
-        link: "/pompe-à-chaleur-air-eau",
+        link: "/audit-énergétique",
         icon: "/assets/maison.png",
       },
       {
         label: "Rénovation globale",
-        link: "/isolation-interieure",
+        link: "/rénovation-globale",
         icon: "/assets/maison.png",
       },
       {
         label: "Trouver mon Accompagnateur Rénov",
-        link: "/isolation-interieure",
+        link: "/trouver-mon-accompagnateur-rénov",
         icon: "/assets/maison.png",
       },
     ],
@@ -264,32 +264,32 @@ const aidItems = [
     items: [
       {
         label: "Prime énergie",
-        link: "/pompe-à-chaleur-air-air",
+        link: "/prime-énergie",
         icon: "/assets/maison.png",
       },
       {
         label: "MaPrimeRénov",
-        link: "/pompe-à-chaleur-air-eau",
+        link: "/MaPrimeRénov",
         icon: "/assets/maison.png",
       },
       {
         label: "Le chéque énergie",
-        link: "/isolation-interieure",
+        link: "/le-chéque-énergie",
         icon: "/assets/maison.png",
       },
       {
         label: "TVA 5,5%",
-        link: "/isolation-interieure",
+        link: "/TVA-5,5%",
         icon: "/assets/maison.png",
       },
       {
         label: "Léco-PTZ",
-        link: "/isolation-interieure",
+        link: "/léco-ptz",
         icon: "/assets/maison.png",
       },
       {
         label: "Les aides pour la copropriété",
-        link: "/isolation-interieure",
+        link: "/les-aides-pour-la-copropriété",
         icon: "/assets/maison.png",
       },
     ],
@@ -322,27 +322,27 @@ const actualitésItems = [
     items: [
       {
         label: "Toute l'actu",
-        link: "/pompe-à-chaleur-air-air",
+        link: "/Toute-le-actu",
         icon: "/assets/maison.png",
       },
       {
         label: "Aides et primes: derniéres infos",
-        link: "/pompe-à-chaleur-air-eau",
+        link: "/aides-et-primes-derniéres-infos",
         icon: "/assets/maison.png",
       },
       {
         label: "Les prix de l'énergie en bref",
-        link: "/isolation-interieure",
+        link: "/les-prix-de-le-énergie-en-bref",
         icon: "/assets/maison.png",
       },
       {
         label: "Effy décrypte",
-        link: "/isolation-interieure",
+        link: "/effy-décrypte",
         icon: "/assets/maison.png",
       },
       {
         label: "Effy dans la presse",
-        link: "/isolation-interieure",
+        link: "/effy-dans-la-presse",
         icon: "/assets/maison.png",
       },
     ],
@@ -352,22 +352,22 @@ const actualitésItems = [
     items: [
       {
         label: "Les chiffres clés de la réno",
-        link: "/pompe-à-chaleur-air-air",
+        link: "/les-chiffres-clés-de-la-réno",
         icon: "/assets/maison.png",
       },
       {
         label: "L'actu du batiment",
-        link: "/pompe-à-chaleur-air-eau",
+        link: "/le-actu-du-batiment",
         icon: "/assets/maison.png",
       },
       {
         label: "Conseils pour votre maison",
-        link: "/isolation-interieure",
+        link: "/conseils-pour-votre-maison",
         icon: "/assets/maison.png",
       },
       {
         label: "Témoignages d'experts",
-        link: "/isolation-interieure",
+        link: "/témoignages-de-experts",
         icon: "/assets/maison.png",
       },
     ],
