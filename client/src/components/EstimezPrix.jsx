@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const EstimezPrix = ({ heading, content }) => {
   return (
-    <div className="bg-blue-400 w-2/3 h-fit rounded-2xl m-auto my-10 p-5 items-center flex flex-col gap-3">
+    <div className="bg-blue-400 w-fit	 h-fit rounded-2xl  p-5 items-center flex flex-col gap-3">
       <p className="font-bold text-2xl text-center">{heading}</p>
       <div className="bg-white rounded-2xl p-5">
         <p className="text-gray-400 text-xl text-center">

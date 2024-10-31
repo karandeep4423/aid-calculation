@@ -47,7 +47,7 @@ const ForgotPassword = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-          Forgot Password
+        Mot de passe oublié
         </h2>
         <form onSubmit={handleForgotPassword}>
           <div className="mb-4">
@@ -55,7 +55,7 @@ const ForgotPassword = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="email"
             >
-              Email Address
+              Adresse Email
             </label>
             <input
               type="email"
@@ -63,7 +63,7 @@ const ForgotPassword = () => {
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                 errors.email ? "border-red-500" : ""
               }`}
-              placeholder="Enter your email"
+              placeholder="Entrez votre email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onBlur={validateEmail} // Validate on blur (optional)
@@ -88,7 +88,7 @@ const ForgotPassword = () => {
                 className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                Forgot Password
+                Mot de passe oublié
               </button>
             )}
           </div>

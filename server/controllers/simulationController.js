@@ -33,8 +33,7 @@ exports.householdType = async (req, res, next) => {
 exports.primeRenov = async (req, res, next) => {
   console.log("renvo", req.body);
   try {
-    await Simulation.validate(req.body);
-
+    // Validate the request body using the Mongoose model
     const simulation = new Simulation({
       user: req.body.user,
       typeSimulation: "renovation",
@@ -53,15 +52,15 @@ exports.primeRenov = async (req, res, next) => {
       travaux: req.body.travaux,
     });
 
-    // const { error, value } = Simulation.validate(simulation);
-    // if (error) {
-    //     return next(new createError(error.details[0].message, 400));
-    // }
+    // Validate the simulation instance
+    await simulation.validate();
 
     const eligible = primeRenov.checkPrimeRenovElig(simulation);
     let travauxResult = [];
+    
+    // Calculate travauxResult if applicable
     if (simulation.travaux.length !== 0 && eligible === true) {
-      travaux = primeRenov.getTravauxResult(
+      travauxResult = primeRenov.getTravauxResult(
         simulation.travaux,
         houseHoldType.getCategory(
           simulation.nbPers,
@@ -70,6 +69,7 @@ exports.primeRenov = async (req, res, next) => {
         )
       );
     }
+
     // Set eligible and travaux result in simulation
     simulation.eligible = eligible;
     simulation.travauxResult = travauxResult;
@@ -79,7 +79,7 @@ exports.primeRenov = async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      message: "success",
+      message: "Simulation created successfully",
       result: {
         eligible: eligible,
         travauxResult: travauxResult,
@@ -87,7 +87,25 @@ exports.primeRenov = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    if (error.name === 'ValidationError') {
+      // Handle validation errors by extracting user-friendly messages
+      const formattedErrors = Object.values(error.errors).map(err => {
+        // Return the user-friendly message
+        return err.message; // Assuming you've set friendly messages in your Mongoose schema
+      });
+
+      return res.status(400).json({
+        status: "error",
+        message: formattedErrors.join(', '), // Join messages into a single string
+      });
+    }
+
+    // Handle other types of errors
+    console.error(error); // Log the error for server-side debugging
+    return res.status(500).json({
+      status: "error",
+      message: "Une erreur interne s'est produite. Veuillez réessayer.",
+    });
   }
 };
 

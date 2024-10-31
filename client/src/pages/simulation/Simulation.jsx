@@ -102,15 +102,16 @@ const Simulation = () => {
 
   const handleSubmit = async () => {
     try {
-      // Map the selections to the format expected by the backend
       const transformedData = mapSelectionsToBackend(selections);
-
+  
       // Check if the user is not registered
       if (!user) {
-        toast.error("Please register before submitting the form!");
-        return; // Early return to prevent further execution
+        toast.error("Veuillez vous inscrire avant de soumettre le formulaire !");
+        return;
       }
+  
       setLoader(true);
+  
       // Send a POST request with transformed data
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/simulation/prime-renov`,
@@ -122,27 +123,31 @@ const Simulation = () => {
           body: JSON.stringify(transformedData),
         }
       );
-
+  
       // Handle the response from the server
       const data = await response.json();
+      setLoader(false); // Stop loader here for both success and failure
+  
       if (response.ok) {
-        toast.success("Form submitted successfully!");
-        setLoader(false);
+        toast.success("Formulaire soumis avec succès !");
         setSelections({});
         navigate("/dashboard");
       } else {
-        setLoader(false);
-        toast.error(
-          `Failed to submit the form: ${data.message || "Unknown error"}`
-        );
+        // Check if there's a message and process it for individual error display
+        if (data.message) {
+          // Split the error messages by comma and show each one
+          const errorMessages = data.message.split(',').map(msg => msg.trim());
+          errorMessages.forEach(error => toast.error(error));
+        } else {
+          toast.error("Échec de l'envoi du formulaire: " + (data.message || "Unknown error"));
+        }
       }
     } catch (error) {
-      console.error("Error during submission:", error);
       setLoader(false);
-      toast.error("An error occurred while submitting the form.");
+      toast.error("Une erreur s'est produite lors de la soumission du formulaire.");
     }
   };
-
+  
   // Function to map selections to the required backend format
   const mapSelectionsToBackend = (selections) => {
     return {
@@ -272,7 +277,7 @@ const Simulation = () => {
       items: [
         {
           inputType: "radio",
-          itemName: "Maison de 2 ans",
+          itemName: "Moins de 2 ans",
           itemDes: null,
           icon: "/assets/Maison-de-2-ans.png",
           Id: "cat5-item1",
@@ -382,8 +387,8 @@ const Simulation = () => {
         },
         {
           inputType: "radio",
-          itemName: "?",
-          itemDes: "Je ne sais pas",
+          itemName: "Je ne sais pas",
+          itemDes: "Etiquette",
           icon: "/assets/question.png",
           Id: "cat7-item8",
         },

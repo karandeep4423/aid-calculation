@@ -48,7 +48,7 @@ const ResetPassword = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-          Reset Password
+        Réinitialiser le mot de passe
         </h2>
         <form onSubmit={handleResetPassword}>
           {/* Password Input */}
@@ -57,7 +57,7 @@ const ResetPassword = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="password"
             >
-              Enter new password
+              Entrez le nouveau mot de passe
             </label>
             <input
               type="password"
@@ -85,7 +85,7 @@ const ResetPassword = () => {
                 className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit" // Set to submit since it's a form
               >
-                Reset Password
+                Réinitialiser le mot de passe
               </button>
             )}
           </div>

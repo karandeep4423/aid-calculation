@@ -40,7 +40,6 @@ const RegisterForm = () => {
 
   useEffect(() => {
     if (touchedFields.firstname) validateFirstname();
-    console.log("Validating useffect firstname:", formData.firstname);
   }, [formData.firstname, touchedFields.firstname]);
 
   useEffect(() => {
@@ -79,21 +78,21 @@ const RegisterForm = () => {
   const validateFirstname = () => {
     let errors = [];
     if (formData.firstname.length < 2)
-      errors.push("At least 2 characters required");
+      errors.push("Au moins 2 caractères requis");
     if (formData.firstname.length > 50)
-      errors.push("Max 50 characters allowed");
+      errors.push("Max 50 caractères autorisés");
     if (!/^[a-zA-Z]+$/.test(formData.firstname))
-      errors.push("Only alphabetic characters allowed");
+      errors.push("Seuls les caractères alphabétiques sont autorisés");
     setErrors((prev) => ({ ...prev, firstname: errors }));
   };
 
   const validateLastname = () => {
     let errors = [];
     if (!formData.lastname || formData.lastname.length < 2)
-      errors.push("At least 2 characters required");
-    if (formData.lastname.length > 50) errors.push("Max 50 characters allowed");
+      errors.push("Au moins 2 caractères requis");
+    if (formData.lastname.length > 50) errors.push("Max 50 caractères autorisés");
     if (!/^[a-zA-Z]+$/.test(formData.lastname))
-      errors.push("Only alphabetic characters allowed");
+      errors.push("Seuls les caractères alphabétiques sont autorisés");
     setErrors((prev) => ({ ...prev, lastname: errors }));
   };
 
@@ -109,14 +108,25 @@ const RegisterForm = () => {
   const validateGender = () => {
     setErrors((prev) => ({
       ...prev,
-      gender: formData.gender.length > 0 ? null : "Gender is required",
+      gender: !formData.gender
+        ? "Le sexe est requis"
+        : formData.gender === "monsieur" ||
+          formData.gender === "Monsieur" ||
+          formData.gender === "Madame" ||
+          formData.gender === "madame"
+        ? null
+        : "Ce n'est pas un sexe valide !",
     }));
   };
 
   const validatePassword = () => {
     setErrors((prev) => ({
       ...prev,
-      password: formData.password.length > 0 ? null : "Password is required",
+      password: !formData.password
+        ? "Le mot de passe est requis"
+        : formData.password.length < 8
+        ? "Le mot de passe doit comporter au moins 8 caractères"
+        : null,
     }));
   };
 
@@ -153,7 +163,9 @@ const RegisterForm = () => {
 
   //Register form data
   const handleRegister = async () => {
-    if (isFormValid()) {
+    const { email, firstname, lastname, phone, gender, password } = formData;
+
+    if (email && firstname && lastname && phone && gender && password) {
       setLoader(true);
       try {
         const result = await axios.post(
@@ -163,7 +175,7 @@ const RegisterForm = () => {
         console.log("result signup", result);
         // Store user data and token in context
         setUserData(result.data.user);
-        toast.success("Email verification link has been sent!");
+        toast.success("Le lien de vérification par e-mail a été envoyé !");
         resetForm();
       } catch (err) {
         toast.error(err.response?.data?.message || "An error occurred");
@@ -171,7 +183,7 @@ const RegisterForm = () => {
         setLoader(false); // Ensure loader is always reset in the end
       }
     } else {
-      toast.error("Form is not valid");
+      toast.error("Le formulaire n'est pas valide:");
       setLoader(false);
     }
   };
@@ -292,7 +304,7 @@ const RegisterForm = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="gender"
             >
-              Gender
+              Sexe
             </label>
             <input
               className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${

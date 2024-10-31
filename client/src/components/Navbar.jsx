@@ -545,16 +545,9 @@ const Navbar = () => {
             {renderDropdown("Aides et Primes", aidItems)}
             {renderDropdown("Actualités", actualitésItems)}
           </div>
-          <Link onClick={toggleMenu} to="/about-us">
+          <Link onClick={toggleMenu} to="/login">
             Accés pro
           </Link>
-          {/* <Link onClick={toggleMenu} to="/about-us">
-            About us
-          </Link>
-          <Link onClick={toggleMenu} to="/contact-us">
-            Contact us
-          </Link> */}
-
           <div className="flex gap-4 flex-col lg:flex-row">
             <Link
               className="flex relative gap-1 items-center"

@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
       validator: function (value) {
         return /^[a-zA-Z]+$/.test(value);
       },
-      message: "must contain only alphabetic characters",
+      message: "Doit contenir uniquement des caractères alphabétiques",
     },
     minlength: [2, "Firstname must be at least 2 characters long"],
     maxlength: [50, "Firstname cannot be more than 50 characters long"],
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
       validator: function (value) {
         return /^[a-zA-Z]+$/.test(value);
       },
-      message: "must contain only alphabetic characters",
+      message: "Must contain only alphabetic characters",
     },
     minlength: [2, "Lastname must be at least 2 characters long"],
     maxlength: [50, "Lastname cannot be more than 50 characters long"],
@@ -39,13 +39,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: [10, "Password must be at least 10 characters long"],
-    validate: {
-      validator: function (value) {
-        return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(value);
-      },
-      message: "Invalid format",
-    },
+    minlength: [8, "Password must be at least 8 characters long"],
   },
   role: {
     type: String,
@@ -55,17 +49,16 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: true,
-    // validate: {
-    //     validator: function(value) {
-    //         return /^(0|\+33)[1-9]\d{8}$/.test(value);
-    //     },
-    //     message: 'Invalid format'
-    // }
+    validate: {
+        validator: function(value) {
+            return /^(0|\+33)[1-9]\d{8}$/.test(value);
+        },
+        message: 'Invalid format'
+    }
   },
   gender: {
     type: String,
-    enum: ["Monsieur", "Madame"],
-    required: true,
+    required:true
   },
   emailVerified: {
     type: Boolean,

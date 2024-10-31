@@ -27,13 +27,13 @@ const VerifyMail = () => {
 
   return (
     <div className="h-screen gap-10 flex justify-center items-center flex-col">
-      <h1 className="text-center text-4xl">Email verification</h1>
+      <h1 className="text-center text-4xl">Vérification des Email</h1>
       {message == null ? (
         <button
           onClick={verifyEmail}
           className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-3 rounded-full bg-sky-500 text-white transition-all duration-300"
         >
-          Click here to verify
+          Cliquez ici pour vérifier
         </button>
       ) : (
         <p className="text-5xl">{message}</p>

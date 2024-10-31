@@ -5,18 +5,16 @@ import pagesData from "../services/pagesData";
 
 const Pages = () => {
   const { param } = useParams();
-  console.log("name", pagesData);
-  console.log("param", param);
-
+ 
   return (
-    <div>
+    <div className="max-w-screen-xl m-auto w-full"  >
       {pagesData.map((name, i) => {
         // Make sure to return the JSX inside map
         return (
           <div key={i}>
             {name.page.toLowerCase() === param.toLowerCase() && (
-              <div className="flex m-10 gap-5">
-                <div className=" gap-10 flex flex-col items-center justify-center">
+              <div className="w-full items-center flex flex-col md:flex-row gap-5 p-10">
+                <div className="w-full	 gap-10 flex flex-col items-center">
                   <h1 className="text-4xl text-gray-800 font-extrabold">
                     {name.h1}
                   </h1>
