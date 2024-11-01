@@ -46,11 +46,11 @@ const Dashboard = () => {
   }, [user?._id]); // Only runs when the userId changes (or once on component mount)
 
   return (
-    <div className="w-full text-center ">
-      <h1 className="text-3xl font-semibold">
+    <div className=" m-auto max-w-screen-xl ">
+      <h1 className="text-3xl text-center font-semibold">
         Bienvenue dans votre Espace,{user?.firstname}
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
+      <div>
         <div
           onClick={() => toggleProject("personal-info")}
           className="my-10 m-auto flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
@@ -78,10 +78,10 @@ const Dashboard = () => {
         </div>
         <div>
           {simulations.length > 0 ? (
-            <ul>
+            <ul className="gap-5 px-3 flex flex-wrap w-full justify-around items-start my-7  ">
               {simulations.map((simulation) => (
                 <div
-                  className="my-10 flex flex-col gap-4 items-center m-auto shadow-md bg-sky-200 h-fit w-fit p-8 rounded-2xl"
+                  className="flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-8 rounded-2xl"
                   key={simulation._id}
                   onClick={() => toggleProject(simulation._id)}
                 >

@@ -4,13 +4,13 @@ const Footer = () => {
   return (
     <div className="bg-black">
       <div className=" text-lg xl:text-xl   rounded-t-3xl -mt-4 max-w-screen-xl m-auto flex flex-wrap space-x-5 px-5 justify-evenly  ">
-        <div className="flex gap-5  sm:gap-20 pt-10">
-          <div className="bg-white p-1">
+        <div className="flex gap-5   sm:gap-20 justify-between pt-10">
+          <div className="bg-white w-32 h-9">
           <Link to="/">
-            <img src="/logo.png" className="w-32 h-9"></img>
+            <img src="/logo.png" className="w-32 object-fill h-9 p-1"></img>
           </Link>
           </div>
-          <p className="text-gray-300 text-3xl font-medium">
+          <p className="text-gray-300 break-all text-xl sm:text-3xl font-medium">
             N°1 de la rénovation énergétique en ligne
           </p>
         </div>
@@ -56,7 +56,7 @@ const Footer = () => {
               <Link className="text-xl font-medium text-white">
                 L'isolation
               </Link>
-              <Link to="/simulation">Isolation des combles</Link>
+              <Link to="/combles-perdus">Isolation des combles</Link>
               <Link to="/">Isolation des murs</Link>
               <Link to="/">Isolation du sol</Link>
               <Link to="/">Isolation du toit</Link>
@@ -140,7 +140,7 @@ const Footer = () => {
         </div>
         <Link to="/simulation">
           <button className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium text-xl px-6 py-3 rounded-full bg-sky-500 text-white transition-all duration-300">
-            Demander un devis
+            Devenir Partenaire
           </button>
         </Link>
       </div>

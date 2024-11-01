@@ -23,7 +23,7 @@ const pagesData = [
   },
   {
     page: "isolation-extérieure",
-    h1: "L’isolation par l’extérieur en détail",
+    h1: "Isolation extérieure",
     content:
       "Avec des pertes de chaleur pouvant atteindre 20 %, les murs de votre maison sont à isoler d’urgence pour gagner en confort thermique et réduire vos dépenses de chauffage. L’isolation par l’extérieur représente la meilleure méthode pour supprimer les ponts thermiques. Découvrez absolument tout ce qu’il faut savoir sur l’ITE et améliorez la performance de votre habitat.",
     image: "/assets/maison.png",

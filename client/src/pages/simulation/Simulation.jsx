@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../provider/authProvider";
 import ClipLoader from "react-spinners/ClipLoader";
+import { Link } from "react-router-dom";
 
 const Simulation = () => {
   const [selections, setSelections] = useState({}); // Holds the user selections
@@ -103,15 +104,17 @@ const Simulation = () => {
   const handleSubmit = async () => {
     try {
       const transformedData = mapSelectionsToBackend(selections);
-  
+
       // Check if the user is not registered
       if (!user) {
-        toast.error("Veuillez vous inscrire avant de soumettre le formulaire !");
+        toast.error(
+          "Veuillez vous inscrire avant de soumettre le formulaire !"
+        );
         return;
       }
-  
+
       setLoader(true);
-  
+
       // Send a POST request with transformed data
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/simulation/prime-renov`,
@@ -123,11 +126,11 @@ const Simulation = () => {
           body: JSON.stringify(transformedData),
         }
       );
-  
+
       // Handle the response from the server
       const data = await response.json();
       setLoader(false); // Stop loader here for both success and failure
-  
+
       if (response.ok) {
         toast.success("Formulaire soumis avec succès !");
         setSelections({});
@@ -136,18 +139,25 @@ const Simulation = () => {
         // Check if there's a message and process it for individual error display
         if (data.message) {
           // Split the error messages by comma and show each one
-          const errorMessages = data.message.split(',').map(msg => msg.trim());
-          errorMessages.forEach(error => toast.error(error));
+          const errorMessages = data.message
+            .split(",")
+            .map((msg) => msg.trim());
+          errorMessages.forEach((error) => toast.error(error));
         } else {
-          toast.error("Échec de l'envoi du formulaire: " + (data.message || "Unknown error"));
+          toast.error(
+            "Échec de l'envoi du formulaire: " +
+              (data.message || "Unknown error")
+          );
         }
       }
     } catch (error) {
       setLoader(false);
-      toast.error("Une erreur s'est produite lors de la soumission du formulaire.");
+      toast.error(
+        "Une erreur s'est produite lors de la soumission du formulaire."
+      );
     }
   };
-  
+
   // Function to map selections to the required backend format
   const mapSelectionsToBackend = (selections) => {
     return {
@@ -851,6 +861,16 @@ const Simulation = () => {
 
   return (
     <div className="h-auto sm:h-screen overflow-hidden">
+      {/* Navbar */}
+      <div className="flex justify-between gap-5 h-20 px-4 xl:px-0 max-w-screen-xl m-auto">
+        <div className="flex items-center">
+          <Link to="/">
+            <img className="w-32 h-8" src="/logo.png"></img>
+          </Link>
+          <p className="font-semibold pl-10">Votre simulation en 2 minutes</p>
+        </div>
+      </div>
+
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 right-0 h-2">
         <div
@@ -860,7 +880,7 @@ const Simulation = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex gap-10 p-10">
+      <div className="flex gap-10 pt-0 p-10">
         {/* Sidebar Progress */}
         <div className="w-2/5 hidden lg:block">
           <h2 className="font-semibold text-xl mb-4">Votre parcours</h2>
