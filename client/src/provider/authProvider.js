@@ -9,11 +9,19 @@ const AuthProvider = ({ children }) => {
 
   // State to hold user register data
   const [userID, setUserID] = useState(null);
+  const [userlogin, setuserLogin] = useState(null);
+
 
   // Function to set user register data
-  const setUserData = (userData) => {
+  const setUser = (userData) => {
     setUserID(userData);
   };
+
+    // Function to set user login data
+    const setUserLogin = (userData) => {
+      setuserLogin(userData);
+    };
+  
 
   // Function to set the authentication token
   const setToken = (newToken) => {
@@ -36,7 +44,9 @@ const AuthProvider = ({ children }) => {
       token,
       setToken,
       userID,
-      setUserData, // Expose setUserData in context
+      userlogin,
+      setUserLogin,
+      setUser, // Expose setUserData in context
     }),
     [token,userID]
   );

@@ -64,6 +64,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  appointment:{
+    type: String,
+    required:false
+  },
   emailVerificationToken: String,
   verificationTokenExpiresAt: Date,
   // Added fields for forgot password functionality

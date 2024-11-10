@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../provider/authProvider";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import ClipLoader from "react-spinners/ClipLoader";
-
+import {useAuth} from '../../provider/authProvider';
 const LoginForm = () => {
+  const { setToken } = useAuth(); // Get setUserData from context
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loader, setLoader] = useState(false);
-  const { setToken } = useAuth();
+  const { setUserLogin } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -28,6 +28,7 @@ const LoginForm = () => {
           setToken(result.data.token);
           localStorage.setItem("userDetails", JSON.stringify(result.data.user));
           navigate("/dashboard", { replace: true });
+          setUserLogin(result.data.user)
         })
         .catch((err) => {
           toast.error(err.response.data.message);

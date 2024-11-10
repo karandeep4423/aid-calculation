@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import Appointment from "../components/Appointment";
+import {useAuth} from "../provider/authProvider";
 
 const Dashboard = () => {
   const [expandedProjectId, setExpandedProjectId] = useState(null);
   const [simulations, setSimulations] = useState([]); // State to store simulation data
-
+  const { userlogin } = useAuth(); // Access user data from context
+console.log("data ",userlogin)
   const toggleProject = (simulationId) => {
     if (expandedProjectId === simulationId) {
       setExpandedProjectId(null); // Collapse if the same profile is clicked again
@@ -15,7 +18,7 @@ const Dashboard = () => {
   };
 
   const user = JSON.parse(localStorage.getItem("userDetails"));
-
+  console.log("user gg", user);
   // Function to fetch simulations by userId
   const getSimulationsByUserId = async (userId) => {
     try {
@@ -51,30 +54,34 @@ const Dashboard = () => {
         Bienvenue dans votre Espace,{user?.firstname}
       </h1>
       <div>
-        <div
-          onClick={() => toggleProject("personal-info")}
-          className="my-10 m-auto flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
-        >
-          <h2 className="text-2xl font-semibold">
-            Mes informations personnelles
-          </h2>
+        <div>
           <div
-            className={`transition duration-700 ease-in-out flex-col  gap-4  ' ${
-              expandedProjectId === "personal-info" ? "flex " : "hidden"
-            }`}
+            onClick={() => toggleProject("personal-info")}
+            className="my-10 m-auto flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
           >
-            <div className="flex flex-col items-start gap-2">
-              <p className="text-xl font-bold">Identité</p>
-              <p className="font-semibold">
-                {user?.firstname} {user?.lastname}
-              </p>
-            </div>
-            <div className="flex flex-col items-start gap-2">
-              <p className="text-xl font-bold">Contact</p>
-              <p className="font-semibold">{user?.email}</p>
-              <p className="font-semibold">{user?.phone}</p>
+            <h2 className="text-2xl font-semibold">
+              Mes informations personnelles
+            </h2>
+            <div
+              className={`transition duration-700 ease-in-out flex-col  gap-4  ' ${
+                expandedProjectId === "personal-info" ? "flex " : "hidden"
+              }`}
+            >
+              <div className="flex flex-col items-start gap-2">
+                <p className="text-xl font-bold">Identité</p>
+                <p className="font-semibold">
+                  {user?.firstname} {user?.lastname}
+                </p>
+              </div>
+              <div className="flex flex-col items-start gap-2">
+                <p className="text-xl font-bold">Contact</p>
+                <p className="font-semibold">{user?.email}</p>
+                <p className="font-semibold">{user?.phone}</p>
+              </div>
             </div>
           </div>
+          {/* Appointment component */}
+          <Appointment />
         </div>
         <div>
           {simulations.length > 0 ? (
@@ -184,15 +191,13 @@ const Dashboard = () => {
               ))}
             </ul>
           ) : (
-            <div className="mb-10 sm:mb-0 sm:my-10">
-            <p className="text-2xl pb-2">Vous n'avez aucun projet.</p>
-            <Link to="/simulation">
-              <button
-                className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-3 rounded-full bg-sky-500 text-white transition-all duration-300"
-              >
-                Demander un devis
-              </button>
-            </Link>
+            <div className="mb-10 flex flex-col items-center justify-center  sm:my-10">
+              <p className="text-3xl pb-2 font-bold px-2">Vous n'avez aucun projet.</p>
+              <Link to="/simulation">
+                <button className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-3 rounded-full bg-sky-500 text-white transition-all duration-300">
+                  Demander un devis
+                </button>
+              </Link>
             </div>
           )}
         </div>

@@ -122,7 +122,6 @@ exports.verifyAccount = async (req, res, next) => {
 exports.forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
-    console.log("email", email);
     // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
@@ -147,7 +146,7 @@ exports.forgotPassword = async (req, res, next) => {
       message: "Password reset link sent to your email",
     });
   } catch (error) {
-    console.log("error",error)
+    console.log("error", error);
     next(error);
   }
 };
@@ -180,6 +179,65 @@ exports.resetPassword = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       message: "Password has been reset successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.appointment = async (req, res, next) => {
+  try {
+    const { userID, formattedSlot } = req.body;
+    if (!userID || !formattedSlot) {
+      return res.status(400).json({ status: "fail", message: "User ID and selected slot are required." });
+    }
+
+    const user = await User.findOne({ _id: userID });
+    if (!user) {
+      return next(new createError("User not found!", 404));
+    }
+
+    // Update the appointment field and save
+    user.appointment = formattedSlot;
+
+    // Save and log the result or error
+    const updatedUser = await user.save()
+      .then((result) => {
+        console.log("Appointment updated successfully:", result);
+        return result;
+      })
+      .catch((error) => {
+        console.error("Error updating appointment:", error);
+        throw error; // Propagate error to the catch block
+      });
+
+    res.status(200).json({
+      status: "success",
+      message: "Appointment has been booked successfully!",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("An error occurred in appointment booking:", error);
+    next(error);
+  }
+};
+
+
+exports.appointmentCancel = async (req, res, next) => {
+  try {
+    const { email, selectedSlot } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(new createError("User not found with this email", 404));
+    }
+
+    user.appointment = null;
+    await user.save();
+
+    res.status(200).json({
+      status: "success",
+      message: "Appointment has been cancelled successfully!",
     });
   } catch (error) {
     next(error);

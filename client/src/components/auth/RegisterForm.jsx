@@ -6,7 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useAuth } from "../../provider/authProvider";
 
 const RegisterForm = () => {
-  const { setUserData } = useAuth(); // Get setUserData from context
+  const { setUser } = useAuth(); // Get setUserData from context
   const [loader, setLoader] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -174,7 +174,7 @@ const RegisterForm = () => {
         );
         console.log("result signup", result);
         // Store user data and token in context
-        setUserData(result.data.user);
+        setUser(result.data.user);
         toast.success("Le lien de vérification par e-mail a été envoyé !");
         resetForm();
       } catch (err) {
