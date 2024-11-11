@@ -161,7 +161,7 @@ const Appointment = ({ getUserData }) => {
                     <ChevronRightIcon className="w-8 h-8" aria-hidden="true" />
                   </button>
                 </div>
-                <div className="grid w-full grid-cols-7 mt-6 sm:mt-8 text-xl font-medium leading-6 text-center text-gray-500">
+                <div id="appointment" className="grid w-full grid-cols-7 mt-6 sm:mt-8 text-xl font-medium leading-6 text-center text-gray-500">
                   <div className="text-black ">Dim</div>
                   <div>Lun</div>
                   <div>Mar</div>
@@ -234,9 +234,8 @@ const Appointment = ({ getUserData }) => {
                 </div>
               </div>
             </div>
-            <div className="flex  mt-10 justify-center">
+            <div id="appointment" className="flex  mt-10 justify-center">
               <button
-                // onClick={submitAppointment}
                 onClick={() => setOpenModal(true)}
                 className="text-xl font-medium px-14 py-3 rounded-xl text-center overflow-hidden group bg-sky-500 relative hover:bg-gradient-to-r hover:from-sky-500 hover:to-sky-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-sky-400 transition-all ease-out duration-300"
               >

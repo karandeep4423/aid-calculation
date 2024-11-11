@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
 import Appointment from "../components/Appointment";
 import axios from "axios";
-
+import { Link as ScrollLink } from "react-scroll";
+import { Link } from 'react-router-dom';
 const Dashboard = () => {
   const [expandedProjectId, setExpandedProjectId] = useState(null);
   const [simulations, setSimulations] = useState([]); // State to store simulation data
@@ -18,7 +18,7 @@ const Dashboard = () => {
   };
 
   const user = JSON.parse(localStorage.getItem("userDetails"));
-  
+
   // Function to fetch simulations by userId
   const getSimulationsByUserId = async (userId) => {
     try {
@@ -32,13 +32,12 @@ const Dashboard = () => {
         }
       );
 
-      if (response.ok) {
-        const data = await response.json();
-        setSimulations(data.simulations); // Update state with the fetched simulations
-      }
+      const data = await response.json();
+      setSimulations(data?.simulations); // Update state with the fetched simulations
     } catch (error) {
-      console.error("An error occurred:", error);
-      toast.error("Une erreur s'est produite lors de la récupération des simulations.");
+      toast.error(
+        "Une erreur s'est produite lors de la récupération des simulations."
+      );
     }
   };
 
@@ -53,12 +52,12 @@ const Dashboard = () => {
           },
         }
       );
-      if (response.ok) {
-        const data = await response.json();
-        setUserData(data?.user);
-      }
+      const data = await response.json();
+      setUserData(data?.user);
     } catch (error) {
-      toast.error("Une erreur s'est produite lors de la récupération des data user.");
+      toast.error(
+        "Une erreur s'est produite lors de la récupération des data user."
+      );
     }
   };
 
@@ -78,7 +77,9 @@ const Dashboard = () => {
       toast.success("Le rendez-vous a été annulé avec succès !");
       getUserData(user?._id);
     } catch (error) {
-      toast.error("Une erreur s'est produite lors de l'annulation du rendez-vous.");
+      toast.error(
+        "Une erreur s'est produite lors de l'annulation du rendez-vous."
+      );
     }
   };
 
@@ -116,9 +117,9 @@ const Dashboard = () => {
             </div>
           </div>
           {/* Appointment Slot for dashboard */}
-          {userData.appointment && (
+          {userData?.appointment && (
             <div
-              onClick={() => toggleProject("appointment-slot")}
+              // onClick={() => toggleProject("appointment-slot")}
               className="my-10 m-auto flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
             >
               <h2 className="text-2xl font-semibold">
@@ -126,9 +127,7 @@ const Dashboard = () => {
               </h2>
 
               <div
-                className={`transition duration-700 ease-in-out flex-col  gap-4  ' ${
-                  expandedProjectId === "appointment-slot" ? "flex " : "hidden"
-                }`}
+                className={`transition duration-700 ease-in-out flex-col  gap-4  '`}
               >
                 <div className="flex  justify-center items-center gap-2">
                   <p className="text-xl font-semibold">Appointment</p>
@@ -141,9 +140,14 @@ const Dashboard = () => {
                   >
                     Cancel
                   </button>
-                  <button className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-2 rounded-full bg-sky-500 text-white transition-all duration-300">
-                    Reschdule
-                  </button>
+                  <ScrollLink
+                    to="appointment"
+                    smooth={true}
+                    duration={500}
+                    className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]  cursor-pointer font-medium px-4 py-2 rounded-full bg-sky-500 text-white transition-all duration-300"
+                  >
+                    Reschedule
+                  </ScrollLink>
                 </div>
               </div>
             </div>
@@ -152,7 +156,7 @@ const Dashboard = () => {
           <Appointment getUserData={getUserData} />
         </div>
         <div>
-          {simulations.length > 0 ? (
+          {simulations?.length > 0 ? (
             <ul className="gap-5 px-3 flex flex-wrap w-full justify-around items-start my-7  ">
               {simulations.map((simulation) => (
                 <div
