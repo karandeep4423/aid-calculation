@@ -63,7 +63,7 @@ const Appointment = ({ getUserData }) => {
     try {
       const formattedSlot = format(selectedSlot, "HH'h':mm, dd-MM-yyyy");
       const response = await axios.post(
-        `http://localhost:3001/api/auth/appointment`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/appointment`,
         {
           userID,
           formattedSlot,
@@ -142,7 +142,7 @@ const Appointment = ({ getUserData }) => {
               <div className="relative">
                 <div className="flex items-center justify-center sm:px-3.5">
                   <h2 className="flex-auto text-xl font-medium  text-gray-900">
-                    {format(firstDayCurrentMonth, "MMMM yyyy")}
+                    {new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(firstDayCurrentMonth, "MMMM yyyy")}
                   </h2>
                   <button
                     type="button"
@@ -208,7 +208,7 @@ const Appointment = ({ getUserData }) => {
               <div class="absolute md:visible invisible left-1/2 -ml-0.5 w-0.5 h-96 mt-14 bg-gray-400"></div>
               <div>
                 <h2 className="flex-auto text-center -mt-4 sm:-mt-0 text-xl font-medium  text-gray-900">
-                  {format(selectedDay, "EEEE, MMMM d")}
+                  {new Intl.DateTimeFormat('fr-FR', { weekday: 'long', month: 'long', day: 'numeric' }).format(selectedDay, "EEEE, MMMM d")}
                 </h2>
                 <div className="grid  h-fit md:h-96 w-full mt-5 md:mt-12 grid-cols-2  mx-auto scrollbar md:overflow-auto  lg:grid-cols-2 gap-5 ">
                   {timeSlots.map((slot, index) => {
