@@ -119,7 +119,7 @@ const Dashboard = () => {
           {/* Appointment Slot for dashboard */}
           {userData?.appointment && (
             <div
-              // onClick={() => toggleProject("appointment-slot")}
+              onClick={() => toggleProject("appointment-slot")}
               className="my-10 m-auto flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
             >
               <h2 className="text-2xl font-semibold">
