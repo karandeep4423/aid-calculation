@@ -10,5 +10,5 @@ router.post('/forgot-password', authController.forgotPassword);
 router.post('/reset-password/:token', authController.resetPassword);
 router.post("/appointment", authController.appointment);
 router.post("/appointment-cancel", authController.appointmentCancel);
-
+router.get("/get-user/:userId", authController.getUserData);
 module.exports = router;

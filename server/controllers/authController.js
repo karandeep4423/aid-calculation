@@ -189,7 +189,12 @@ exports.appointment = async (req, res, next) => {
   try {
     const { userID, formattedSlot } = req.body;
     if (!userID || !formattedSlot) {
-      return res.status(400).json({ status: "fail", message: "User ID and selected slot are required." });
+      return res
+        .status(400)
+        .json({
+          status: "fail",
+          message: "User ID and selected slot are required.",
+        });
     }
 
     const user = await User.findOne({ _id: userID });
@@ -201,7 +206,8 @@ exports.appointment = async (req, res, next) => {
     user.appointment = formattedSlot;
 
     // Save and log the result or error
-    const updatedUser = await user.save()
+    const updatedUser = await user
+      .save()
       .then((result) => {
         console.log("Appointment updated successfully:", result);
         return result;
@@ -222,14 +228,13 @@ exports.appointment = async (req, res, next) => {
   }
 };
 
-
 exports.appointmentCancel = async (req, res, next) => {
   try {
-    const { email, selectedSlot } = req.body;
+    const { userId } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ _id: userId });
     if (!user) {
-      return next(new createError("User not found with this email", 404));
+      return next(new createError("User not found!", 404));
     }
 
     user.appointment = null;
@@ -239,6 +244,33 @@ exports.appointmentCancel = async (req, res, next) => {
       status: "success",
       message: "Appointment has been cancelled successfully!",
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getUserData = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) {
+      return res
+        .status(400)
+        .json({
+          status: "fail",
+          message: "User ID is required.",
+        });
+    }
+
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return next(new createError("User not found!", 404));
+    }
+    res.status(200).json({
+      status: "success",
+      message: "User has been fetched successfully!",
+      user: user,
+    });
+
   } catch (error) {
     next(error);
   }

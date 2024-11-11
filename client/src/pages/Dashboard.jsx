@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Appointment from "../components/Appointment";
-import {useAuth} from "../provider/authProvider";
+import axios from "axios";
 
 const Dashboard = () => {
   const [expandedProjectId, setExpandedProjectId] = useState(null);
   const [simulations, setSimulations] = useState([]); // State to store simulation data
-  const { userlogin } = useAuth(); // Access user data from context
-console.log("data ",userlogin)
+  const [userData, setUserData] = useState({});
+
   const toggleProject = (simulationId) => {
     if (expandedProjectId === simulationId) {
       setExpandedProjectId(null); // Collapse if the same profile is clicked again
@@ -18,7 +18,7 @@ console.log("data ",userlogin)
   };
 
   const user = JSON.parse(localStorage.getItem("userDetails"));
-  console.log("user gg", user);
+  
   // Function to fetch simulations by userId
   const getSimulationsByUserId = async (userId) => {
     try {
@@ -34,27 +34,62 @@ console.log("data ",userlogin)
 
       if (response.ok) {
         const data = await response.json();
-        console.log("data", data.simulations);
         setSimulations(data.simulations); // Update state with the fetched simulations
       }
     } catch (error) {
       console.error("An error occurred:", error);
-      toast.error("An error occurred while fetching simulations.");
+      toast.error("Une erreur s'est produite lors de la récupération des simulations.");
+    }
+  };
+
+  const getUserData = async (userId) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/get-user/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setUserData(data?.user);
+      }
+    } catch (error) {
+      toast.error("Une erreur s'est produite lors de la récupération des data user.");
     }
   };
 
   // useEffect hook to fetch simulations when the component mounts
   useEffect(() => {
     getSimulationsByUserId(user?._id); // Automatically fetch simulations when dashboard loads
+    getUserData(user?._id);
   }, [user?._id]); // Only runs when the userId changes (or once on component mount)
+
+  const cancelAppointment = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/appointment-cancel`,
+        { userId: user?._id }
+      );
+
+      toast.success("Le rendez-vous a été annulé avec succès !");
+      getUserData(user?._id);
+    } catch (error) {
+      toast.error("Une erreur s'est produite lors de l'annulation du rendez-vous.");
+    }
+  };
 
   return (
     <div className=" m-auto max-w-screen-xl ">
       <h1 className="text-3xl text-center font-semibold">
-        Bienvenue dans votre Espace,{user?.firstname}
+        Bienvenue dans votre Espace, {user?.firstname}
       </h1>
       <div>
         <div>
+          {/* information component */}
           <div
             onClick={() => toggleProject("personal-info")}
             className="my-10 m-auto flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
@@ -80,8 +115,41 @@ console.log("data ",userlogin)
               </div>
             </div>
           </div>
+          {/* Appointment Slot for dashboard */}
+          {userData.appointment && (
+            <div
+              onClick={() => toggleProject("appointment-slot")}
+              className="my-10 m-auto flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
+            >
+              <h2 className="text-2xl font-semibold">
+                Les informations de rendez-vous
+              </h2>
+
+              <div
+                className={`transition duration-700 ease-in-out flex-col  gap-4  ' ${
+                  expandedProjectId === "appointment-slot" ? "flex " : "hidden"
+                }`}
+              >
+                <div className="flex  justify-center items-center gap-2">
+                  <p className="text-xl font-semibold">Appointment</p>
+                  <p className="font-bold">{userData?.appointment}</p>
+                </div>
+                <div className="flex gap-3 justify-around">
+                  <button
+                    onClick={cancelAppointment}
+                    className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-2 rounded-full bg-sky-500 text-white transition-all duration-300"
+                  >
+                    Cancel
+                  </button>
+                  <button className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-2 rounded-full bg-sky-500 text-white transition-all duration-300">
+                    Reschdule
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           {/* Appointment component */}
-          <Appointment />
+          <Appointment getUserData={getUserData} />
         </div>
         <div>
           {simulations.length > 0 ? (
@@ -192,7 +260,9 @@ console.log("data ",userlogin)
             </ul>
           ) : (
             <div className="mb-10 flex flex-col items-center justify-center  sm:my-10">
-              <p className="text-3xl pb-2 font-bold px-2">Vous n'avez aucun projet.</p>
+              <p className="text-3xl pb-2 font-bold px-2">
+                Vous n'avez aucun projet.
+              </p>
               <Link to="/simulation">
                 <button className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-3 rounded-full bg-sky-500 text-white transition-all duration-300">
                   Demander un devis

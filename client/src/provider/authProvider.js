@@ -17,12 +17,6 @@ const AuthProvider = ({ children }) => {
     setUserID(userData);
   };
 
-    // Function to set user login data
-    const setUserLogin = (userData) => {
-      setuserLogin(userData);
-    };
-  
-
   // Function to set the authentication token
   const setToken = (newToken) => {
     setToken_(newToken);
@@ -44,8 +38,6 @@ const AuthProvider = ({ children }) => {
       token,
       setToken,
       userID,
-      userlogin,
-      setUserLogin,
       setUser, // Expose setUserData in context
     }),
     [token,userID]

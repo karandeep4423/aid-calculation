@@ -10,7 +10,6 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loader, setLoader] = useState(false);
-  const { setUserLogin } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -28,7 +27,6 @@ const LoginForm = () => {
           setToken(result.data.token);
           localStorage.setItem("userDetails", JSON.stringify(result.data.user));
           navigate("/dashboard", { replace: true });
-          setUserLogin(result.data.user)
         })
         .catch((err) => {
           toast.error(err.response.data.message);

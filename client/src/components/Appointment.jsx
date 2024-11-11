@@ -14,18 +14,21 @@ import {
 } from "date-fns";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Button, Modal } from "flowbite-react";
 
-const Appointment = () => {
+const Appointment = ({ getUserData }) => {
   let today = startOfDay(new Date());
   let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
   const [selectedDay, setSelectedDay] = useState(startOfDay(new Date()));
   const [selectedDayBtn, setSelectedDayBtn] = useState(null);
   const [outlineBtn, setOutlineBtn] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
-  const [loader, setLoader] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
-  const userID = userDetails?._id ;
-  console.log("user-id",format(selectedSlot, "HH:mm d-MM-y "))
+  const userID = userDetails?._id;
+  console.log("user-id", format(selectedSlot, "HH:mm d-MM-y "));
+
   // Generate days for the calendar month
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
   let days = eachDayOfInterval({
@@ -58,11 +61,17 @@ const Appointment = () => {
 
   const submitAppointment = async () => {
     try {
-      const formattedSlot =  format(selectedSlot, "HH:mm d-MM-y ");
-      const response = await axios.post(`http://localhost:3001/api/auth/appointment`, {
-        userID, formattedSlot,
-      });
-      toast.success(response.data.message); // Show success toast
+      const formattedSlot = format(selectedSlot, "HH'h':mm, dd-MM-yyyy");
+      const response = await axios.post(
+        `http://localhost:3001/api/auth/appointment`,
+        {
+          userID,
+          formattedSlot,
+        }
+      );
+      toast.success("Le rendez-vous a été pris avec succès !"); // Show success toast
+      getUserData(userID);
+      setOpenModal(false);
     } catch (error) {
       // Handle errors more gracefully and provide feedback from server
       if (
@@ -74,14 +83,51 @@ const Appointment = () => {
       } else {
         toast.error("An unexpected error occurred. Please try again later.");
       }
-    } finally {
-      setLoader(false); // Always reset the loader after request completes
-    }
+    } 
   };
 
   return (
     <div>
-      <div className="m-auto max-w-screen-xl">
+      {/* Modal */}
+      <div>
+        <Modal
+          show={openModal}
+          size="md"
+          onClose={() => setOpenModal(false)}
+          popup
+        >
+          <div className="h-5/6 mix-blend-multiply bg-gradient-to-r from-blue-100 via-purple-100  to-yellow-50   rounded-3xl filter  shadow-[5px_5px_0px_4px_rgba(2,139,199,0.5),_-5px_-5px_0px_rgba(2,139,199,0.5)] ">
+            <Modal.Header />
+            <Modal.Body>
+              <div className="text-center p-5">
+                <h3 className="mb-5 text-xl font-bold text-black ">
+                  You have been booked appointment at <br></br>{" "}
+                  <span className="underline underline-offset-8 text-sky-600">
+                    {" "}
+                    {format(selectedSlot, "HH'h':mm, dd-MM-yyyy")}{" "}
+                  </span>
+                </h3>
+                <div className="flex justify-center gap-10">
+                  <Button
+                    className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-2 rounded-full bg-sky-500 text-white transition-all duration-300"
+                    onClick={submitAppointment}
+                  >
+                    Oui
+                  </Button>
+                  <Button
+                    className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-2 rounded-full bg-sky-500 text-white transition-all duration-300"
+                    onClick={() => setOpenModal(false)}
+                  >
+                    Non
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+          </div>
+        </Modal>
+      </div>
+      {/* Appointment section */}
+      <div className="m-auto  max-w-screen-xl">
         <div className="flex  items-center justify-center">
           <div>
             <h2 className="text-gray-700 relative mt-10 text-center text-5xl font-bold">
@@ -116,13 +162,13 @@ const Appointment = () => {
                   </button>
                 </div>
                 <div className="grid w-full grid-cols-7 mt-6 sm:mt-8 text-xl font-medium leading-6 text-center text-gray-500">
-                  <div className="text-black ">Sun</div>
-                  <div>Mon</div>
-                  <div>Tue</div>
-                  <div>Wed</div>
-                  <div>Thu</div>
-                  <div>Fri</div>
-                  <div className="text-black">Sat</div>
+                  <div className="text-black ">Dim</div>
+                  <div>Lun</div>
+                  <div>Mar</div>
+                  <div>Mer</div>
+                  <div>Jeu</div>
+                  <div>Ven</div>
+                  <div className="text-black">Sam</div>
                 </div>
                 <div className="grid  w-full grid-cols-7 gap-1 mt-5 ">
                   {days.map((day, dayIndx) => (
@@ -190,7 +236,8 @@ const Appointment = () => {
             </div>
             <div className="flex  mt-10 justify-center">
               <button
-                onClick={submitAppointment}
+                // onClick={submitAppointment}
+                onClick={() => setOpenModal(true)}
                 className="text-xl font-medium px-14 py-3 rounded-xl text-center overflow-hidden group bg-sky-500 relative hover:bg-gradient-to-r hover:from-sky-500 hover:to-sky-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-sky-400 transition-all ease-out duration-300"
               >
                 <span className="absolute right-0 w-8 h-28 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
