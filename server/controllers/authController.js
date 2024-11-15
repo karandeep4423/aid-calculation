@@ -2,7 +2,8 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const createError = require("../utils/appError");
 const bcrypt = require("bcrypt");
-const sendMail = require("../services/mail/verificationMail");
+let sendMail = require("../services/mail/verificationMail");
+sendMail = require("../services/mail/appointmentMail");
 const crypto = require("crypto");
 
 const generateVerificationToken = () => {
@@ -188,42 +189,57 @@ exports.resetPassword = async (req, res, next) => {
 exports.appointment = async (req, res, next) => {
   try {
     const { userID, formattedSlot } = req.body;
+
+    // Validate input
     if (!userID || !formattedSlot) {
-      return res
-        .status(400)
-        .json({
-          status: "fail",
-          message: "User ID and selected slot are required.",
-        });
+      return res.status(400).json({
+        status: "fail",
+        message: "User ID and selected slot are required.",
+      });
     }
 
+    // Find the user
     const user = await User.findOne({ _id: userID });
     if (!user) {
       return next(new createError("User not found!", 404));
     }
 
-    // Update the appointment field and save
+    let isReschedule = false;
+    let oldAppointment = null;
+
+    // Check if it's a new appointment or reschedule
+    if (user.appointment) {
+      isReschedule = true;
+      oldAppointment = user.appointment;
+    }
+
+    // Update the user's appointment
     user.appointment = formattedSlot;
 
-    // Save and log the result or error
-    const updatedUser = await user
-      .save()
-      .then((result) => {
-        console.log("Appointment updated successfully:", result);
-        return result;
-      })
-      .catch((error) => {
-        console.error("Error updating appointment:", error);
-        throw error; // Propagate error to the catch block
-      });
+    // Save the updated user
+    const updatedUser = await user.save();
 
+    // Send the appropriate email
+    if (isReschedule) {
+      await sendMail.sendRescheduleAppointmentEmail(
+        user.email,
+        oldAppointment,
+        user.appointment,
+        user?.firstname
+      );
+    } else {
+      await sendMail.sendAppointmentBookEmail(user.email, user.appointment,user?.firstname);
+    }
+
+    // Respond with success
     res.status(200).json({
       status: "success",
-      message: "Appointment has been booked successfully!",
+      message: isReschedule
+        ? "Appointment has been rescheduled successfully!"
+        : "Appointment has been booked successfully!",
       user: updatedUser,
     });
   } catch (error) {
-    console.error("An error occurred in appointment booking:", error);
     next(error);
   }
 };
@@ -236,9 +252,10 @@ exports.appointmentCancel = async (req, res, next) => {
     if (!user) {
       return next(new createError("User not found!", 404));
     }
-
+    const appointmentValue = user.appointment;
     user.appointment = null;
     await user.save();
+    sendMail.sendCancelAppointmentEmail(user?.email, appointmentValue,user?.firstname);
 
     res.status(200).json({
       status: "success",
@@ -253,12 +270,10 @@ exports.getUserData = async (req, res, next) => {
   try {
     const { userId } = req.params;
     if (!userId) {
-      return res
-        .status(400)
-        .json({
-          status: "fail",
-          message: "User ID is required.",
-        });
+      return res.status(400).json({
+        status: "fail",
+        message: "User ID is required.",
+      });
     }
 
     const user = await User.findOne({ _id: userId });
@@ -270,7 +285,6 @@ exports.getUserData = async (req, res, next) => {
       message: "User has been fetched successfully!",
       user: user,
     });
-
   } catch (error) {
     next(error);
   }

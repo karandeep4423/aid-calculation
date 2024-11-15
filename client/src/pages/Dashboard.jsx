@@ -3,12 +3,12 @@ import { toast } from "react-toastify";
 import Appointment from "../components/Appointment";
 import axios from "axios";
 import { Link as ScrollLink } from "react-scroll";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 const Dashboard = () => {
   const [expandedProjectId, setExpandedProjectId] = useState(null);
   const [simulations, setSimulations] = useState([]); // State to store simulation data
   const [userData, setUserData] = useState({});
-
+  const [showAppointment, setShowAppointment] = useState(false);
   const toggleProject = (simulationId) => {
     if (expandedProjectId === simulationId) {
       setExpandedProjectId(null); // Collapse if the same profile is clicked again
@@ -54,6 +54,7 @@ const Dashboard = () => {
       );
       const data = await response.json();
       setUserData(data?.user);
+      setShowAppointment(false);
     } catch (error) {
       toast.error(
         "Une erreur s'est produite lors de la récupération des data user."
@@ -83,17 +84,21 @@ const Dashboard = () => {
     }
   };
 
+  const appointmentToggle = () => {
+    setShowAppointment(!showAppointment);
+  };
+
   return (
     <div className=" m-auto max-w-screen-xl ">
       <h1 className="text-3xl text-center font-semibold">
         Bienvenue dans votre Espace, {user?.firstname}
       </h1>
       <div>
-        <div>
+        <div className="flex flex-col gap-2 justify-around items-center sm:flex-row">
           {/* information component */}
           <div
             onClick={() => toggleProject("personal-info")}
-            className="my-10 m-auto flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
+            className="my-10  flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
           >
             <h2 className="text-2xl font-semibold">
               Mes informations personnelles
@@ -117,17 +122,19 @@ const Dashboard = () => {
             </div>
           </div>
           {/* Appointment Slot for dashboard */}
-          {userData?.appointment && (
+          {userData?.appointment != undefined ? (
             <div
               onClick={() => toggleProject("appointment-slot")}
-              className="my-10 m-auto flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
+              className="my-10  flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
             >
               <h2 className="text-2xl font-semibold">
                 Les informations de rendez-vous
               </h2>
 
               <div
-                className={`transition duration-700 ease-in-out flex-col  gap-4  '`}
+                className={`transition duration-700 ease-in-out flex-col  gap-4  ' ${
+                  expandedProjectId === "appointment-slot" ? "flex " : "hidden"
+                }`}
               >
                 <div className="flex  justify-center items-center gap-2">
                   <p className="text-xl font-semibold">Appointment</p>
@@ -140,21 +147,28 @@ const Dashboard = () => {
                   >
                     Cancel
                   </button>
-                  <ScrollLink
+
+                  <button
                     to="appointment"
-                    smooth={true}
-                    duration={500}
+                    onClick={appointmentToggle}
                     className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)]  cursor-pointer font-medium px-4 py-2 rounded-full bg-sky-500 text-white transition-all duration-300"
                   >
-                    Reschedule
-                  </ScrollLink>
+                    Reschdule
+                  </button>
                 </div>
               </div>
             </div>
+          ) : (
+            <button
+              className="hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-3 rounded-full bg-sky-500 text-white transition-all duration-300"
+              onClick={appointmentToggle}
+            >
+              Réserver un appel
+            </button>
           )}
-          {/* Appointment component */}
-          <Appointment getUserData={getUserData} />
         </div>
+        {/* Appointment component */}
+        {showAppointment ? <Appointment getUserData={getUserData} /> : null}
         <div>
           {simulations?.length > 0 ? (
             <ul className="gap-5 px-3 flex flex-wrap w-full justify-around items-start my-7  ">
