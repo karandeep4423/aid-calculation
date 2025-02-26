@@ -327,14 +327,14 @@ const Simulation = () => {
       items: [
         {
           inputType: "radio",
-          itemName: "Yes",
+          itemName: "Oui",
           itemDes: null,
           icon: null,
           Id: "cartL-1",
         },
         {
           inputType: "radio",
-          itemName: "No",
+          itemName: "Non",
           itemDes: null,
           icon: null,
           Id: "cartL-2",
@@ -915,7 +915,7 @@ const Simulation = () => {
                 <div
                   className={`${
                     Object.values(selections).some(
-                      (selection) => selection.itemName === "Entre 2 et 15 ans"
+                      (selection) => selection.itemName === "Principale" || selection.itemName === "Secondaire"
                     )
                       ? "bg-blue-500 w-4 h-4 rounded-full  text-white flex items-center justify-center"
                       : "w-4 h-4 rounded-full border-2 border-blue-400 text-white"
@@ -947,7 +947,7 @@ const Simulation = () => {
                 <div
                   className={`${
                     Object.values(selections).some(
-                      (selection) => selection.itemName === "Entre 2 et 15 ans"
+                      (selection) => selection.itemName === "Oui" || selection.itemName === "Non"
                     )
                       ? "bg-blue-500 w-4 h-4 rounded-full  text-white flex items-center justify-center"
                       : "w-4 h-4 rounded-full border-2 border-blue-400 text-white"
@@ -979,8 +979,7 @@ const Simulation = () => {
                 <div
                   className={`${
                     Object.values(selections).some(
-                      (selection) => selection.itemName === "Entre 2 et 15 ans"
-                    )
+                      (selection) => selection?.Travaux !== undefined && selection?.Travaux !== ""                    )
                       ? "bg-blue-500 w-4 h-4 rounded-full  text-white flex items-center justify-center"
                       : "w-4 h-4 rounded-full border-2 border-blue-400 text-white"
                   }`}
@@ -1042,6 +1041,7 @@ const Simulation = () => {
                         <div className="flex items-center flex-col">
                           <div className="flex gap-4 items-center">
                             <input
+                              required
                               className="w-6 h-6"
                               name={`step-${stepIndex}`} // Grouping radio buttons per step
                               type="radio"
@@ -1074,6 +1074,7 @@ const Simulation = () => {
                           <h2 className="font-bold">{item.itemName}</h2>
                           <p>{item.itemDes}</p>
                           <input
+                           required
                             className="border-2 p-2 w-full rounded-md border-gray-500"
                             placeholder={item.itemName}
                             type={item.inputType}

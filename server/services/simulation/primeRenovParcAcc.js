@@ -53,9 +53,4 @@ const checkPrimeRenovParcAccPrime = (simulation) => {
     return prime;
 };
 
-
-
-
-
-
 module.exports = { checkPrimeRenovParcAccEligibilite, checkPrimeRenovParcAccPrime };

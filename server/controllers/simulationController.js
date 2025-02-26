@@ -31,7 +31,6 @@ exports.householdType = async (req, res, next) => {
 };
 
 exports.primeRenov = async (req, res, next) => {
-  console.log("renvo", req.body);
   try {
     // Validate the request body using the Mongoose model
     const simulation = new Simulation({
@@ -153,7 +152,6 @@ exports.primeRenovCoprop = async (req, res, next) => {
       nbPers: req.body.nbPers,
       revenuFiscal: req.body.revenuFiscal,
       dpeLogement: req.body.dpeLogement,
-
       gainEnergetique: req.body.gainEnergetique,
       nbLogement: req.body.nbLogement,
       nbLogementHabPrinc: req.body.nbLogementHabPrinc,
@@ -422,7 +420,7 @@ exports.primeAdapt = async (req, res, next) => {
 
     const simulation = new Simulation({
       // user: req.body.user,
-      typeSimulation: "rempl chauff",
+      typeSimulation: "prime adapt",
       typeBenef: req.body.typeBenef,
       typeLogement: req.body.typeLogement,
       natureResidence: req.body.natureResidence,
