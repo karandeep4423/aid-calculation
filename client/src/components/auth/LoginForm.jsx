@@ -101,14 +101,14 @@ const LoginForm = () => {
         )}
         <div className=" my-4 grid grid-cols-3 items-center text-black">
           <hr className="border-black" />
-          <p className="text-center text-sm">OR</p>
+          <p className="text-center text-sm">OU</p>
           <hr className="border-black" />
         </div>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
           type="button"
         >
-          <Link to="/register">Register Here</Link>
+          <Link to="/register">Enregistrez-vous</Link>
         </button>
       </div>
     </div>

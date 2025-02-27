@@ -90,7 +90,8 @@ const RegisterForm = () => {
     let errors = [];
     if (!formData.lastname || formData.lastname.length < 2)
       errors.push("Au moins 2 caractères requis");
-    if (formData.lastname.length > 50) errors.push("Max 50 caractères autorisés");
+    if (formData.lastname.length > 50)
+      errors.push("Max 50 caractères autorisés");
     if (!/^[a-zA-Z]+$/.test(formData.lastname))
       errors.push("Seuls les caractères alphabétiques sont autorisés");
     setErrors((prev) => ({ ...prev, lastname: errors }));
@@ -191,7 +192,7 @@ const RegisterForm = () => {
   return (
     <div className="py-10 min-h-screen flex items-center justify-center bg-blue-500">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h2 className="text-2xl font-bold mb-6 text-center">Registre</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Enregistrez-vous</h2>
         <form>
           <div className="mb-4">
             <label
@@ -207,7 +208,7 @@ const RegisterForm = () => {
               id="email"
               type="email"
               name="email"
-              placeholder="Enter email"
+              placeholder="Entrez votre adresse e-mail"
               value={formData.email}
               onChange={handleChange}
               onBlur={validateEmail}
@@ -230,7 +231,7 @@ const RegisterForm = () => {
               id="firstname"
               type="text"
               name="firstname"
-              placeholder="Enter first name"
+              placeholder="Entrez votre prénom"
               value={formData.firstname}
               onChange={handleChange}
               onBlur={validateFirstname}
@@ -260,7 +261,7 @@ const RegisterForm = () => {
               id="lastname"
               type="text"
               name="lastname"
-              placeholder="Enter last name"
+              placeholder="Entrez votre nom"
               value={formData.lastname}
               onChange={handleChange}
               onBlur={validateLastname}
@@ -290,7 +291,7 @@ const RegisterForm = () => {
               id="phone"
               type="text"
               name="phone"
-              placeholder="Enter phone number"
+              placeholder="Entrez le numéro de téléphone"
               value={formData.phone}
               onChange={handleChange}
               onBlur={validatePhone}
@@ -306,18 +307,20 @@ const RegisterForm = () => {
             >
               Sexe
             </label>
-            <input
+            <select
               className={`shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                 errors.gender ? "border-red-500" : ""
               }`}
               id="gender"
-              type="text"
               name="gender"
-              placeholder="Enter gender"
               value={formData.gender}
               onChange={handleChange}
               onBlur={validateGender}
-            />
+            >
+              <option value="">Sélectionnez le sexe</option>
+              <option value="madame">Femme</option>
+              <option value="monsieur">Homme</option>
+            </select>
             {errors.gender && (
               <p className="text-red-500 text-xs italic">{errors.gender}</p>
             )}
@@ -362,20 +365,20 @@ const RegisterForm = () => {
                 onClick={handleRegister}
                 disabled={!isFormValid()}
               >
-                Register
+                Enregistrez-vous
               </button>
             )}
           </div>
           <div className=" my-4 grid grid-cols-3 items-center text-black">
             <hr className="border-black" />
-            <p className="text-center text-sm">OR</p>
+            <p className="text-center text-sm">OU</p>
             <hr className="border-black" />
           </div>{" "}
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             type="button"
           >
-            <Link to="/login">Login Here</Link>
+            <Link to="/login">Me connecter</Link>
           </button>
         </form>
       </div>
