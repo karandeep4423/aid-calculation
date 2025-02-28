@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
 import DashAppointment from "../components/DashAppointment";
+
 const Admin = () => {
   const [dataUser, setDataUser] = useState([]);
   const [simulationsData, setSimulationsData] = useState({});

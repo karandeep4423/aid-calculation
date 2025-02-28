@@ -82,19 +82,14 @@ const DashAppointment = ({ userData }) => {
     }
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-    setModalUserData(null);
-  };
-
   return (
     <div>
       {/* Appointment section */}
       <div className="m-auto max-w-screen-xl">
         <div className="flex items-center justify-center">
           <div>
-            <h2 className="text-gray-700 relative mt-10 text-center text-5xl font-bold">
-              Réserver un appel
+            <h2 className="text-gray-700 relative  text-center text-5xl font-bold">
+              Réservations
             </h2>
           </div>
           <div className="bg-sky-400 mt-10 absolute z-50 mix-blend-multiply filter blur-2xl h-16 w-56"></div>
@@ -189,52 +184,53 @@ const DashAppointment = ({ userData }) => {
           </div>
         </div>
       </div>
+      {/* Modal section */}
+      {showModal && modalUserData && (
+        <div>
+          <Modal
+            show={showModal}
+            size="md"
+            onClose={() => setShowModal(false)}
+            popup
+          >
+            <div className="h-5/6 mix-blend-multiply bg-gradient-to-r from-blue-100 via-purple-100  to-yellow-50   rounded-3xl filter  shadow-[5px_5px_0px_4px_rgba(2,139,199,0.5),_-5px_-5px_0px_rgba(2,139,199,0.5)] ">
+              <Modal.Header />
+              <Modal.Body>
+                <div className="text-center p-5">
+                  {modalUserData.map((user, index) => (
+                    <div key={index} className=" p-4 rounded-lg">
+                      <h3 className="text-2xl leading-6 font-bold text-gray-900 mb-4">
+                        Rendez-vous le {format(selectedDay, "dd-MM-yyyy")}
+                      </h3>
+                      <div className="grid grid-cols-2 gap-2 text-lg">
+                        <div className="font-medium">Heure:</div>
+                        <div>
+                          {user.appointment
+                            ? user.appointment.split(", ")[0]
+                            : "N/A"}
+                        </div>
 
-      {showModal && modalUserData && (<div>
-        <Modal
-          show={showModal}
-          size="md"
-          onClose={() => setShowModal(false)}
-          popup
-        >
-          <div className="h-5/6 mix-blend-multiply bg-gradient-to-r from-blue-100 via-purple-100  to-yellow-50   rounded-3xl filter  shadow-[5px_5px_0px_4px_rgba(2,139,199,0.5),_-5px_-5px_0px_rgba(2,139,199,0.5)] ">
-            <Modal.Header />
-            <Modal.Body>
-              <div className="text-center p-5">
-                {modalUserData.map((user, index) => (
-                  <div key={index} className=" p-4 rounded-lg">
-                    <h3 className="text-2xl leading-6 font-bold text-gray-900 mb-4">
-                      Rendez-vous le {format(selectedDay, "dd-MM-yyyy")}
-                    </h3>
-                    <div className="grid grid-cols-2 gap-2 text-lg">
-                      <div className="font-medium">Heure:</div>
-                      <div>
-                        {user.appointment
-                          ? user.appointment.split(", ")[0]
-                          : "N/A"}
+                        <div className="font-medium">Nom:</div>
+                        <div>
+                          {user.firstname} {user.lastname}
+                        </div>
+
+                        <div className="font-medium">Email:</div>
+                        <div>{user.email}</div>
+
+                        <div className="font-medium">Téléphone:</div>
+                        <div>{user.phone}</div>
+
+                        <div className="font-medium">Genre:</div>
+                        <div>{user.gender}</div>
                       </div>
-
-                      <div className="font-medium">Nom:</div>
-                      <div>
-                        {user.firstname} {user.lastname}
-                      </div>
-
-                      <div className="font-medium">Email:</div>
-                      <div>{user.email}</div>
-
-                      <div className="font-medium">Téléphone:</div>
-                      <div>{user.phone}</div>
-
-                      <div className="font-medium">Genre:</div>
-                      <div>{user.gender}</div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </Modal.Body>
-          </div>
-        </Modal>
-      </div>
+                  ))}
+                </div>
+              </Modal.Body>
+            </div>
+          </Modal>
+        </div>
       )}
     </div>
   );
