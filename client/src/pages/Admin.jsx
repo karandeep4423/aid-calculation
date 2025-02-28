@@ -107,7 +107,7 @@ const Admin = () => {
             {/* Appointment  */}
             <div className=" flex flex-col items-center justify-center">
               {/* Appointment Slot for dashboard */}
-              {user?.appointment !== undefined ? (
+              {user?.appointment !== undefined && user?.appointment !== null ? (
                 <div className="my-10  flex flex-col gap-4 items-center  shadow-md bg-green-100 h-fit w-fit p-2 sm:p-8 rounded-2xl">
                   <div className="flex flex-col sm:flex-row  justify-center items-center gap-2">
                     <p className="text-xl font-semibold">Appointment</p>

@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
+  Navigate,
   useLocation,
 } from "react-router-dom";
 import Register from "./pages/auth/Register";
@@ -53,11 +54,29 @@ function AppContent() {
         <Route path="/verify-email/:token" element={<VerifyMail />} />
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          {user?.role === "admin" ? (
-            <Route path="/admin" element={<Admin />} />
-          ) : null}
-        </Route>
+        {/* Route for dashboard: if the user is admin, redirect to /admin */}
+        <Route
+          path="/dashboard"
+          element={
+            user?.role === "admin" ? (
+              <Navigate to="/admin" replace />
+            ) : (
+              <Dashboard />
+            )
+          }
+        />
+        {/* Route for admin: if the user is NOT an admin, redirect to /dashboard */}
+        <Route
+          path="/admin"
+          element={
+            user?.role !== "admin" ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <Admin />
+            )
+          }
+        />
+      </Route>
       </Routes>
 
       {/* Conditionally render Footer */}

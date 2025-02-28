@@ -88,7 +88,7 @@ const DashAppointment = ({ userData }) => {
       <div className="m-auto max-w-screen-xl">
         <div className="flex items-center justify-center">
           <div>
-            <h2 className="text-gray-700 relative  text-center text-5xl font-bold">
+            <h2 className="text-gray-700 relative text-center text-5xl font-bold">
               Réservations
             </h2>
           </div>

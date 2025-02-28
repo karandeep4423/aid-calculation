@@ -92,7 +92,7 @@ const LoginForm = () => {
             Mot de passe oublié ?
           </Link>
         </div>
-        {loader == true ? (
+        {loader === true ? (
           <button
             onClick={handleLogin}
             className="bg-blue-500 cursor-not-allowed hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
