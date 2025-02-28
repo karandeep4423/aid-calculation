@@ -27,7 +27,6 @@ const Appointment = ({ getUserData }) => {
 
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
   const userID = userDetails?._id;
-  console.log("user-id", format(selectedSlot, "HH:mm d-MM-y "));
 
   // Generate days for the calendar month
   let firstDayCurrentMonth = parse(currentMonth, "MMM-yyyy", new Date());
@@ -62,7 +61,7 @@ const Appointment = ({ getUserData }) => {
   const submitAppointment = async () => {
     try {
       const formattedSlot = format(selectedSlot, "HH'h':mm, dd-MM-yyyy");
-      const response = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/auth/appointment`,
         {
           userID,
@@ -83,7 +82,7 @@ const Appointment = ({ getUserData }) => {
       } else {
         toast.error("An unexpected error occurred. Please try again later.");
       }
-    } 
+    }
   };
 
   return (
@@ -142,7 +141,10 @@ const Appointment = ({ getUserData }) => {
               <div className="relative">
                 <div className="flex items-center justify-center sm:px-3.5">
                   <h2 className="flex-auto text-xl font-medium  text-gray-900">
-                    {new Intl.DateTimeFormat('fr-FR', { month: 'long', year: 'numeric' }).format(firstDayCurrentMonth, "MMMM yyyy")}
+                    {new Intl.DateTimeFormat("fr-FR", {
+                      month: "long",
+                      year: "numeric",
+                    }).format(firstDayCurrentMonth, "MMMM yyyy")}
                   </h2>
                   <button
                     type="button"
@@ -161,7 +163,10 @@ const Appointment = ({ getUserData }) => {
                     <ChevronRightIcon className="w-8 h-8" aria-hidden="true" />
                   </button>
                 </div>
-                <div id="appointment" className="grid w-full grid-cols-7 mt-6 sm:mt-8 text-xl font-medium leading-6 text-center text-gray-500">
+                <div
+                  id="appointment"
+                  className="grid w-full grid-cols-7 mt-6 sm:mt-8 text-xl font-medium leading-6 text-center text-gray-500"
+                >
                   <div className="text-black ">Dim</div>
                   <div>Lun</div>
                   <div>Mar</div>
@@ -208,7 +213,11 @@ const Appointment = ({ getUserData }) => {
               <div class="absolute md:visible invisible left-1/2 -ml-0.5 w-0.5 h-96 mt-14 bg-gray-400"></div>
               <div>
                 <h2 className="flex-auto text-center -mt-4 sm:-mt-0 text-xl font-medium  text-gray-900">
-                  {new Intl.DateTimeFormat('fr-FR', { weekday: 'long', month: 'long', day: 'numeric' }).format(selectedDay, "EEEE, MMMM d")}
+                  {new Intl.DateTimeFormat("fr-FR", {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                  }).format(selectedDay, "EEEE, MMMM d")}
                 </h2>
                 <div className="grid  h-fit md:h-96 w-full mt-5 md:mt-12 grid-cols-2  mx-auto scrollbar md:overflow-auto  lg:grid-cols-2 gap-5 ">
                   {timeSlots.map((slot, index) => {

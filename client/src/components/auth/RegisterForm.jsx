@@ -60,7 +60,14 @@ const RegisterForm = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    let processedValue = value;
+    
+    // Trim and convert to lowercase for all fields except password
+    if (name !== 'password') {
+      processedValue = value.trim().toLowerCase();
+    }
+    
+    setFormData({ ...formData, [name]: processedValue });
     setTouchedFields({ ...touchedFields, [name]: true });
   };
 
@@ -71,7 +78,7 @@ const RegisterForm = () => {
         formData.email
       )
         ? null
-        : "Invalid email format",
+        : "Format d'e-mail invalide",
     }));
   };
 
@@ -102,7 +109,7 @@ const RegisterForm = () => {
       ...prev,
       phone: /^(0|\+33)[1-9]\d{8}$/.test(formData.phone)
         ? null
-        : "Invalid phone format",
+        : "Format de téléphone invalide",
     }));
   };
 

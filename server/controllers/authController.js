@@ -2,8 +2,8 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const createError = require("../utils/appError");
 const bcrypt = require("bcrypt");
-let sendMail = require("../services/mail/verificationMail");
-sendMail = require("../services/mail/appointmentMail");
+const verificationMail = require("../services/mail/verificationMail");
+const appointmentMail = require("../services/mail/appointmentMail");
 const crypto = require("crypto");
 
 const generateVerificationToken = () => {
@@ -32,7 +32,7 @@ exports.signup = async (req, res, next) => {
       verificationTokenExpiresAt: new Date(Date.now() + 3600000),
     });
 
-    await sendMail.sendVerificationEmail(newUser.email, verificationToken);
+    await verificationMail.sendVerificationEmail(newUser.email, verificationToken);
 
     res.status(201).json({
       status: "success",
@@ -67,7 +67,7 @@ exports.login = async (req, res, next) => {
       user.verificationTokenExpiresAt = new Date(Date.now() + 3600000);
       await user.save();
 
-      await sendMail.sendVerificationEmail(user.email, verificationToken);
+      await verificationMail.sendVerificationEmail(user.email, verificationToken);
       return next(
         new createError(
           "Account Not verified! A Verification Email was Sent!",
@@ -140,7 +140,7 @@ exports.forgotPassword = async (req, res, next) => {
     const resetUrl = `reset-password/${resetToken}`;
 
     // Send password reset email
-    await sendMail.sendPasswordResetEmail(user.email, resetUrl);
+    await verificationMail.sendPasswordResetEmail(user.email, resetUrl);
 
     res.status(200).json({
       status: "success",
@@ -221,14 +221,14 @@ exports.appointment = async (req, res, next) => {
 
     // Send the appropriate email
     if (isReschedule) {
-      await sendMail.sendRescheduleAppointmentEmail(
+      await appointmentMail.sendRescheduleAppointmentEmail(
         user.email,
         oldAppointment,
         user.appointment,
         user?.firstname
       );
     } else {
-      await sendMail.sendAppointmentBookEmail(user.email, user.appointment,user?.firstname);
+      await appointmentMail.sendAppointmentBookEmail(user.email, user.appointment,user?.firstname);
     }
 
     // Respond with success
@@ -255,7 +255,7 @@ exports.appointmentCancel = async (req, res, next) => {
     const appointmentValue = user.appointment;
     user.appointment = null;
     await user.save();
-    sendMail.sendCancelAppointmentEmail(user?.email, appointmentValue,user?.firstname);
+    appointmentMail.sendCancelAppointmentEmail(user?.email, appointmentValue,user?.firstname);
 
     res.status(200).json({
       status: "success",

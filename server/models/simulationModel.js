@@ -67,11 +67,11 @@ const simulationSchema = new mongoose.Schema(
       type: String,
       required: [true, "Veuillez entrer votre code postal."],
     },
-    region: {
-      type: String,
-      enum: ["Île-de-France", "Outre-mer", "Métropole"],
-      required: false,
-    },
+    // region: {
+    //   type: String,
+    //   enum: ["Île-de-France", "Outre-mer", "Métropole"],
+    //   required: false,
+    // },
     dpeLogement: {
       type: String,
       enum: ["A", "B", "C", "D", "E", "F", "G", "Je ne sais pas"],

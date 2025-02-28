@@ -44,7 +44,7 @@ exports.primeRenov = async (req, res, next) => {
       adresse: req.body.adresse,
       ville: req.body.ville,
       codePostal: req.body.codePostal,
-      region: req.body.region,
+      // region: req.body.region,
       nbPers: req.body.nbPers,
       revenuFiscal: req.body.revenuFiscal,
       dpeLogement: req.body.dpeLogement,

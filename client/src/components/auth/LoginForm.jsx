@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import ClipLoader from "react-spinners/ClipLoader";
-import {useAuth} from '../../provider/authProvider';
+import { useAuth } from "../../provider/authProvider";
 const LoginForm = () => {
   const { setToken } = useAuth(); // Get setUserData from context
   const [email, setEmail] = useState("");
@@ -14,16 +14,24 @@ const LoginForm = () => {
 
   const handleLogin = () => {
     setLoader(true);
+
+    // Email validation regex pattern
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(email)) {
+      setLoader(false);
+      toast.error("Entrez une adresse e-mail valide");
+      return;
+    }
     if (email && password) {
       axios
         .post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, {
-          email: email,
+          email: email.trim().toLowerCase(),
           password: password,
         })
         .then((result) => {
-          console.log("result", result);
           setLoader(false);
-          toast.success("Login successfully!");
+          toast.success("Connectez-vous avec succès !");
           setToken(result.data.token);
           localStorage.setItem("userDetails", JSON.stringify(result.data.user));
           navigate("/dashboard", { replace: true });
@@ -34,7 +42,7 @@ const LoginForm = () => {
         });
     } else {
       setLoader(false);
-      toast.error("Form is not valid");
+      toast.error("Le formulaire n'est pas valide");
     }
   };
 
@@ -50,6 +58,7 @@ const LoginForm = () => {
             Email
           </label>
           <input
+            required
             value={email}
             className="shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
@@ -66,6 +75,7 @@ const LoginForm = () => {
             Mot de passe
           </label>
           <input
+            required
             value={password}
             className="shadow bg-gray-50 appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="password"

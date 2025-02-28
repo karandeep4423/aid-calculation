@@ -15,7 +15,7 @@ const ResetPassword = () => {
 
     // Password validation: Must be at least 8 characters long
     if (!password || password.length < 8) {
-      toast.error("Password must be at least 8 characters long!"); // Show error toast
+      toast.error("Le mot de passe doit comporter au moins 8 caractères !"); // Show error toast
       return; // Exit function if validation fails
     }
 
@@ -37,7 +37,7 @@ const ResetPassword = () => {
       ) {
         toast.error(error.response.data.message); // Show specific error message
       } else {
-        toast.error("An unexpected error occurred. Please try again later.");
+        toast.error("Veuillez réessayer plus tard.");
       }
     } finally {
       setLoader(false); // Always reset the loader after request completes

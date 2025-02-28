@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
-
+import DashAppointment from "../components/DashAppointment";
 const Admin = () => {
   const [dataUser, setDataUser] = useState([]);
   const [simulationsData, setSimulationsData] = useState({});
@@ -59,6 +59,7 @@ const Admin = () => {
       });
 
       setSimulationsData(simulationsDataMap);
+      console.log("Simulations data fetched successfully:", simulationsDataMap);
     } catch (error) {
       console.error("An error occurred while fetching simulations:", error);
     }
@@ -76,6 +77,7 @@ const Admin = () => {
 
   return (
     <div className="container mx-auto my-10 px-4">
+      <DashAppointment userData={dataUser} />
       <h1 className="text-center text-3xl font-bold mb-8">
         Toutes les données utilisateur et Projets
       </h1>
@@ -85,7 +87,9 @@ const Admin = () => {
           {/* User Info Row */}
           <div className="bg-sky-200 p-4 w-full rounded-t-xl shadow-md">
             <div className="w-full flex flex-col items-center justify-center">
-              <h2 className="text-xl font-semibold">Informations utilisateur</h2>
+              <h2 className="text-xl font-semibold">
+                Informations utilisateur
+              </h2>
               <div className="my-2 flex flex-col md:flex-row items-center justify-center gap-2">
                 <p className="text-xl font-bold">Identité</p>
                 <p className="font-semibold">
@@ -95,14 +99,30 @@ const Admin = () => {
                 <p className="font-semibold">{user?.email}</p>
                 <p className="text-xl font-bold">Phone:</p>
                 <p className="font-semibold">{user?.phone}</p>
+                {/* <p className="text-xl font-bold">Appointment:</p>
+                <p className="font-semibold">{user?.appointment}</p> */}
               </div>
             </div>
-
+            {/* Appointment  */}
+            <div className=" flex flex-col items-center justify-center">
+              {/* Appointment Slot for dashboard */}
+              {user?.appointment !== undefined ? (
+                <div className="my-10  flex flex-col gap-4 items-center  shadow-md bg-green-100 h-fit w-fit p-2 sm:p-8 rounded-2xl">
+                  <div className="flex flex-col sm:flex-row  justify-center items-center gap-2">
+                    <p className="text-xl font-semibold">Appointment</p>
+                    <p className="font-bold">{user?.appointment}</p>
+                  </div>
+                </div>
+              ) : null}
+            </div>
             {/* Projects Row */}
             <div className="w-full flex flex-wrap gap-4">
               {simulationsData[user._id]?.length > 0 ? (
                 simulationsData[user._id].map((simulation, index) => (
-                  <div key={simulation._id} className="w-full sm:w-1/2 lg:w-1/3">
+                  <div
+                    key={simulation._id}
+                    className="w-full sm:w-1/2 lg:w-1/3"
+                  >
                     <div
                       className="bg-sky-100 p-4 rounded-lg shadow-md cursor-pointer"
                       onClick={() => toggleProject(simulation._id)}
@@ -122,39 +142,45 @@ const Admin = () => {
                           <strong>Postal Code:</strong> {simulation.codePostal}
                         </p>
                         <p>
-                          <strong>DPE Logement:</strong> {simulation.dpeLogement}
+                          <strong>DPE Logement:</strong>{" "}
+                          {simulation.dpeLogement}
                         </p>
                         <p>
-                          <strong>Construction Duration:</strong> {simulation.dureeConstruction}
+                          <strong>Construction Duration:</strong>{" "}
+                          {simulation.dureeConstruction}
                         </p>
                         <p>
                           <strong>Eligibility:</strong>{" "}
                           {simulation.eligible ? "Yes" : "No"}
                         </p>
                         <p>
-                          <strong>Nature of Residence:</strong> {simulation.natureResidence}
+                          <strong>Nature of Residence:</strong>{" "}
+                          {simulation.natureResidence}
                         </p>
                         <p>
                           <strong>Number of People:</strong> {simulation.nbPers}
                         </p>
-                        <p>
+                        {/* <p>
                           <strong>Region:</strong> {simulation.region}
+                        </p> */}
+                        <p>
+                          <strong>Fiscal Revenue:</strong>{" "}
+                          {simulation.revenuFiscal}
                         </p>
                         <p>
-                          <strong>Fiscal Revenue:</strong> {simulation.revenuFiscal}
-                        </p>
-                        <p>
-                          <strong>Type of Beneficiary:</strong> {simulation.typeBenef}
+                          <strong>Type of Beneficiary:</strong>{" "}
+                          {simulation.typeBenef}
                         </p>
                         <p>
                           <strong>City:</strong> {simulation.ville}
                         </p>
                         <p>
-                          <strong>Works:</strong> {simulation.travaux.join(", ")}
+                          <strong>Works:</strong>{" "}
+                          {simulation.travaux.join(", ")}
                         </p>
-                        <p>
+                        {/* <p>
                           <strong>Works Result:</strong> {simulation.travauxResult.join(", ")}
-                        </p>
+                        </p> */}
                       </div>
                     )}
                   </div>

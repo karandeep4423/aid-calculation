@@ -11,13 +11,14 @@ const Simulation = () => {
   const [currentStep, setCurrentStep] = useState(0); // Tracks the current step
   const [suggestions, setSuggestions] = useState([]); // Holds address suggestions
   const [loader, setLoader] = useState(false);
+  const [postalCode, setPostalCode] = useState("");
+  const [ville, setVille] = useState("");
   const objectLength = Object.keys(selections).length;
 
   const { userID } = useAuth(); // Access user data from context
   const userDetails = JSON.parse(localStorage.getItem("userDetails"));
   const user = userDetails?._id || userID;
   const navigate = useNavigate();
-  console.log("user", user);
 
   // Handler for radio button selections
   const handleSelection = (step, itemId, itemName) => {
@@ -60,7 +61,11 @@ const Simulation = () => {
         )}&limit=5`
       );
       const data = await response.json();
-      setSuggestions(data.features.map((feature) => feature.properties.label));
+      setSuggestions(data.features.map((feature) => ({
+        label: feature.properties.label,
+        postcode: feature.properties.postcode,
+        ville: feature.properties.city
+      })));
     } catch (error) {
       console.error("Error fetching address suggestions:", error);
     }
@@ -68,7 +73,9 @@ const Simulation = () => {
 
   // update suggestion address in form
   const handleSuggestionClick = (suggestion, stepIndex, itemName) => {
-    handleInputChange(stepIndex, itemName, suggestion);
+    handleInputChange(stepIndex, itemName, suggestion.label);
+    setPostalCode(suggestion.postcode);
+    setVille(suggestion.ville);
     // Clear the suggestions array after selection
     setSuggestions([]);
   };
@@ -169,9 +176,9 @@ const Simulation = () => {
       dureeConstruction: selections[4]?.itemName || "",
       occupation8: selections[6]?.selectedValue === "cartL-1", // True if selected 'Yes'
       adresse: selections[5]?.Addresse || "",
-      ville: "Paris", // Extract from the address
-      codePostal: "75000", // Hardcoded example, ideally extracted from the address
-      region: "Île-de-France", // Hardcoded region, ideally extracted dynamically
+      ville: ville, // Extract from the address
+      codePostal: postalCode, // Use stored postal code
+      // region: "Île-de-France", // Hardcoded region, ideally extracted dynamically
       nbPers:
         parseInt(selections[8]?.["Ecrire le nombre de personnes"], 10) || 0,
       revenuFiscal: parseInt(selections[9]?.["Revenu Fiscal "], 10) || 0,
@@ -865,7 +872,7 @@ const Simulation = () => {
       <div className="flex justify-between gap-5 h-20 px-4 xl:px-0 max-w-screen-xl m-auto">
         <div className="flex items-center">
           <Link to="/">
-            <img className="w-32 h-8" src="/logo.png"></img>
+            <img alt="logo" className="w-32 h-8" src="/logo.png"></img>
           </Link>
           <p className="font-semibold pl-10">Votre simulation en 2 minutes</p>
         </div>
@@ -1102,7 +1109,7 @@ const Simulation = () => {
                                     )
                                   }
                                 >
-                                  {suggestion}
+                                  {suggestion.label}
                                 </li>
                               ))}
                             </ul>

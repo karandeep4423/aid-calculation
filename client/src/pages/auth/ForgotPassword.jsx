@@ -13,7 +13,7 @@ const ForgotPassword = () => {
     const isValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
     setErrors((prev) => ({
       ...prev,
-      email: isValid ? null : "Invalid email format",
+      email: isValid ? null : "Format d'e-mail invalide",
     }));
     return isValid;
   };
@@ -29,14 +29,14 @@ const ForgotPassword = () => {
     setLoader(true);
 
     try {
-      const response = await axios.post("http://localhost:3001/api/auth/forgot-password", { email });
+      const response = await axios.post("http://localhost:3001/api/auth/forgot-password", { email:email.trim().toLowerCase() });
       toast.success(response.data.message);
       setEmail("");
     } catch (error) {
       if (error.response && error.response.data && error.response.data.message) {
         toast.error(error.response.data.message);
       } else {
-        toast.error("Something went wrong. Please try again later.");
+        toast.error("Veuillez réessayer plus tard.");
       }
     } finally {
       setLoader(false); // Reset loader in both success and error cases

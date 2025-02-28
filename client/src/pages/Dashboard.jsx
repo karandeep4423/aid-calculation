@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import Appointment from "../components/Appointment";
 import axios from "axios";
-import { Link as ScrollLink } from "react-scroll";
 import { Link } from "react-router-dom";
 const Dashboard = () => {
   const [expandedProjectId, setExpandedProjectId] = useState(null);
@@ -54,6 +53,7 @@ const Dashboard = () => {
       );
       const data = await response.json();
       setUserData(data?.user);
+      console.log("User data fetched successfully:", data?.user);
       setShowAppointment(false);
     } catch (error) {
       toast.error(
@@ -70,7 +70,7 @@ const Dashboard = () => {
 
   const cancelAppointment = async () => {
     try {
-      const response = await axios.post(
+        await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/api/auth/appointment-cancel`,
         { userId: user?._id }
       );
@@ -122,7 +122,7 @@ const Dashboard = () => {
             </div>
           </div>
           {/* Appointment Slot for dashboard */}
-          {userData?.appointment != undefined ? (
+          {userData?.appointment !== undefined ? (
             <div
               onClick={() => toggleProject("appointment-slot")}
               className="my-10  flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
@@ -232,10 +232,10 @@ const Dashboard = () => {
                       </p>
                     </div>
 
-                    <div className="flex flex-col items-start gap-2">
+                    {/* <div className="flex flex-col items-start gap-2">
                       <p className="text-xl font-bold">Region</p>
                       <p className="font-semibold">{simulation.region}</p>
-                    </div>
+                    </div> */}
 
                     <div className="flex flex-col items-start gap-2">
                       <p className="text-xl font-bold">Fiscal Revenue</p>
@@ -264,14 +264,14 @@ const Dashboard = () => {
                       </p>
                     </div>
 
-                    <div className="flex flex-col items-start gap-2">
+                    {/* <div className="flex flex-col items-start gap-2">
                       <p className="text-xl font-bold">
                         Works Result (Travaux Result)
                       </p>
                       <p className="font-semibold">
                         {simulation.travauxResult.join(", ")}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))}
