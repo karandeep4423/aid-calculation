@@ -36,7 +36,7 @@ exports.signup = async (req, res, next) => {
 
     res.status(201).json({
       status: "success",
-      message: "user registered!",
+      message: "utilisateur enregistré!",
       user: newUser,
     });
   } catch (error) {
@@ -51,12 +51,12 @@ exports.login = async (req, res, next) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return next(new createError("User Not Found!", 404));
+      return next(new createError("Utilisateur introuvable !", 404));
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return next(new createError("Invalid Email or Password", 401));
+      return next(new createError("E-mail ou mot de passe invalide", 401));
     }
 
     // if account exist and not verified resend verification email
@@ -70,7 +70,7 @@ exports.login = async (req, res, next) => {
       await verificationMail.sendVerificationEmail(user.email, verificationToken);
       return next(
         new createError(
-          "Account Not verified! A Verification Email was Sent!",
+          "Compte non vérifié ! Un e-mail de vérification a été envoyé !",
           400
         )
       );
@@ -83,7 +83,7 @@ exports.login = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       token,
-      message: "Logged In!",
+      message: "Connecté !",
       user: user,
     });
   } catch (error) {

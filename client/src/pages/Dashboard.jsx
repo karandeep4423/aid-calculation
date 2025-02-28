@@ -122,7 +122,7 @@ const Dashboard = () => {
             </div>
           </div>
           {/* Appointment Slot for dashboard */}
-          {userData?.appointment !== undefined ? (
+          {userData?.appointment !== undefined && userData?.appointment !==null ? (
             <div
               onClick={() => toggleProject("appointment-slot")}
               className="my-10  flex flex-col gap-4 items-center  shadow-md bg-sky-200 h-fit w-fit p-2 sm:p-8 rounded-2xl"
