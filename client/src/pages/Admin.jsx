@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
-import DashAppointment from "../components/DashAppointment";
-
+import AdminAppointment from "../components/AdminAppointment";
 const Admin = () => {
   const [dataUser, setDataUser] = useState([]);
   const [simulationsData, setSimulationsData] = useState({});
@@ -15,25 +14,26 @@ const Admin = () => {
     );
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/simulation/admin`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.ok) {
-        const resdata = await response.json();
-        setDataUser(resdata.userData);
-        fetchSimulationsForAllUsers(resdata.userData);
+  const fetchData = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/simulation/admin`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
-    };
+    );
+    if (response.ok) {
+      const resdata = await response.json();
+      setDataUser(resdata.userData);
+      fetchSimulationsForAllUsers(resdata.userData);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
-  }, []);
+  });
 
   const fetchSimulationsForAllUsers = async (users) => {
     try {
@@ -78,7 +78,7 @@ const Admin = () => {
 
   return (
     <div className="container mx-auto my-10 px-4">
-      <DashAppointment userData={dataUser} />
+      <AdminAppointment refreshData={fetchData} userData={dataUser} />
       <h1 className="text-center text-3xl font-bold mb-8">
         Toutes les données utilisateur et Projets
       </h1>

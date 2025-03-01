@@ -180,7 +180,6 @@ const RegisterForm = () => {
           `${process.env.REACT_APP_BACKEND_URL}/api/auth/signup`,
           formData
         );
-        console.log("result signup", result);
         // Store user data and token in context
         setUser(result.data.user);
         toast.success("Le lien de vérification par e-mail a été envoyé !");

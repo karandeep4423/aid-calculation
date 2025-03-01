@@ -29,8 +29,8 @@ const ForgotPassword = () => {
     setLoader(true);
 
     try {
-      const response = await axios.post("http://localhost:3001/api/auth/forgot-password", { email:email.trim().toLowerCase() });
-      toast.success(response.data.message);
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/forgot-password`, { email:email.trim().toLowerCase() });
+      toast.success("Lien de réinitialisation du mot de passe envoyé à votre adresse e-mail");
       setEmail("");
     } catch (error) {
       if (error.response && error.response.data && error.response.data.message) {
