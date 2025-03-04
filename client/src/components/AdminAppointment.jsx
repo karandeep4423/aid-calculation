@@ -13,6 +13,8 @@ import {
 } from "date-fns";
 import { Modal } from "flowbite-react";
 import Appointment from "./Appointment";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const AdminAppointment = ({ userData, refreshData }) => {
   let today = startOfDay(new Date());
@@ -95,6 +97,24 @@ const AdminAppointment = ({ userData, refreshData }) => {
     setRescheduleModal(false);
     setSelectedUserForReschedule(null);
   };
+
+  const completedAppointment = async (user) => {
+    try {
+        await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/api/auth/appointment-cancel`,
+        { userId: user?._id }
+      );
+
+      toast.success("Le rendez-vous a été complété avec succès !");
+      setShowModal(false);
+      refreshData();
+    } catch (error) {
+      toast.error(
+        "Une erreur s'est produite lors de la finalisation du rendez-vous."
+      );
+    }
+  };
+
 
   return (
     <div>
@@ -246,7 +266,7 @@ const AdminAppointment = ({ userData, refreshData }) => {
               <Modal.Body>
                 <div className="text-center p-5">
                   {modalUserData.map((user, index) => (
-                    <div key={index} className="p-4 rounded-lg">
+                    <div key={index} className="flex flex-col p-4 rounded-lg">
                       <h3 className="text-2xl leading-6 font-bold text-gray-900 mb-4">
                         Rendez-vous le {format(selectedDay, "dd-MM-yyyy")}
                       </h3>
@@ -277,7 +297,13 @@ const AdminAppointment = ({ userData, refreshData }) => {
                         onClick={() => handleReschedule(user)}
                         className="mt-4 hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-2 rounded-full bg-sky-500 text-white transition-all duration-300"
                       >
-                        Reschedule
+                        Reprogrammer
+                      </button>
+                      <button 
+                        onClick={() => completedAppointment(user)}
+                        className="mt-4 hover:shadow-[0px_4px_16px_rgba(17,17,26,0.1),_0px_8px_24px_rgba(17,17,26,0.1),_0px_16px_56px_rgba(17,17,26,0.1)] font-medium px-4 py-2 rounded-full bg-sky-500 text-white transition-all duration-300"
+                      >
+                        Rendez-vous terminé
                       </button>
                     </div>
                   ))}

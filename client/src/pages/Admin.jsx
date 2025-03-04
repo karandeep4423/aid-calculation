@@ -33,7 +33,7 @@ const Admin = () => {
 
   useEffect(() => {
     fetchData();
-  });
+  },[]);
 
   const fetchSimulationsForAllUsers = async (users) => {
     try {

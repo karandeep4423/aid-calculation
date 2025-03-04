@@ -18,7 +18,7 @@ const Home = () => {
           </p>
         </div>
         <div className="border-2 flex justify-center items-center gap-2 p-2 border-gray-300">
-          <p className="font-bold text-gray-600">3456</p>
+          <p className="font-bold text-gray-600">{process.env.REACT_APP_PHONE}</p>
           <p className="text-sm bg-gray-400 w-full p-1 text-white">
             Service gratuit + prix appel
           </p>
@@ -144,7 +144,7 @@ const Home = () => {
           <button
             onClick={() => ValueFun("Passer au solaire")}
             className={
-              value == "Passer au solaire"
+              value === "Passer au solaire"
                 ? "bg-blue-200  text-blue-700 text-xl font-bold px-5 py-8 shadow-md flex flex-col sm:flex-row items-center space-x-2"
                 : " text-orange-700 text-xl font-bold px-5 py-8 shadow-md flex flex-col sm:flex-row items-center space-x-2"
             }
