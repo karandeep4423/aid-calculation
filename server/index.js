@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const authRouter = require("./routes/authRoute");
 const simulationRouter = require("./routes/simuationRoute");
+const phoneRouter = require("./routes/phoneRoute");
 const app = express();
 
 // middlewares
@@ -13,8 +14,9 @@ app.use(express.json());
 // route
 app.use("/api/auth", authRouter);
 app.use("/api/simulation", simulationRouter);
+app.use("/api/phone", phoneRouter);
 
-// mongo connec
+// mongo connect
 mongoose
   .connect(process.env.MONGODB, {
     useNewUrlParser: true,

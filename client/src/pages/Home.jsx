@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import EditablePhoneNumber from "../components/EditablePhoneNumber";
 const Home = () => {
   const [value, setValue] = useState("Changer mon chauffage");
 
@@ -18,10 +19,10 @@ const Home = () => {
           </p>
         </div>
         <div className="border-2 flex justify-center items-center gap-2 p-2 border-gray-300">
-          <p className="font-bold text-gray-600">{process.env.REACT_APP_PHONE}</p>
           <p className="text-sm bg-gray-400 w-full p-1 text-white">
             Service gratuit + prix appel
           </p>
+          <EditablePhoneNumber />
         </div>
       </div>
       {/* First section */}

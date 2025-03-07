@@ -32,7 +32,10 @@ exports.signup = async (req, res, next) => {
       verificationTokenExpiresAt: new Date(Date.now() + 3600000),
     });
 
-    await verificationMail.sendVerificationEmail(newUser.email, verificationToken);
+    await verificationMail.sendVerificationEmail(
+      newUser.email,
+      verificationToken
+    );
 
     res.status(201).json({
       status: "success",
@@ -67,7 +70,10 @@ exports.login = async (req, res, next) => {
       user.verificationTokenExpiresAt = new Date(Date.now() + 3600000);
       await user.save();
 
-      await verificationMail.sendVerificationEmail(user.email, verificationToken);
+      await verificationMail.sendVerificationEmail(
+        user.email,
+        verificationToken
+      );
       return next(
         new createError(
           "Compte non vérifié ! Un e-mail de vérification a été envoyé !",
@@ -228,7 +234,11 @@ exports.appointment = async (req, res, next) => {
         user?.firstname
       );
     } else {
-      await appointmentMail.sendAppointmentBookEmail(user.email, user.appointment,user?.firstname);
+      await appointmentMail.sendAppointmentBookEmail(
+        user.email,
+        user.appointment,
+        user?.firstname
+      );
     }
 
     // Respond with success
@@ -255,7 +265,11 @@ exports.appointmentCancel = async (req, res, next) => {
     const appointmentValue = user.appointment;
     user.appointment = null;
     await user.save();
-    appointmentMail.sendCancelAppointmentEmail(user?.email, appointmentValue,user?.firstname);
+    appointmentMail.sendCancelAppointmentEmail(
+      user?.email,
+      appointmentValue,
+      user?.firstname
+    );
 
     res.status(200).json({
       status: "success",
@@ -289,3 +303,4 @@ exports.getUserData = async (req, res, next) => {
     next(error);
   }
 };
+
